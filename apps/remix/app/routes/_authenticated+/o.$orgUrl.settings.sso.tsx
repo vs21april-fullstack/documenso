@@ -106,7 +106,9 @@ const SSOProviderForm = ({ authenticationPortal }: SSOProviderFormProps) => {
       wellKnownUrl: authenticationPortal.wellKnownUrl,
       autoProvisionUsers: authenticationPortal.autoProvisionUsers,
       defaultOrganisationRole: authenticationPortal.defaultOrganisationRole,
-      allowedDomains: authenticationPortal.allowedDomains.join(' '),
+      allowedDomains: Array.isArray(authenticationPortal.allowedDomains)
+        ? authenticationPortal.allowedDomains.join(' ')
+        : '',
       allowPersonalOrganisations: authenticationPortal.allowPersonalOrganisations,
     },
   });

@@ -14,7 +14,7 @@ export const getAllWebhooksByEventTrigger = async ({ event, userId, teamId }: Ge
     where: {
       enabled: true,
       eventTriggers: {
-        has: event,
+        array_contains: [event],
       },
       team: buildTeamWhereQuery({
         teamId,

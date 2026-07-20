@@ -1,7 +1,7 @@
 import type { FindResultResponse } from '@documenso/lib/types/search-params';
 import { getHighestTeamRoleInGroup } from '@documenso/lib/utils/teams';
 import { prisma } from '@documenso/prisma';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 import { adminProcedure } from '../trpc';
 import { ZFindUserTeamsRequestSchema, ZFindUserTeamsResponseSchema } from './find-user-teams.types';
@@ -47,7 +47,6 @@ const findUserTeams = async ({ userId, query, page = 1, perPage = 10 }: FindUser
   if (query && query.length > 0) {
     whereClause.name = {
       contains: query,
-      mode: Prisma.QueryMode.insensitive,
     };
   }
 

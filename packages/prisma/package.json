@@ -13,6 +13,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate-dev": "prisma migrate dev --skip-seed",
     "prisma:migrate-deploy": "prisma migrate deploy",
+    "prisma:mysql-push": "dotenv -e ../../.env -e ../../.env.local -- prisma db push",
+    "prisma:mysql-reset": "dotenv -e ../../.env -e ../../.env.local -- prisma db push --force-reset",
     "prisma:migrate-reset": "prisma migrate reset",
     "prisma:seed": "prisma db seed",
     "prisma:studio": "prisma studio"

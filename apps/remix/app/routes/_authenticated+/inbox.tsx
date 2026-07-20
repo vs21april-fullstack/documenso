@@ -1,7 +1,6 @@
 import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { InboxIcon } from 'lucide-react';
-
 import { OrganisationInvitations } from '~/components/general/organisations/organisation-invitations';
 import { InboxTable } from '~/components/tables/inbox-table';
 import { appMetaTags } from '~/utils/meta';

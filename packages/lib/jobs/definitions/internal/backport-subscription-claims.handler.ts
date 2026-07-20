@@ -21,9 +21,9 @@ export const run = async ({ payload, io }: { payload: TBackportSubscriptionClaim
     const newFlagsJson = JSON.stringify(flags);
 
     await prisma.$executeRaw`
-      UPDATE "OrganisationClaim"
-      SET "flags" = "flags" || ${newFlagsJson}::jsonb
-      WHERE "originalSubscriptionClaimId" = ${subscriptionClaimId}
+      UPDATE OrganisationClaim
+      SET flags = JSON_MERGE_PATCH(flags, ${newFlagsJson})
+      WHERE originalSubscriptionClaimId = ${subscriptionClaimId}
     `;
   });
 };

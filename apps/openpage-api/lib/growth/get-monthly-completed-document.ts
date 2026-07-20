@@ -1,35 +1,30 @@
-import { kyselyPrisma, sql } from '@documenso/prisma';
+import { prisma } from '@documenso/prisma';
 import { DocumentStatus, EnvelopeType } from '@prisma/client';
 import { DateTime } from 'luxon';
 
 import { addZeroMonth } from '../add-zero-month';
 
 export const getCompletedDocumentsMonthly = async (type: 'count' | 'cumulative' = 'count') => {
-  const qb = kyselyPrisma.$kysely
-    .selectFrom('Envelope')
-    .select(({ fn }) => [
-      fn<Date>('DATE_TRUNC', [sql.lit('MONTH'), 'Envelope.updatedAt']).as('month'),
-      fn.count('id').as('count'),
-      fn
-        .sum(fn.count('id'))
-        // Feels like a bug in the Kysely extension but I just can not do this orderBy in a type-safe manner
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
-        .over((ob) => ob.orderBy(fn('DATE_TRUNC', [sql.lit('MONTH'), 'Envelope.updatedAt']) as any))
-        .as('cume_count'),
-    ])
-    .where(() => sql`"Envelope"."status" = ${DocumentStatus.COMPLETED}::"DocumentStatus"`)
-    .where(() => sql`"Envelope"."type" = ${EnvelopeType.DOCUMENT}::"EnvelopeType"`)
-    .groupBy('month')
-    .orderBy('month', 'desc');
+  const rows = await prisma.$queryRaw<Array<{ month: string; count: bigint }>>`
+    SELECT DATE_FORMAT(updatedAt, '%Y-%m') AS month, COUNT(*) AS count
+    FROM \`Envelope\`
+    WHERE status = ${DocumentStatus.COMPLETED} AND type = ${EnvelopeType.DOCUMENT}
+    GROUP BY month
+    ORDER BY month ASC
+  `;
 
-  const result = await qb.execute();
+  let cumulativeCount = 0;
+  const result = rows.map((row) => {
+    cumulativeCount += Number(row.count);
+    return { month: row.month, count: Number(row.count), cume_count: cumulativeCount };
+  });
 
   const transformedData = {
-    labels: result.map((row) => DateTime.fromJSDate(row.month).toFormat('MMM yyyy')).reverse(),
+    labels: result.map((row) => DateTime.fromFormat(row.month, 'yyyy-MM').toFormat('MMM yyyy')),
     datasets: [
       {
         label: type === 'count' ? 'Completed Documents per Month' : 'Total Completed Documents',
-        data: result.map((row) => (type === 'count' ? Number(row.count) : Number(row.cume_count))).reverse(),
+        data: result.map((row) => (type === 'count' ? row.count : row.cume_count)),
       },
     ],
   };

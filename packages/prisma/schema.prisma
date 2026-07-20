@@ -19,7 +19,7 @@ generator zod {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider  = "mysql"
   url       = env("NEXT_PRIVATE_DATABASE_URL")
   directUrl = env("NEXT_PRIVATE_DIRECT_DATABASE_URL")
 }
@@ -43,11 +43,11 @@ model User {
   emailVerified    DateTime?
   password         String? // Todo: (RR7) Remove after RR7 migration.
   source           String?
-  signature        String?
+  signature        String?          @db.LongText
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @default(now()) @updatedAt
   lastSignedIn     DateTime         @default(now())
-  roles            Role[]           @default([USER])
+  roles            Json             @default("[\"USER\"]") /// [Role[]]
   identityProvider IdentityProvider @default(DOCUMENSO) // Todo: (RR7) Remove after RR7 migration.
   avatarImageId    String?
   disabled         Boolean          @default(false)
@@ -139,7 +139,7 @@ model Passkey {
   counter              BigInt
   credentialDeviceType String
   credentialBackedUp   Boolean
-  transports           String[]
+  transports           Json /// [string[]]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -184,7 +184,7 @@ enum WebhookTriggerEvents {
 model Webhook {
   id            String                 @id @default(cuid())
   webhookUrl    String
-  eventTriggers WebhookTriggerEvents[]
+  eventTriggers Json /// [WebhookTriggerEvents[]]
   secret        String?
   enabled       Boolean                @default(true)
   createdAt     DateTime               @default(now())
@@ -546,8 +546,8 @@ enum DocumentSigningOrder {
 model DocumentData {
   id           String           @id @default(cuid())
   type         DocumentDataType
-  data         String
-  initialData  String
+  data         String @db.LongText
+  initialData  String @db.LongText
   envelopeItem EnvelopeItem?
 }
 
@@ -560,9 +560,9 @@ enum DocumentDistributionMethod {
 model DocumentMeta {
   id                     String               @id @default(cuid())
   subject                String?
-  message                String?
-  timezone               String?              @default("Etc/UTC") @db.Text
-  dateFormat             String?              @default("yyyy-MM-dd hh:mm a") @db.Text
+  message                String?              @db.Text
+  timezone               String?              @default("Etc/UTC") @db.VarChar(191)
+  dateFormat             String?              @default("yyyy-MM-dd hh:mm a") @db.VarChar(191)
   redirectUrl            String?
   signingOrder           DocumentSigningOrder @default(PARALLEL)
   allowDictateNextSigner Boolean              @default(false)
@@ -592,7 +592,7 @@ model EnvelopeAttachment {
   type  String /// [EnvelopeAttachmentType] @zod.custom.use(ZEnvelopeAttachmentTypeSchema)
   label String
 
-  data String
+  data String @db.LongText
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -645,7 +645,7 @@ model Recipient {
   reminderCount        Int           @default(0)
   authOptions          Json? /// [RecipientAuthOptions] @zod.custom.use(ZRecipientAuthOptionsSchema)
   signingOrder         Int? /// @zod.number.describe("The order in which the recipient should sign the document. Only works if the document is set to sequential signing.")
-  rejectionReason      String?
+  rejectionReason      String?       @db.Text
   role                 RecipientRole @default(SIGNER)
   readStatus           ReadStatus    @default(NOT_OPENED)
   signingStatus        SigningStatus @default(NOT_SIGNED)
@@ -666,8 +666,6 @@ model Recipient {
   @@index([email, envelopeId], map: "Recipient_email_envelopeId_idx")
   @@index([email, signingStatus, envelopeId, role], map: "Recipient_email_signingStatus_envelopeId_role_idx")
   @@index([nextReminderAt])
-  @@index([email(ops: raw("gin_trgm_ops"))], map: "Recipient_email_trgm_idx", type: Gin)
-  @@index([name(ops: raw("gin_trgm_ops"))], map: "Recipient_name_trgm_idx", type: Gin)
 }
 
 enum FieldType {
@@ -697,7 +695,7 @@ model Field {
   positionY      Decimal      @default(0)
   width          Decimal      @default(-1)
   height         Decimal      @default(-1)
-  customText     String
+  customText     String @db.LongText
   inserted       Boolean
   envelopeItem   EnvelopeItem @relation(fields: [envelopeItemId], references: [id], onDelete: Cascade)
   envelope       Envelope     @relation(fields: [envelopeId], references: [id], onDelete: Cascade)
@@ -715,7 +713,7 @@ model Signature {
   created                DateTime @default(now())
   recipientId            Int
   fieldId                Int      @unique
-  signatureImageAsBase64 String?
+  signatureImageAsBase64 String? @db.LongText
   typedSignature         String?
 
   recipient Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
@@ -1165,7 +1163,7 @@ model BackgroundJobTask {
 
 model AvatarImage {
   id    String @id @default(cuid())
-  bytes String
+  bytes String @db.LongText
 
   team         Team[]
   user         User[]
@@ -1186,8 +1184,8 @@ model EmailDomain {
 
   selector       String    @unique
   domain         String    @unique
-  publicKey      String
-  privateKey     String
+  publicKey      String @db.Text
+  privateKey     String @db.Text
   lastVerifiedAt DateTime?
 
   organisationId String
@@ -1235,7 +1233,7 @@ model EmailTransport {
   fromAddress String
 
   // Encrypted JSON blob of the full transport config (secrets + non-secrets).
-  config String
+  config String @db.Text
 
   subscriptionClaims SubscriptionClaim[]
   organisationClaims OrganisationClaim[]
@@ -1253,7 +1251,7 @@ model OrganisationAuthenticationPortal {
 
   defaultOrganisationRole    OrganisationMemberRole @default(MEMBER)
   autoProvisionUsers         Boolean                @default(true)
-  allowedDomains             String[]               @default([])
+  allowedDomains             Json                   @default("[]") /// [string[]]
   allowPersonalOrganisations Boolean                @default(false)
 }
 

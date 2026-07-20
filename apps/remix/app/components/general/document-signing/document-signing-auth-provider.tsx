@@ -102,7 +102,10 @@ export const DocumentSigningAuthProvider = ({
   );
 
   const passkeyData: PasskeyData = {
-    passkeys: passkeyQuery.data?.data || [],
+    passkeys: (passkeyQuery.data?.data || []).map((passkey) => ({
+      ...passkey,
+      transports: Array.isArray(passkey.transports) ? (passkey.transports as string[]) : [],
+    })),
     isInitialLoading: passkeyQuery.isInitialLoading,
     isRefetching: passkeyQuery.isRefetching,
     isError: passkeyQuery.isError,

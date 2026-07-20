@@ -13,15 +13,11 @@ export const run = async ({ io }: { payload: TCleanupRateLimitsJobDefinition; io
   let deleted = 0;
 
   do {
-    // Prisma doesn't support DELETE with LIMIT, so use raw SQL for batching
-    // to avoid long-running transactions that could lock the table.
+    // Prisma doesn't support DELETE with LIMIT, so use MySQL raw SQL for batching.
     deleted = await prisma.$executeRaw`
-      DELETE FROM "RateLimit"
-      WHERE ctid IN (
-        SELECT ctid FROM "RateLimit"
-        WHERE "createdAt" < ${cutoff}
-        LIMIT ${BATCH_SIZE}
-      )
+      DELETE FROM RateLimit
+      WHERE createdAt < ${cutoff}
+      LIMIT ${BATCH_SIZE}
     `;
 
     totalDeleted += deleted;

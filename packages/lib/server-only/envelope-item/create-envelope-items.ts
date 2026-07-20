@@ -77,18 +77,22 @@ export const UNSAFE_createEnvelopeItems = async ({
   );
 
   return await prisma.$transaction(async (tx) => {
-    const createdItems = await tx.envelopeItem.createManyAndReturn({
-      data: envelopeItemsToCreate.map((item) => ({
-        id: item.id,
-        envelopeId: envelope.id,
-        title: item.title,
-        documentDataId: item.documentDataId,
-        order: item.order,
-      })),
-      include: {
-        documentData: true,
-      },
-    });
+    const createdItems = await Promise.all(
+      envelopeItemsToCreate.map((item) =>
+        tx.envelopeItem.create({
+          data: {
+            id: item.id,
+            envelopeId: envelope.id,
+            title: item.title,
+            documentDataId: item.documentDataId,
+            order: item.order,
+          },
+          include: {
+            documentData: true,
+          },
+        }),
+      ),
+    );
 
     await tx.documentAuditLog.createMany({
       data: createdItems.map((item) =>

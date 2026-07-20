@@ -1,6 +1,6 @@
 import type { FindResultResponse } from '@documenso/lib/types/search-params';
 import { prisma } from '@documenso/prisma';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 import { adminProcedure } from '../trpc';
 import {
@@ -46,27 +46,23 @@ export const findAdminOrganisations = async ({
         {
           id: {
             contains: query,
-            mode: Prisma.QueryMode.insensitive,
           },
         },
         {
           owner: {
             email: {
               contains: query,
-              mode: Prisma.QueryMode.insensitive,
             },
           },
         },
         {
           customerId: {
             contains: query,
-            mode: Prisma.QueryMode.insensitive,
           },
         },
         {
           name: {
             contains: query,
-            mode: Prisma.QueryMode.insensitive,
           },
         },
       ],
@@ -78,7 +74,6 @@ export const findAdminOrganisations = async ({
       organisationClaim: {
         originalSubscriptionClaimId: {
           contains: query.slice(6),
-          mode: Prisma.QueryMode.insensitive,
         },
       },
     };
@@ -90,13 +85,11 @@ export const findAdminOrganisations = async ({
         {
           id: {
             equals: query,
-            mode: Prisma.QueryMode.insensitive,
           },
         },
         {
           url: {
             equals: query,
-            mode: Prisma.QueryMode.insensitive,
           },
         },
       ],

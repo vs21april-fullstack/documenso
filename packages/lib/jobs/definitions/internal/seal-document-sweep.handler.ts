@@ -1,4 +1,4 @@
-import { kyselyPrisma, sql } from '@documenso/prisma';
+import { prisma } from '@documenso/prisma';
 import { DocumentStatus, EnvelopeType, RecipientRole, SigningStatus } from '@prisma/client';
 import { DateTime } from 'luxon';
 
@@ -22,60 +22,48 @@ export const run = async ({ io }: { payload: TSealDocumentSweepJobDefinition; io
   // and 6 hours ago. The lower bound avoids racing with the normal seal-document
   // job that fires on completion. The upper bound stops us from endlessly retrying
   // documents that are stuck due to a deeper issue (e.g. corrupt PDF).
-  const unsealedEnvelopes = await kyselyPrisma.$kysely
-    .selectFrom('Envelope')
-    .select(['Envelope.id', 'Envelope.secondaryId'])
-    .where('Envelope.status', '=', sql.lit(DocumentStatus.PENDING))
-    .where('Envelope.type', '=', sql.lit(EnvelopeType.DOCUMENT))
-    .where('Envelope.deletedAt', 'is', null)
-    // Ensure there is at least one recipient.
-    .where((eb) => eb.exists(eb.selectFrom('Recipient').whereRef('Recipient.envelopeId', '=', 'Envelope.id')))
-    // Document is ready to seal: all recipients are SIGNED/CC, or any recipient REJECTED.
-    .where((eb) =>
-      eb.or([
-        // Case 1: All recipients are either SIGNED or CC.
-        eb.not(
-          eb.exists(
-            eb
-              .selectFrom('Recipient')
-              .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-              .where('Recipient.signingStatus', '!=', sql.lit(SigningStatus.SIGNED))
-              .where('Recipient.role', '!=', sql.lit(RecipientRole.CC)),
-          ),
-        ),
-        // Case 2: Any recipient has rejected.
-        eb.exists(
-          eb
-            .selectFrom('Recipient')
-            .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-            .where('Recipient.signingStatus', '=', sql.lit(SigningStatus.REJECTED)),
-        ),
-      ]),
-    )
-    // Exclude envelopes where a recipient signed/rejected within the last 15 minutes
-    // to avoid racing with the standard completion flow.
-    .where((eb) =>
-      eb.not(
-        eb.exists(
-          eb
-            .selectFrom('Recipient')
-            .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-            .where('Recipient.signedAt', '>', fifteenMinutesAgo),
-        ),
-      ),
-    )
-    // Exclude envelopes where all activity is older than 6 hours.
-    // These are likely stuck due to a deeper issue and should not be retried.
-    .where((eb) =>
-      eb.exists(
-        eb
-          .selectFrom('Recipient')
-          .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-          .where('Recipient.signedAt', '>', sixHoursAgo),
-      ),
-    )
-    .limit(100)
-    .execute();
+  // Fetch a bounded set and evaluate the recipient predicates in application code.
+  // This avoids Kysely emitting PostgreSQL-style nested NOT EXISTS SQL that is not
+  // accepted by MariaDB/MySQL.
+  const candidates = await prisma.envelope.findMany({
+    where: {
+      status: DocumentStatus.PENDING,
+      type: EnvelopeType.DOCUMENT,
+      deletedAt: null,
+      recipients: {
+        some: {
+          signedAt: { gt: sixHoursAgo },
+        },
+      },
+    },
+    select: {
+      id: true,
+      secondaryId: true,
+      recipients: {
+        select: {
+          role: true,
+          signedAt: true,
+          signingStatus: true,
+        },
+      },
+    },
+    take: 500,
+  });
+
+  const unsealedEnvelopes = candidates
+    .filter(({ recipients }) => {
+      const isReadyToSeal =
+        recipients.every(
+          (recipient) => recipient.signingStatus === SigningStatus.SIGNED || recipient.role === RecipientRole.CC,
+        ) || recipients.some((recipient) => recipient.signingStatus === SigningStatus.REJECTED);
+
+      const hasRecentActivity = recipients.some(
+        (recipient) => recipient.signedAt !== null && recipient.signedAt > fifteenMinutesAgo,
+      );
+
+      return isReadyToSeal && !hasRecentActivity;
+    })
+    .slice(0, 100);
 
   if (unsealedEnvelopes.length === 0) {
     io.logger.info('No unsealed documents found');

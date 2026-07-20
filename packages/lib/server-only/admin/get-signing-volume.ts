@@ -34,9 +34,13 @@ export async function getSigningVolume({
     .selectFrom('Organisation as o')
     .where((eb) =>
       eb.or([
-        eb('o.name', 'ilike', `%${search}%`),
+        eb('o.name', 'like', `%${search}%`),
         eb.exists(
-          eb.selectFrom('Team as t').whereRef('t.organisationId', '=', 'o.id').where('t.name', 'ilike', `%${search}%`),
+          eb
+            .selectFrom('Team as t')
+            .whereRef('t.organisationId', '=', 'o.id')
+            .where('t.name', 'like', `%${search}%`)
+            .select(sql.lit(1).as('one')),
         ),
       ]),
     )
@@ -76,9 +80,13 @@ export async function getSigningVolume({
     .selectFrom('Organisation as o')
     .where((eb) =>
       eb.or([
-        eb('o.name', 'ilike', `%${search}%`),
+        eb('o.name', 'like', `%${search}%`),
         eb.exists(
-          eb.selectFrom('Team as t').whereRef('t.organisationId', '=', 'o.id').where('t.name', 'ilike', `%${search}%`),
+          eb
+            .selectFrom('Team as t')
+            .whereRef('t.organisationId', '=', 'o.id')
+            .where('t.name', 'like', `%${search}%`)
+            .select(sql.lit(1).as('one')),
         ),
       ]),
     )
@@ -114,22 +122,22 @@ export async function getOrganisationInsights({
   let dateCondition = sql<boolean>`1=1`;
 
   if (startDate && endDate) {
-    dateCondition = sql<boolean>`e."createdAt" >= ${startDate} AND e."createdAt" <= ${endDate}`;
+    dateCondition = sql<boolean>`e.\`createdAt\` >= ${startDate} AND e.\`createdAt\` <= ${endDate}`;
   } else {
     switch (dateRange) {
       case 'last30days': {
         const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        dateCondition = sql<boolean>`e."createdAt" >= ${thirtyDaysAgo}`;
+        dateCondition = sql<boolean>`e.\`createdAt\` >= ${thirtyDaysAgo}`;
         break;
       }
       case 'last90days': {
         const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-        dateCondition = sql<boolean>`e."createdAt" >= ${ninetyDaysAgo}`;
+        dateCondition = sql<boolean>`e.\`createdAt\` >= ${ninetyDaysAgo}`;
         break;
       }
       case 'lastYear': {
         const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
-        dateCondition = sql<boolean>`e."createdAt" >= ${oneYearAgo}`;
+        dateCondition = sql<boolean>`e.\`createdAt\` >= ${oneYearAgo}`;
         break;
       }
       case 'allTime':
@@ -144,9 +152,13 @@ export async function getOrganisationInsights({
     .leftJoin('Subscription as s', 'o.id', 's.organisationId')
     .where((eb) =>
       eb.or([
-        eb('o.name', 'ilike', `%${search}%`),
+        eb('o.name', 'like', `%${search}%`),
         eb.exists(
-          eb.selectFrom('Team as t').whereRef('t.organisationId', '=', 'o.id').where('t.name', 'ilike', `%${search}%`),
+          eb
+            .selectFrom('Team as t')
+            .whereRef('t.organisationId', '=', 'o.id')
+            .where('t.name', 'like', `%${search}%`)
+            .select(sql.lit(1).as('one')),
         ),
       ]),
     )
@@ -198,9 +210,13 @@ export async function getOrganisationInsights({
     .selectFrom('Organisation as o')
     .where((eb) =>
       eb.or([
-        eb('o.name', 'ilike', `%${search}%`),
+        eb('o.name', 'like', `%${search}%`),
         eb.exists(
-          eb.selectFrom('Team as t').whereRef('t.organisationId', '=', 'o.id').where('t.name', 'ilike', `%${search}%`),
+          eb
+            .selectFrom('Team as t')
+            .whereRef('t.organisationId', '=', 'o.id')
+            .where('t.name', 'like', `%${search}%`)
+            .select(sql.lit(1).as('one')),
         ),
       ]),
     )

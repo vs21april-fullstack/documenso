@@ -34,7 +34,7 @@ export const findDocumentJobsRoute = adminProcedure
         where: {
           jobId: 'internal.seal-document',
           payload: {
-            path: ['documentId'],
+            path: '$.documentId',
             equals: mapSecondaryIdToDocumentId(envelope.secondaryId),
           },
         },
@@ -48,7 +48,7 @@ export const findDocumentJobsRoute = adminProcedure
         where: {
           jobId: 'internal.seal-document',
           payload: {
-            path: ['documentId'],
+            path: '$.documentId',
             equals: mapSecondaryIdToDocumentId(envelope.secondaryId),
           },
         },

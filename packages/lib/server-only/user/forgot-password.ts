@@ -9,7 +9,6 @@ export const forgotPassword = async ({ email }: { email: string }) => {
     where: {
       email: {
         equals: email,
-        mode: 'insensitive',
       },
     },
   });

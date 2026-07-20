@@ -1,4 +1,5 @@
-import { kyselyPrisma, sql } from '@documenso/prisma';
+import { prisma } from '@documenso/prisma';
+import type { Prisma } from '@prisma/client';
 import { DocumentStatus, EnvelopeType, RecipientRole, SigningStatus } from '@prisma/client';
 
 import type { FindResultResponse } from '../../types/search-params';
@@ -28,69 +29,59 @@ export const adminFindUnsealedDocuments = async ({
 }: AdminFindUnsealedDocumentsOptions): Promise<FindResultResponse<AdminUnsealedDocument[]>> => {
   const offset = Math.max(page - 1, 0) * perPage;
 
-  const baseQuery = kyselyPrisma.$kysely
-    .selectFrom('Envelope')
-    .where('Envelope.status', '=', sql.lit(DocumentStatus.PENDING))
-    .where('Envelope.type', '=', sql.lit(EnvelopeType.DOCUMENT))
-    .where('Envelope.deletedAt', 'is', null)
-    // Must have at least one recipient.
-    .where((eb) => eb.exists(eb.selectFrom('Recipient').whereRef('Recipient.envelopeId', '=', 'Envelope.id')))
-    // Document is ready to seal: all recipients are SIGNED/CC, or any recipient REJECTED.
-    .where((eb) =>
-      eb.or([
-        // Case 1: All recipients are either SIGNED or CC.
-        eb.not(
-          eb.exists(
-            eb
-              .selectFrom('Recipient')
-              .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-              .where('Recipient.signingStatus', '!=', sql.lit(SigningStatus.SIGNED))
-              .where('Recipient.role', '!=', sql.lit(RecipientRole.CC)),
-          ),
-        ),
-        // Case 2: Any recipient has rejected.
-        eb.exists(
-          eb
-            .selectFrom('Recipient')
-            .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-            .where('Recipient.signingStatus', '=', sql.lit(SigningStatus.REJECTED)),
-        ),
-      ]),
-    );
+  const where: Prisma.EnvelopeWhereInput = {
+    status: DocumentStatus.PENDING,
+    type: EnvelopeType.DOCUMENT,
+    deletedAt: null,
+    recipients: { some: {} },
+    OR: [
+      {
+        recipients: {
+          none: {
+            AND: [{ signingStatus: { not: SigningStatus.SIGNED } }, { role: { not: RecipientRole.CC } }],
+          },
+        },
+      },
+      { recipients: { some: { signingStatus: SigningStatus.REJECTED } } },
+    ],
+  };
 
   const [data, countResult] = await Promise.all([
-    baseQuery
-      .innerJoin('User', 'User.id', 'Envelope.userId')
-      .select([
-        'Envelope.id',
-        'Envelope.secondaryId',
-        'Envelope.title',
-        'Envelope.status',
-        'Envelope.createdAt',
-        'Envelope.updatedAt',
-        'Envelope.userId',
-        'Envelope.teamId',
-        'User.name as ownerName',
-        'User.email as ownerEmail',
-      ])
-      .select((eb) =>
-        eb
-          .selectFrom('Recipient')
-          .whereRef('Recipient.envelopeId', '=', 'Envelope.id')
-          .select(sql<Date>`max("Recipient"."signedAt")`.as('lastSignedAt'))
-          .as('lastSignedAt'),
-      )
-      .orderBy('Envelope.createdAt', 'desc')
-      .limit(perPage)
-      .offset(offset)
-      .execute(),
-    baseQuery.select(({ fn }) => [fn.countAll().as('count')]).execute(),
+    prisma.envelope.findMany({
+      where,
+      select: {
+        id: true,
+        secondaryId: true,
+        title: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+        teamId: true,
+        user: { select: { name: true, email: true } },
+        recipients: {
+          where: { signedAt: { not: null } },
+          select: { signedAt: true },
+          orderBy: { signedAt: 'desc' },
+          take: 1,
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: perPage,
+      skip: offset,
+    }),
+    prisma.envelope.count({ where }),
   ]);
 
-  const count = Number(countResult[0]?.count ?? 0);
+  const count = Number(countResult);
 
   return {
-    data: data as unknown as AdminUnsealedDocument[],
+    data: data.map(({ user, recipients, ...envelope }) => ({
+      ...envelope,
+      ownerName: user.name,
+      ownerEmail: user.email,
+      lastSignedAt: recipients[0]?.signedAt ?? null,
+    })),
     count,
     currentPage: Math.max(page, 1),
     perPage,

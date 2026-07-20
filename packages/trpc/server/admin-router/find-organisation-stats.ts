@@ -51,9 +51,9 @@ export const findOrganisationStats = async ({
   const resolvedPeriod = period ?? currentMonthlyPeriod();
 
   const totalCountExpression = sql<number>`(
-    "OrganisationMonthlyStat"."documentCount"
-    + "OrganisationMonthlyStat"."emailCount"
-    + "OrganisationMonthlyStat"."apiCount"
+    \`OrganisationMonthlyStat\`.\`documentCount\`
+    + \`OrganisationMonthlyStat\`.\`emailCount\`
+    + \`OrganisationMonthlyStat\`.\`apiCount\`
   )`;
 
   let baseQuery = kyselyPrisma.$kysely
@@ -65,14 +65,14 @@ export const findOrganisationStats = async ({
   if (query) {
     // Organisation IDs are prefixed with `org_`. When the query uses that prefix it is
     // unambiguously an ID (or URL) lookup, so use indexed equality matches instead of
-    // scanning every column with `ILIKE`.
+    // scanning every column with a wildcard `LIKE`.
     if (query.startsWith('org_')) {
       baseQuery = baseQuery.where((eb) =>
         eb.or([eb('Organisation.id', '=', query), eb('Organisation.url', '=', query)]),
       );
     } else {
       baseQuery = baseQuery.where((eb) =>
-        eb.or([eb('Organisation.name', 'ilike', `%${query}%`), eb('Organisation.url', 'ilike', `%${query}%`)]),
+        eb.or([eb('Organisation.name', 'like', `%${query}%`), eb('Organisation.url', 'like', `%${query}%`)]),
       );
     }
   }

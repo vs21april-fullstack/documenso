@@ -14,13 +14,11 @@ export const findUsers = async ({ username = '', email = '', page = 1, perPage =
       {
         name: {
           contains: username,
-          mode: 'insensitive',
         },
       },
       {
         email: {
           contains: email,
-          mode: 'insensitive',
         },
       },
     ],

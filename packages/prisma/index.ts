@@ -1,7 +1,7 @@
 /// <reference types="@documenso/prisma/types/types.d.ts" />
 import { PrismaClient } from '@prisma/client';
 import { readReplicas } from '@prisma/extension-read-replicas';
-import { Kysely, PostgresAdapter, PostgresIntrospector, PostgresQueryCompiler } from 'kysely';
+import { Kysely, MysqlAdapter, MysqlIntrospector, MysqlQueryCompiler } from 'kysely';
 import kyselyExtension from 'prisma-extension-kysely';
 
 import type { DB } from './generated/types';
@@ -26,10 +26,10 @@ export const kyselyPrisma = remember('kyselyPrisma', () =>
       kysely: (driver) =>
         new Kysely<DB>({
           dialect: {
-            createAdapter: () => new PostgresAdapter(),
+            createAdapter: () => new MysqlAdapter(),
             createDriver: () => driver,
-            createIntrospector: (db) => new PostgresIntrospector(db),
-            createQueryCompiler: () => new PostgresQueryCompiler(),
+            createIntrospector: (db) => new MysqlIntrospector(db),
+            createQueryCompiler: () => new MysqlQueryCompiler(),
           },
         }),
     }),

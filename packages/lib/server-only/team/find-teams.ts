@@ -1,6 +1,5 @@
 import { prisma } from '@documenso/prisma';
-import type { Team } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import type { Prisma, Team } from '@prisma/client';
 
 import type { FindResultResponse } from '../../types/search-params';
 import { getHighestTeamRoleInGroup } from '../../utils/teams';
@@ -50,7 +49,6 @@ export const findTeams = async ({
   if (query && query.length > 0) {
     whereClause.name = {
       contains: query,
-      mode: Prisma.QueryMode.insensitive,
     };
   }
 

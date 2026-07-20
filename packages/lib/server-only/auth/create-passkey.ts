@@ -95,7 +95,7 @@ export const createPasskey = async ({
         counter: credential.counter,
         credentialDeviceType,
         credentialBackedUp,
-        transports: credential.transports,
+        transports: credential.transports ?? [],
       },
     });
 

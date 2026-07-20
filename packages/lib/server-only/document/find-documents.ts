@@ -177,8 +177,8 @@ export const findDocuments = async ({
     if (hasSearch) {
       qb = qb.where(({ or, eb }) =>
         or([
-          eb('Envelope.title', 'ilike', searchPattern),
-          eb('Envelope.externalId', 'ilike', searchPattern),
+          eb('Envelope.title', 'like', searchPattern),
+          eb('Envelope.externalId', 'like', searchPattern),
           // Capped recipient search subquery (uses trigram indexes)
           eb(
             'Envelope.id',
@@ -188,8 +188,8 @@ export const findDocuments = async ({
               .select('Recipient.envelopeId')
               .where(({ or: innerOr, eb: innerEb }) =>
                 innerOr([
-                  innerEb('Recipient.email', 'ilike', searchPattern),
-                  innerEb('Recipient.name', 'ilike', searchPattern),
+                  innerEb('Recipient.email', 'like', searchPattern),
+                  innerEb('Recipient.name', 'like', searchPattern),
                 ]),
               )
               .distinct()

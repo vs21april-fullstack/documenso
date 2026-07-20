@@ -247,22 +247,26 @@ export const createEnvelopeFields = async ({
   const createdFields = await prisma.$transaction(async (tx) => {
     await assertEnvelopeMutable(envelope, tx);
 
-    const newlyCreatedFields = await tx.field.createManyAndReturn({
-      data: validatedFields.map((field) => ({
-        type: field.type,
-        page: field.page,
-        positionX: field.positionX,
-        positionY: field.positionY,
-        width: field.width,
-        height: field.height,
-        customText: '',
-        inserted: false,
-        fieldMeta: field.fieldMeta,
-        envelopeId: envelope.id,
-        envelopeItemId: field.envelopeItemId,
-        recipientId: field.recipientId,
-      })),
-    });
+    const newlyCreatedFields = await Promise.all(
+      validatedFields.map((field) =>
+        tx.field.create({
+          data: {
+            type: field.type,
+            page: field.page,
+            positionX: field.positionX,
+            positionY: field.positionY,
+            width: field.width,
+            height: field.height,
+            customText: '',
+            inserted: false,
+            fieldMeta: field.fieldMeta,
+            envelopeId: envelope.id,
+            envelopeItemId: field.envelopeItemId,
+            recipientId: field.recipientId,
+          },
+        }),
+      ),
+    );
 
     // Handle field created audit log.
     if (envelope.type === EnvelopeType.DOCUMENT) {

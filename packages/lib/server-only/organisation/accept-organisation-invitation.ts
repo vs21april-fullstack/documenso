@@ -39,7 +39,6 @@ export const acceptOrganisationInvitation = async ({ token }: AcceptOrganisation
     where: {
       email: {
         equals: organisationMemberInvite.email,
-        mode: 'insensitive',
       },
     },
     select: {

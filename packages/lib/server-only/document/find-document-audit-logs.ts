@@ -76,7 +76,7 @@ export const findDocumentAuditLogs = async ({
       {
         type: DOCUMENT_AUDIT_LOG_TYPE.EMAIL_SENT,
         data: {
-          path: ['isResending'],
+          path: '$.isResending',
           equals: true,
         },
       },

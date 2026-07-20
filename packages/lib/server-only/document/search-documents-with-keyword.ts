@@ -35,11 +35,11 @@ export const searchDocumentsWithKeyword = async ({ query, userId, limit = 20 }: 
       userId,
       deletedAt: null,
       OR: [
-        { title: { contains: query, mode: 'insensitive' } },
-        { externalId: { contains: query, mode: 'insensitive' } },
+        { title: { contains: query } },
+        { externalId: { contains: query } },
         {
           recipients: {
-            some: { email: { contains: query, mode: 'insensitive' } },
+            some: { email: { contains: query } },
           },
         },
       ],
@@ -48,7 +48,7 @@ export const searchDocumentsWithKeyword = async ({ query, userId, limit = 20 }: 
     {
       status: { in: [DocumentStatus.COMPLETED, DocumentStatus.PENDING] },
       recipients: { some: { email: user.email } },
-      title: { contains: query, mode: 'insensitive' },
+      title: { contains: query },
       deletedAt: null,
     },
   ];
@@ -59,11 +59,11 @@ export const searchDocumentsWithKeyword = async ({ query, userId, limit = 20 }: 
       teamId: { in: teamIds },
       deletedAt: null,
       OR: [
-        { title: { contains: query, mode: 'insensitive' } },
-        { externalId: { contains: query, mode: 'insensitive' } },
+        { title: { contains: query } },
+        { externalId: { contains: query } },
         {
           recipients: {
-            some: { email: { contains: query, mode: 'insensitive' } },
+            some: { email: { contains: query } },
           },
         },
       ],

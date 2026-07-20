@@ -26,7 +26,6 @@ export const adminFindDocuments = async ({ query, page = 1, perPage = 10 }: Admi
     : {
         title: {
           contains: query,
-          mode: 'insensitive',
         },
       };
 

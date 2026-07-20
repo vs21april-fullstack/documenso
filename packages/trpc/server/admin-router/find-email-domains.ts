@@ -1,6 +1,6 @@
 import type { FindResultResponse } from '@documenso/lib/types/search-params';
 import { prisma } from '@documenso/prisma';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 import { adminProcedure } from '../trpc';
 import { ZFindEmailDomainsRequestSchema, ZFindEmailDomainsResponseSchema } from './find-email-domains.types';
@@ -29,14 +29,12 @@ const findEmailDomains = async ({ query, page = 1, perPage = 20, status }: FindE
       {
         domain: {
           contains: query,
-          mode: Prisma.QueryMode.insensitive,
         },
       },
       {
         organisation: {
           name: {
             contains: query,
-            mode: Prisma.QueryMode.insensitive,
           },
         },
       },

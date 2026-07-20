@@ -216,7 +216,7 @@ export class LicenseClient {
         where: {
           OR: disallowedFlags.map((flag) => ({
             flags: {
-              path: [flag.key],
+              path: `$.${flag.key}`,
               equals: true,
             },
           })),

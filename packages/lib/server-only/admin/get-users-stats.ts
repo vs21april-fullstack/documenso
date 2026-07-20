@@ -1,6 +1,5 @@
-import { kyselyPrisma, prisma, sql } from '@documenso/prisma';
+import { prisma } from '@documenso/prisma';
 import { SubscriptionStatus, UserSecurityAuditLogType } from '@documenso/prisma/client';
-import { DateTime } from 'luxon';
 
 export const getUsersCount = async () => {
   return await prisma.user.count();
@@ -23,7 +22,7 @@ export type GetUserWithDocumentMonthlyGrowth = Array<{
 }>;
 
 type GetUserWithDocumentMonthlyGrowthQueryResult = Array<{
-  month: Date;
+  month: string;
   count: bigint;
   signed_count: bigint;
 }>;
@@ -31,20 +30,20 @@ type GetUserWithDocumentMonthlyGrowthQueryResult = Array<{
 export const getUserWithSignedDocumentMonthlyGrowth = async () => {
   const result = await prisma.$queryRaw<GetUserWithDocumentMonthlyGrowthQueryResult>`
       SELECT
-        DATE_TRUNC('month', "Envelope"."createdAt") AS "month",
-        COUNT(DISTINCT "Envelope"."userId") as "count",
-        COUNT(DISTINCT CASE WHEN "Envelope"."status" = 'COMPLETED' THEN "Envelope"."userId" END) as "signed_count"
-      FROM "Envelope"
-      INNER JOIN "Team" ON "Envelope"."teamId" = "Team"."id"
-      INNER JOIN "Organisation" ON "Team"."organisationId" = "Organisation"."id"
-      WHERE "Envelope"."type" = 'DOCUMENT'::"EnvelopeType"
-      GROUP BY "month"
-      ORDER BY "month" DESC
+        DATE_FORMAT(e.createdAt, '%Y-%m') AS month,
+        COUNT(DISTINCT e.userId) AS count,
+        COUNT(DISTINCT CASE WHEN e.status = 'COMPLETED' THEN e.userId END) AS signed_count
+      FROM Envelope e
+      INNER JOIN Team t ON e.teamId = t.id
+      INNER JOIN Organisation o ON t.organisationId = o.id
+      WHERE e.type = 'DOCUMENT'
+      GROUP BY month
+      ORDER BY month DESC
       LIMIT 12
 `;
 
   return result.map((row) => ({
-    month: DateTime.fromJSDate(row.month).toFormat('yyyy-MM'),
+    month: row.month,
     count: Number(row.count),
     signed_count: Number(row.signed_count),
   }));
@@ -57,29 +56,23 @@ export type GetMonthlyActiveUsersResult = Array<{
 }>;
 
 export const getMonthlyActiveUsers = async () => {
-  const qb = kyselyPrisma.$kysely
-    .selectFrom('UserSecurityAuditLog')
-    .select(({ fn }) => [
-      fn<Date>('DATE_TRUNC', [sql.lit('MONTH'), 'UserSecurityAuditLog.createdAt']).as('month'),
-      fn.count('userId').distinct().as('count'),
-      fn
-        .sum(fn.count('userId').distinct())
-        .over((ob) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/consistent-type-assertions
-          ob.orderBy(fn('DATE_TRUNC', [sql.lit('MONTH'), 'UserSecurityAuditLog.createdAt']) as any),
-        )
-        .as('cume_count'),
-    ])
-    .where(() => sql`type = ${UserSecurityAuditLogType.SIGN_IN}::"UserSecurityAuditLogType"`)
-    .groupBy(({ fn }) => fn('DATE_TRUNC', [sql.lit('MONTH'), 'UserSecurityAuditLog.createdAt']))
-    .orderBy('month', 'desc')
-    .limit(12);
+  const rows = await prisma.$queryRaw<Array<{ month: string; count: bigint }>>`
+    SELECT DATE_FORMAT(createdAt, '%Y-%m') AS month, COUNT(DISTINCT userId) AS count
+    FROM UserSecurityAuditLog
+    WHERE type = ${UserSecurityAuditLogType.SIGN_IN}
+    GROUP BY month
+    ORDER BY month ASC
+  `;
 
-  const result = await qb.execute();
+  let cumulativeCount = 0;
 
-  return result.map((row) => ({
-    month: DateTime.fromJSDate(row.month).toFormat('yyyy-MM'),
-    count: Number(row.count),
-    cume_count: Number(row.cume_count),
-  }));
+  return rows
+    .map((row) => {
+      const count = Number(row.count);
+      cumulativeCount += count;
+
+      return { month: row.month, count, cume_count: cumulativeCount };
+    })
+    .slice(-12)
+    .reverse();
 };

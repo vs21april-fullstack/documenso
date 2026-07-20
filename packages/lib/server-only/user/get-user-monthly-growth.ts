@@ -1,30 +1,29 @@
-import { kyselyPrisma, sql } from '@documenso/prisma';
-import { DateTime } from 'luxon';
+import { prisma } from '@documenso/prisma';
+
+type MonthlyCountRow = {
+  month: string;
+  count: bigint;
+};
 
 export const getUserMonthlyGrowth = async () => {
-  const qb = kyselyPrisma.$kysely
-    .selectFrom('User')
-    .select(({ fn }) => [
-      fn<Date>('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']).as('month'),
-      fn.count('id').as('count'),
-      fn
-        .sum(fn.count('id'))
-        // Feels like a bug in the Kysely extension but I just can not do this orderBy in a type-safe manner
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
-        .over((ob) => ob.orderBy(fn('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']) as any))
-        .as('cume_count'),
-    ])
-    .groupBy('month')
-    .orderBy('month', 'desc')
-    .limit(12);
+  const rows = await prisma.$queryRaw<MonthlyCountRow[]>`
+    SELECT DATE_FORMAT(createdAt, '%Y-%m') AS month, COUNT(*) AS count
+    FROM \`User\`
+    GROUP BY month
+    ORDER BY month ASC
+  `;
 
-  const result = await qb.execute();
+  let cumulativeCount = 0;
 
-  return result.map((row) => ({
-    month: DateTime.fromJSDate(row.month).toFormat('yyyy-MM'),
-    count: Number(row.count),
-    cume_count: Number(row.cume_count),
-  }));
+  return rows
+    .map((row) => {
+      const count = Number(row.count);
+      cumulativeCount += count;
+
+      return { month: row.month, count, cume_count: cumulativeCount };
+    })
+    .slice(-12)
+    .reverse();
 };
 
 export type GetUserMonthlyGrowthResult = Awaited<ReturnType<typeof getUserMonthlyGrowth>>;

@@ -75,7 +75,11 @@ const AdminUserPage = ({ user }: { user: TGetUserResponse }) => {
   const { toast } = useToast();
   const { revalidate } = useRevalidator();
 
-  const roles = user.roles ?? [];
+  const roles = Array.isArray(user.roles)
+    ? user.roles.filter(
+        (role): role is NonNullable<TUserFormSchema['roles']>[number] => role === 'ADMIN' || role === 'USER',
+      )
+    : [];
 
   const { mutateAsync: updateUserMutation } = trpc.admin.user.update.useMutation();
 
@@ -84,7 +88,7 @@ const AdminUserPage = ({ user }: { user: TGetUserResponse }) => {
     values: {
       name: user?.name ?? '',
       email: user?.email ?? '',
-      roles: user?.roles ?? [],
+      roles,
     },
   });
 

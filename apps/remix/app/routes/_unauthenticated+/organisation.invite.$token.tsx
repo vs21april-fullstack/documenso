@@ -41,7 +41,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     where: {
       email: {
         equals: organisationMemberInvite.email,
-        mode: 'insensitive',
       },
     },
     select: {

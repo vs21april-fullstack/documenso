@@ -1,31 +1,28 @@
-import { kyselyPrisma, sql } from '@documenso/prisma';
+import { prisma } from '@documenso/prisma';
 import { DateTime } from 'luxon';
 
 import { addZeroMonth } from '../add-zero-month';
 
 export const getUserMonthlyGrowth = async (type: 'count' | 'cumulative' = 'count') => {
-  const qb = kyselyPrisma.$kysely
-    .selectFrom('User')
-    .select(({ fn }) => [
-      fn<Date>('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']).as('month'),
-      fn.count('id').as('count'),
-      fn
-        .sum(fn.count('id'))
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
-        .over((ob) => ob.orderBy(fn('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']) as any))
-        .as('cume_count'),
-    ])
-    .groupBy('month')
-    .orderBy('month', 'desc');
+  const rows = await prisma.$queryRaw<Array<{ month: string; count: bigint }>>`
+    SELECT DATE_FORMAT(createdAt, '%Y-%m') AS month, COUNT(*) AS count
+    FROM \`User\`
+    GROUP BY month
+    ORDER BY month ASC
+  `;
 
-  const result = await qb.execute();
+  let cumulativeCount = 0;
+  const result = rows.map((row) => {
+    cumulativeCount += Number(row.count);
+    return { month: row.month, count: Number(row.count), cume_count: cumulativeCount };
+  });
 
   const transformedData = {
-    labels: result.map((row) => DateTime.fromJSDate(row.month).toFormat('MMM yyyy')).reverse(),
+    labels: result.map((row) => DateTime.fromFormat(row.month, 'yyyy-MM').toFormat('MMM yyyy')),
     datasets: [
       {
         label: type === 'count' ? 'New Users' : 'Total Users',
-        data: result.map((row) => (type === 'count' ? Number(row.count) : Number(row.cume_count))).reverse(),
+        data: result.map((row) => (type === 'count' ? row.count : row.cume_count)),
       },
     ],
   };

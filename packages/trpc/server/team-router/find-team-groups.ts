@@ -1,8 +1,7 @@
 import type { FindResultResponse } from '@documenso/lib/types/search-params';
 import { buildTeamWhereQuery } from '@documenso/lib/utils/teams';
 import { prisma } from '@documenso/prisma';
-import type { OrganisationGroupType, OrganisationMemberRole } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import type { OrganisationGroupType, OrganisationMemberRole, Prisma } from '@prisma/client';
 import { unique } from 'remeda';
 
 import { authenticatedProcedure } from '../trpc';
@@ -70,7 +69,6 @@ export const findTeamGroups = async ({
       ...(query && {
         name: {
           contains: query,
-          mode: Prisma.QueryMode.insensitive,
         },
       }),
     },

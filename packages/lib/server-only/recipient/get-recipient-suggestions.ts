@@ -1,6 +1,6 @@
 import { buildTeamWhereQuery } from '@documenso/lib/utils/teams';
 import { prisma } from '@documenso/prisma';
-import { EnvelopeType, Prisma } from '@prisma/client';
+import { EnvelopeType } from '@prisma/client';
 
 export type GetRecipientSuggestionsOptions = {
   userId: number;
@@ -17,13 +17,11 @@ export const getRecipientSuggestions = async ({ userId, teamId, query }: GetReci
           {
             name: {
               contains: trimmedQuery,
-              mode: Prisma.QueryMode.insensitive,
             },
           },
           {
             email: {
               contains: trimmedQuery,
-              mode: Prisma.QueryMode.insensitive,
             },
           },
         ],

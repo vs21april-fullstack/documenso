@@ -1,34 +1,30 @@
-import { kyselyPrisma, sql } from '@documenso/prisma';
+import { prisma } from '@documenso/prisma';
 import { DateTime } from 'luxon';
 
 import { addZeroMonth } from '../add-zero-month';
 
 export const getSignerConversionMonthly = async (type: 'count' | 'cumulative' = 'count') => {
-  const qb = kyselyPrisma.$kysely
-    .selectFrom('Recipient')
-    .innerJoin('User', 'Recipient.email', 'User.email')
-    .select(({ fn }) => [
-      fn<Date>('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']).as('month'),
-      fn.count('Recipient.email').distinct().as('count'),
-      fn
-        .sum(fn.count('Recipient.email').distinct())
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
-        .over((ob) => ob.orderBy(fn('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']) as any))
-        .as('cume_count'),
-    ])
-    .where('Recipient.signedAt', 'is not', null)
-    .where('Recipient.signedAt', '<', (eb) => eb.ref('User.createdAt'))
-    .groupBy(({ fn }) => fn('DATE_TRUNC', [sql.lit('MONTH'), 'User.createdAt']))
-    .orderBy('month', 'desc');
+  const rows = await prisma.$queryRaw<Array<{ month: string; count: bigint }>>`
+    SELECT DATE_FORMAT(u.createdAt, '%Y-%m') AS month, COUNT(DISTINCT r.email) AS count
+    FROM \`Recipient\` r
+    INNER JOIN \`User\` u ON r.email = u.email
+    WHERE r.signedAt IS NOT NULL AND r.signedAt < u.createdAt
+    GROUP BY month
+    ORDER BY month ASC
+  `;
 
-  const result = await qb.execute();
+  let cumulativeCount = 0;
+  const result = rows.map((row) => {
+    cumulativeCount += Number(row.count);
+    return { month: row.month, count: Number(row.count), cume_count: cumulativeCount };
+  });
 
   const transformedData = {
-    labels: result.map((row) => DateTime.fromJSDate(row.month).toFormat('MMM yyyy')).reverse(),
+    labels: result.map((row) => DateTime.fromFormat(row.month, 'yyyy-MM').toFormat('MMM yyyy')),
     datasets: [
       {
         label: type === 'count' ? 'Signers That Signed Up' : 'Total Signers That Signed Up',
-        data: result.map((row) => (type === 'count' ? Number(row.count) : Number(row.cume_count))).reverse(),
+        data: result.map((row) => (type === 'count' ? row.count : row.cume_count)),
       },
     ],
   };

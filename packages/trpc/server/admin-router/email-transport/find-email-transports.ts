@@ -3,7 +3,7 @@ import {
   toPublicEmailTransportConfig,
 } from '@documenso/lib/server-only/email/email-transport-config';
 import { prisma } from '@documenso/prisma';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 import { adminProcedure } from '../../trpc';
 import { ZFindEmailTransportsRequestSchema, ZFindEmailTransportsResponseSchema } from './find-email-transports.types';
@@ -16,10 +16,7 @@ export const findEmailTransportsRoute = adminProcedure
 
     const where: Prisma.EmailTransportWhereInput = query
       ? {
-          OR: [
-            { name: { contains: query, mode: Prisma.QueryMode.insensitive } },
-            { fromAddress: { contains: query, mode: Prisma.QueryMode.insensitive } },
-          ],
+          OR: [{ name: { contains: query } }, { fromAddress: { contains: query } }],
         }
       : {};
 

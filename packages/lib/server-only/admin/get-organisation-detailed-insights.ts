@@ -127,7 +127,7 @@ async function getTeamInsights(
         .innerJoin('OrganisationGroupMember as ogm', 'ogm.groupId', 'og.id')
         .innerJoin('OrganisationMember as om', 'om.id', 'ogm.organisationMemberId')
         .whereRef('tg.teamId', '=', 't.id')
-        .select(sql<number>`count(distinct om."userId")`.as('count'))
+        .select(sql<number>`count(distinct om.\`userId\`)`.as('count'))
         .as('memberCount'),
       eb
         .selectFrom('Envelope as e')
@@ -228,7 +228,7 @@ async function getDocumentInsights(
     .innerJoin('Team as t', 'e.teamId', 't.id')
     .where('t.organisationId', '=', organisationId)
     .where('e.deletedAt', 'is', null)
-    .where(() => sql`e.type = ${EnvelopeType.DOCUMENT}::"EnvelopeType"`);
+    .where('e.type', '=', EnvelopeType.DOCUMENT);
 
   if (createdAtFrom) {
     documentsQuery = documentsQuery.where('e.createdAt', '>=', createdAtFrom);
@@ -252,7 +252,7 @@ async function getDocumentInsights(
     .innerJoin('Team as t', 'e.teamId', 't.id')
     .where('t.organisationId', '=', organisationId)
     .where('e.deletedAt', 'is', null)
-    .where(() => sql`e.type = ${EnvelopeType.DOCUMENT}::"EnvelopeType"`);
+    .where('e.type', '=', EnvelopeType.DOCUMENT);
 
   if (createdAtFrom) {
     countQuery = countQuery.where('e.createdAt', '>=', createdAtFrom);
@@ -303,11 +303,11 @@ async function getOrganisationSummary(
       sql<number>`count(case when e.status = 'COMPLETED' then 1 end)`.as('completedDocuments'),
       sql<number>`count(case when e.status = 'COMPLETED' then 1 end)`.as('volumeAllTime'),
       (createdAtFrom
-        ? sql<number>`count(case when e.status = 'COMPLETED' and e."createdAt" >= ${createdAtFrom} then 1 end)`
+        ? sql<number>`count(case when e.status = 'COMPLETED' and e.\`createdAt\` >= ${createdAtFrom} then 1 end)`
         : sql<number>`count(case when e.status = 'COMPLETED' then 1 end)`
       ).as('volumeThisPeriod'),
       (createdAtFrom
-        ? sql<number>`count(case when e."createdAt" >= ${createdAtFrom} then 1 end)`
+        ? sql<number>`count(case when e.\`createdAt\` >= ${createdAtFrom} then 1 end)`
         : sql<number>`count(e.id)`
       ).as('documentsThisPeriod'),
     ])

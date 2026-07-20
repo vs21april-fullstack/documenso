@@ -34,13 +34,11 @@ export const findSubscriptionClaims = async ({ query, page = 1, perPage = 50 }: 
         {
           id: {
             contains: query,
-            mode: 'insensitive',
           },
         },
         {
           name: {
             contains: query,
-            mode: 'insensitive',
           },
         },
       ],

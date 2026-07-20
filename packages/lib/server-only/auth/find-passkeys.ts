@@ -1,6 +1,5 @@
 import { prisma } from '@documenso/prisma';
-import type { Passkey } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import type { Passkey, Prisma } from '@prisma/client';
 
 import type { FindResultResponse } from '../../types/search-params';
 
@@ -28,7 +27,6 @@ export const findPasskeys = async ({ userId, query = '', page = 1, perPage = 10,
   if (query.length > 0) {
     whereClause.name = {
       contains: query,
-      mode: Prisma.QueryMode.insensitive,
     };
   }
 
@@ -61,11 +59,16 @@ export const findPasskeys = async ({ userId, query = '', page = 1, perPage = 10,
     }),
   ]);
 
+  const normalizedData: Omit<Passkey, 'credentialId' | 'credentialPublicKey'>[] = data.map((passkey) => ({
+    ...passkey,
+    transports: Array.isArray(passkey.transports) ? (passkey.transports as string[]) : [],
+  }));
+
   return {
-    data,
+    data: normalizedData,
     count,
     currentPage: Math.max(page, 1),
     perPage,
     totalPages: Math.ceil(count / perPage),
-  } satisfies FindResultResponse<typeof data>;
+  } satisfies FindResultResponse<typeof normalizedData>;
 };

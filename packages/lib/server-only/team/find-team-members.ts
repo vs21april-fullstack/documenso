@@ -1,6 +1,5 @@
 import { prisma } from '@documenso/prisma';
-import type { OrganisationMember } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import type { OrganisationMember, Prisma } from '@prisma/client';
 import { match, P } from 'ts-pattern';
 
 import { AppError, AppErrorCode } from '../../errors/app-error';
@@ -60,13 +59,11 @@ export const findTeamMembers = async ({
           {
             name: {
               contains: query,
-              mode: Prisma.QueryMode.insensitive,
             },
           },
           {
             email: {
               contains: query,
-              mode: Prisma.QueryMode.insensitive,
             },
           },
         ],

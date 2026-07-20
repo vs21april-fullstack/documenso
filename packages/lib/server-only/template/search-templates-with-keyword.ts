@@ -31,10 +31,10 @@ export const searchTemplatesWithKeyword = async ({ query, userId, limit = 20 }: 
 
   const titleOrRecipientMatch: Prisma.EnvelopeWhereInput = {
     OR: [
-      { title: { contains: query, mode: 'insensitive' } },
+      { title: { contains: query } },
       {
         recipients: {
-          some: { email: { contains: query, mode: 'insensitive' } },
+          some: { email: { contains: query } },
         },
       },
     ],
