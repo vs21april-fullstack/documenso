@@ -79,7 +79,14 @@ export default defineConfig({
     ],
   },
   optimizeDeps: {
-    entries: ['./app/**/*', '../../packages/ui/**/*', '../../packages/lib/**/*'],
+    entries: [
+      './app/**/*.{js,jsx,ts,tsx}',
+      '../../packages/ui/**/*.{js,jsx,ts,tsx}',
+      '../../packages/lib/**/*.{js,jsx,ts,tsx}',
+      '!../../packages/{ui,lib}/node_modules/**',
+      '!../../packages/{ui,lib}/**/*.d.ts',
+      '!../../packages/{ui,lib}/**/*.{test,spec}.{js,jsx,ts,tsx}',
+    ],
     include: ['prop-types', 'file-selector', 'attr-accept'],
     exclude: [
       'node_modules',

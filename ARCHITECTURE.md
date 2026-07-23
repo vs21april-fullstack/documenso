@@ -74,7 +74,7 @@ Documenso is an open-source document signing platform built as a **monorepo** us
 | -------- | --------------------------------- |
 | Frontend | React 18, React Router v7 (Remix) |
 | Server   | Hono                              |
-| Database | PostgreSQL 15, Prisma, Kysely     |
+| Database | MySQL 8.4, Prisma, Kysely         |
 | API      | tRPC, ts-rest, OpenAPI            |
 | Styling  | Tailwind CSS, Radix UI, Shadcn UI |
 | Auth     | Arctic (OAuth), WebAuthn/Passkeys |
@@ -342,7 +342,7 @@ npm run test:e2e
 
 | Service         | Port       |
 | --------------- | ---------- |
-| PostgreSQL      | 54320      |
+| MySQL           | 3306       |
 | Inbucket (Mail) | 9000       |
 | MinIO (S3)      | 9001, 9002 |
 

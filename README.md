@@ -108,7 +108,7 @@ Contact us if you are interested in our Enterprise plan for large organizations 
 To run Documenso locally, you will need
 
 - Node.js (v22 or above)
-- Postgres SQL Database
+- MySQL 8.4 Database
 - Docker (optional)
 
 ### Developer Quickstart
@@ -129,7 +129,7 @@ git clone https://github.com/<your-username>/documenso
 
 3. Run `npm run dx` in the root directory
 
-   - This will spin up a postgres database and inbucket mailserver in a docker container.
+   - This will spin up a MySQL database and inbucket mailserver in a Docker container.
 
 4. Run `npm run dev` in the root directory
 
@@ -145,7 +145,7 @@ npm run d
 2. **Incoming Mail Access** - http://localhost:9000
 3. **Database Connection Details**
 
-   - **Port**: 54320
+   - **Port**: 3306
    - **Connection**: Use your favorite database client to connect using the provided port.
 
 4. **S3 Storage Dashboard** - http://localhost:9001

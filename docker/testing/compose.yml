@@ -2,18 +2,19 @@ name: documenso-test
 
 services:
   database:
-    image: postgres:15
+    image: mysql:8.4
     environment:
-      - POSTGRES_USER=documenso
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=documenso
+      - MYSQL_USER=documenso
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=documenso
+      - MYSQL_ROOT_PASSWORD=password
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U documenso']
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-udocumenso', '-ppassword']
       interval: 1s
       timeout: 5s
       retries: 5
     ports:
-      - 54322:5432
+      - 3307:3306
 
   inbucket:
     image: inbucket/inbucket
@@ -37,8 +38,8 @@ services:
       - NEXTAUTH_SECRET=secret
       - NEXT_PRIVATE_ENCRYPTION_KEY=CAFEBABE
       - NEXT_PRIVATE_ENCRYPTION_SECONDARY_KEY=DEADBEEF
-      - NEXT_PRIVATE_DATABASE_URL=postgres://documenso:password@database:5432/documenso
-      - NEXT_PRIVATE_DIRECT_DATABASE_URL=postgres://documenso:password@database:5432/documenso
+      - NEXT_PRIVATE_DATABASE_URL=mysql://documenso:password@database:3306/documenso
+      - NEXT_PRIVATE_DIRECT_DATABASE_URL=mysql://documenso:password@database:3306/documenso
       - NEXT_PUBLIC_UPLOAD_TRANSPORT=database
       - NEXT_PRIVATE_SMTP_TRANSPORT=smtp-auth
       - NEXT_PRIVATE_SMTP_HOST=inbucket

@@ -12,7 +12,7 @@ Documenso requires the following items and external services:
 | Service       | Purpose                      | Minimum Version |
 | ------------- | ---------------------------- | --------------- |
 | Signing certificate | Digital signature for documents | N/A             |
-| PostgreSQL    | Primary database             | 14+             |
+| MySQL         | Primary database             | 8.4             |
 | SMTP server   | Sending emails to recipients | Any             |
 | Reverse proxy | SSL termination, routing     | Any             |
 
@@ -30,16 +30,16 @@ Every completed document is digitally signed using an X.509 certificate. You can
 - [Generate a local certificate](/docs/self-hosting/configuration/signing-certificate/local) — step-by-step instructions to create a `.p12` certificate
 - [All certificate options](/docs/self-hosting/configuration/signing-certificate) — self-signed, CA-issued, and Google Cloud HSM
 
-### PostgreSQL Database
+### MySQL Database
 
-Documenso uses PostgreSQL for all data storage including documents, users, and audit logs. You cannot use MySQL, SQLite, or other databases.
+This distribution uses MySQL 8.4 for all data storage, including documents, users, and audit logs.
 
 Documenso requires two connection strings:
 
-- **Pooled connection** (`NEXT_PRIVATE_DATABASE_URL`) - For general application queries
-- **Direct connection** (`NEXT_PRIVATE_DIRECT_DATABASE_URL`) - For migrations and operations that require a direct connection
+- **Application connection** (`NEXT_PRIVATE_DATABASE_URL`) - For general application queries
+- **Direct connection** (`NEXT_PRIVATE_DIRECT_DATABASE_URL`) - For migrations and schema operations
 
-If you're not using a connection pooler (like PgBouncer), both can point to the same database URL.
+When no separate connection pool is used, both variables can contain the same MySQL URL.
 
 ### Email Server
 
@@ -166,7 +166,7 @@ Documenso runs on:
 | Configuration  | Reason                                |
 | -------------- | ------------------------------------- |
 | Windows native | Use Docker or WSL2 instead            |
-| MySQL/MariaDB  | PostgreSQL-specific features required |
+| PostgreSQL/SQLite | This distribution's schema and migrations target MySQL |
 | SQLite         | Not suitable for production workloads |
 | MongoDB        | Relational database required          |
 | Node.js < 22   | Modern JavaScript features required   |
@@ -177,7 +177,7 @@ Documenso runs on:
 
 Before proceeding to deployment, confirm you have:
 
-- [ ] PostgreSQL 14+ database accessible
+- [ ] MySQL 8.4 database accessible
 - [ ] SMTP credentials or email provider API key
 - [ ] Signing certificate (`.p12`) for document signing — see [Tips](/docs/self-hosting/getting-started/tips)
 - [ ] Domain name for your Documenso instance

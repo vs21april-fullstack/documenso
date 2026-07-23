@@ -2,18 +2,19 @@ name: documenso-production
 
 services:
   database:
-    image: postgres:15
+    image: mysql:8.4
     environment:
-      - POSTGRES_USER=${POSTGRES_USER:?err}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?err}
-      - POSTGRES_DB=${POSTGRES_DB:?err}
+      - MYSQL_USER=${MYSQL_USER:-documenso}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:?err}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-documenso}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?err}
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER}']
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u${MYSQL_USER:-documenso}', '-p${MYSQL_PASSWORD}']
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
-      - database:/var/lib/postgresql/data
+      - database:/var/lib/mysql
 
   documenso:
     image: documenso/documenso:latest

@@ -13,7 +13,7 @@ This quick start setup is for local development and testing only:
 
 - No HTTPS (not suitable for production)
 - No email delivery (emails are logged to console)
-- Uses a local PostgreSQL database
+- Uses a local MySQL 8.4 database
 - No signing certificate configured (documents will be signed with a generated certificate)
 - Single-node setup (no high availability)
 
@@ -127,7 +127,7 @@ The quick start setup runs the following containers:
 | Container   | Purpose                              | Port                          |
 | ----------- | ------------------------------------ | ----------------------------- |
 | `documenso` | Main application                     | 3000                          |
-| `database`  | PostgreSQL database                  | 54320                         |
+| `database`  | MySQL database                       | 3306                          |
 | `inbucket`  | Local email testing server           | 9000 (web UI), 2500 (SMTP)    |
 | `redis`     | Cache and background job queue       | 63790                         |
 | `minio`     | S3-compatible storage                | 9002 (API), 9001 (console)    |
@@ -184,7 +184,7 @@ docker compose -f docker/development/compose.yml up -d --build
 
 ## See Also
 
-- [Docker Compose Deployment](/docs/self-hosting/deployment/docker-compose) - Production setup with PostgreSQL and email
+- [Docker Compose Deployment](/docs/self-hosting/deployment/docker-compose) - Production setup with MySQL and email
 - [Environment Variables](/docs/self-hosting/configuration/environment) - Configure all available options
 - [Signing Certificate](/docs/self-hosting/configuration/signing-certificate) - Set up document signing
 - [Email Configuration](/docs/self-hosting/configuration/email) - Configure SMTP for production
