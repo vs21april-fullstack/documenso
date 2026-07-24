@@ -13,7 +13,7 @@
     "dev:remix": "npm run translate:compile && turbo run dev --filter=@documenso/remix",
     "dev:docs": "turbo run dev --filter=@documenso/docs",
     "dev:openpage-api": "turbo run dev --filter=@documenso/openpage-api",
-    "start": "turbo run start --filter=@documenso/remix --filter=@documenso/docs --filter=@documenso/openpage-api",
+    "start": "NODE_ENV=production node apps/remix/build/server/index.js",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "lint:staged": "biome check --write --no-errors-on-unmatched",
@@ -41,7 +41,7 @@
     "translate:extract": "lingui extract --clean",
     "translate:compile": "lingui compile"
   },
-  "packageManager": "npm@11.11.0",
+  "packageManager": "npm@10.9.8",
   "engines": {
     "npm": ">=11.11.0",
     "node": ">=22.0.0"
