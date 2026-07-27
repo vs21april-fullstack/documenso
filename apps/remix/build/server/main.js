@@ -31,6 +31,24 @@ server.use(
 
 const handler = handle(build, server, { getLoadContext });
 
+const fetch = async (request) => {
+  const response = await handler.fetch(request);
+
+  if (
+    response.status !== 404 ||
+    !['GET', 'HEAD'].includes(request.method) ||
+    build.basename === '/' ||
+    new URL(request.url).pathname.startsWith(build.basename)
+  ) {
+    return response;
+  }
+
+  const url = new URL(request.url);
+  url.pathname = `${build.basename}${url.pathname}`;
+
+  return handler.fetch(new Request(url, request));
+};
+
 const port = parseInt(process.env.PORT || '3000', 10);
 
-serve({ fetch: handler.fetch, port });
+serve({ fetch, port });
