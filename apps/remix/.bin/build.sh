@@ -30,6 +30,7 @@ cp server/main.js build/server/main.js
 
 # Copy over all web.js translations
 cp -r ../../packages/lib/translations build/server/hono/packages/lib/translations
+rm -f build/server/hono/packages/lib/translations/.gitignore
 
 # Time taken
 end_time=$(date +%s)
