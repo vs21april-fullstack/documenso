@@ -44,7 +44,11 @@ export function meta() {
 export const shouldRevalidate = () => false;
 
 export async function loader({ context, request }: Route.LoaderArgs) {
-  const session = await getOptionalSession(request);
+  const session = await getOptionalSession(request).catch(() => ({
+    isAuthenticated: false as const,
+    session: null,
+    user: null,
+  }));
 
   const { getTheme } = await themeSessionResolver(request);
 

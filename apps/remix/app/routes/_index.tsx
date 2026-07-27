@@ -8,7 +8,11 @@ import { redirect } from 'react-router';
 import type { Route } from './+types/_index';
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getOptionalSession(request);
+  const session = await getOptionalSession(request).catch(() => ({
+    isAuthenticated: false as const,
+    session: null,
+    user: null,
+  }));
 
   if (session.isAuthenticated) {
     const teamUrlCookie = extractCookieFromHeaders('preferred-team-url', request.headers);
