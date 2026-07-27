@@ -33,7 +33,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
     // // Early return for no preferred team.
     // if (!preferredTeamUrl || isReferrerFromTeamUrl) {
-    //   throw redirect(toMountedPath(request, '/inbox'));
+    //   throw redirect('/inbox');
     // }
 
     const teams = await getTeams({ userId: session.user.id });
@@ -45,17 +45,11 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
 
     if (!currentTeam) {
-      throw redirect(toMountedPath(request, '/inbox'));
+      throw redirect('/inbox');
     }
 
-    throw redirect(toMountedPath(request, formatDocumentsPath(currentTeam.url)));
+    throw redirect(formatDocumentsPath(currentTeam.url));
   }
 
-  throw redirect(toMountedPath(request, '/signin'));
+  throw redirect('/signin');
 }
-
-const toMountedPath = (request: Request, path: string) => {
-  const requestPath = new URL(request.url).pathname.replace(/\/$/, '');
-
-  return `${requestPath}${path}`;
-};
