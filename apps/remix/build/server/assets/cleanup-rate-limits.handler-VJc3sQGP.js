@@ -1,4 +1,5 @@
-import { aY, aZ, a_, a$, b0, b1, b2, b3, b4, b5, b6, b7 } from "./assets/server-build-D_Gx5ZHn.js";
+import { p as prismaWithReplicas } from "./server-build-D_Gx5ZHn.js";
+import { DateTime } from "luxon";
 import "react/jsx-runtime";
 import "node:stream";
 import "zod";
@@ -24,7 +25,6 @@ import "react";
 import "@tanstack/react-query";
 import "@trpc/react-query";
 import "@vvo/tzdb";
-import "luxon";
 import "@node-rs/bcrypt";
 import "crypto";
 import "node:module";
@@ -117,17 +117,29 @@ import "satori";
 import "node:fs";
 import "stripe";
 import "jose";
+const BATCH_SIZE = 1e4;
+const run = async ({
+  io
+}) => {
+  const cutoff = DateTime.now().minus({
+    hours: 24
+  }).toJSDate();
+  let totalDeleted = 0;
+  let deleted = 0;
+  do {
+    deleted = await prismaWithReplicas.$executeRaw`
+      DELETE FROM RateLimit
+      WHERE createdAt < ${cutoff}
+      LIMIT ${BATCH_SIZE}
+    `;
+    totalDeleted += deleted;
+  } while (deleted >= BATCH_SIZE);
+  if (totalDeleted > 0) {
+    io.logger.info(`Cleaned up ${totalDeleted} expired rate limit entries`);
+  } else {
+    io.logger.info("No expired rate limit entries to clean up");
+  }
+};
 export {
-  aY as allowedActionOrigins,
-  aZ as assets,
-  a_ as assetsBuildDirectory,
-  a$ as basename,
-  b0 as entry,
-  b1 as future,
-  b2 as isSpaMode,
-  b3 as prerender,
-  b4 as publicPath,
-  b5 as routeDiscovery,
-  b6 as routes,
-  b7 as ssr
+  run
 };
