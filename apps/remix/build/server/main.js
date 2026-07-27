@@ -32,18 +32,22 @@ server.use(
 const handler = handle(build, server, { getLoadContext });
 
 const fetch = async (request) => {
-  const response = await handler.fetch(request);
+  const url = new URL(request.url);
+  const isApiRequest = url.pathname === '/api' || url.pathname.startsWith('/api/');
+  const isStaticAssetRequest =
+    url.pathname.startsWith('/assets/') ||
+    url.pathname.startsWith('/fonts/') ||
+    (!url.pathname.endsWith('.data') && /\/[^/]+\.[a-z0-9]+$/i.test(url.pathname));
 
   if (
-    response.status !== 404 ||
-    !['GET', 'HEAD'].includes(request.method) ||
     build.basename === '/' ||
-    new URL(request.url).pathname.startsWith(build.basename)
+    url.pathname.startsWith(build.basename) ||
+    isApiRequest ||
+    isStaticAssetRequest
   ) {
-    return response;
+    return handler.fetch(request);
   }
 
-  const url = new URL(request.url);
   url.pathname = `${build.basename}${url.pathname}`;
 
   return handler.fetch(new Request(url, request));
