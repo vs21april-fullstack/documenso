@@ -3,7 +3,7 @@ import { getOptionalSession } from '@documenso/auth/server/lib/utils/get-session
 import { getTeams } from '@documenso/lib/server-only/team/get-teams';
 import { formatDocumentsPath } from '@documenso/lib/utils/teams';
 import { ZTeamUrlSchema } from '@documenso/trpc/server/team-router/schema';
-import { redirect } from 'react-router';
+import { Navigate } from 'react-router';
 
 import type { Route } from './+types/_index';
 
@@ -33,7 +33,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
     // // Early return for no preferred team.
     // if (!preferredTeamUrl || isReferrerFromTeamUrl) {
-    //   throw redirect('/inbox');
+    //   return { redirectTo: '/inbox' };
     // }
 
     const teams = await getTeams({ userId: session.user.id });
@@ -45,11 +45,15 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
 
     if (!currentTeam) {
-      throw redirect('/inbox');
+      return { redirectTo: '/inbox' };
     }
 
-    throw redirect(formatDocumentsPath(currentTeam.url));
+    return { redirectTo: formatDocumentsPath(currentTeam.url) };
   }
 
-  throw redirect('/signin');
+  return { redirectTo: '/signin' };
+}
+
+export default function Index({ loaderData }: Route.ComponentProps) {
+  return <Navigate to={loaderData.redirectTo} replace />;
 }

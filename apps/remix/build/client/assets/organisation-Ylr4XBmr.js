@@ -1,0 +1,1 @@
+import{j as e}from"./jsx-runtime-DrYFQjIW.js";import{r}from"./chunk-KS7C4IRE-FYOnnPbz.js";const n=r.createContext(null),i=()=>{const t=r.useContext(n);if(!t)throw new Error("useCurrentOrganisation must be used within a OrganisationProvider");return t},u=()=>r.useContext(n),x=({children:t,organisation:o})=>e.jsx(n.Provider,{value:o,children:t});export{x as O,u as a,i as u};

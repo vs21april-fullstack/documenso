@@ -1,0 +1,1 @@
+import{j as n}from"./jsx-runtime-DrYFQjIW.js";import{r as t}from"./chunk-KS7C4IRE-FYOnnPbz.js";const r=t.createContext(null),u=()=>{const e=t.useContext(r);if(!e)throw new Error("useCurrentTeam must be used within a TeamProvider");return e},m=()=>t.useContext(r),i=({children:e,team:o})=>n.jsx(r.Provider,{value:o,children:e});export{i as T,u as a,m as u};

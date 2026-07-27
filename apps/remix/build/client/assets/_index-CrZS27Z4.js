@@ -1,0 +1,1 @@
+import{w as e,f as o}from"./chunk-KS7C4IRE-FYOnnPbz.js";import{j as r}from"./jsx-runtime-DrYFQjIW.js";const i=e(function({loaderData:t}){return r.jsx(o,{to:t.redirectTo,replace:!0})});export{i as default};

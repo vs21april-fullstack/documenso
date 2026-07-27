@@ -1,1 +1,0 @@
-import{j as a}from"./jsx-runtime-D-YXddpN.js";import{m as e}from"./proxy-BbeYWeX5.js";const r=({children:t,className:i,motionKey:o})=>a.jsx(e.section,{initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},className:i,children:t},o);export{r as A};

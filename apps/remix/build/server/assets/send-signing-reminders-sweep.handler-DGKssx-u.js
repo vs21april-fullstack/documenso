@@ -1,4 +1,5 @@
-import { aY, aZ, a_, a$, b0, b1, b2, b3, b4, b5, b6, b7 } from "./assets/server-build-BNclrAgx.js";
+import { p as prismaWithReplicas, J as jobs } from "./server-build-BNclrAgx.js";
+import { DocumentStatus, RecipientRole, SendStatus, SigningStatus } from "@prisma/client";
 import "react/jsx-runtime";
 import "node:stream";
 import "zod";
@@ -9,7 +10,6 @@ import "@react-router/node";
 import "isbot";
 import "react-dom/server";
 import "react-router";
-import "@prisma/client";
 import "@prisma/extension-read-replicas";
 import "kysely";
 import "prisma-extension-kysely";
@@ -117,17 +117,55 @@ import "satori";
 import "node:fs";
 import "stripe";
 import "jose";
+const run = async ({
+  io
+}) => {
+  const now = /* @__PURE__ */ new Date();
+  const recipients = await prismaWithReplicas.recipient.findMany({
+    where: {
+      nextReminderAt: {
+        lte: now
+      },
+      signingStatus: SigningStatus.NOT_SIGNED,
+      sendStatus: SendStatus.SENT,
+      role: {
+        not: RecipientRole.CC
+      },
+      // Skip recipients whose signing deadline has passed. `expiresAt`
+      // is the source of truth — the expiration sweep asynchronously
+      // sets `expirationNotifiedAt`, so filtering on `expiresAt` also
+      // covers the window before the expiration sweep runs.
+      OR: [{
+        expiresAt: null
+      }, {
+        expiresAt: {
+          gt: now
+        }
+      }],
+      envelope: {
+        status: DocumentStatus.PENDING,
+        deletedAt: null
+      }
+    },
+    select: {
+      id: true
+    },
+    take: 1e3
+  });
+  if (recipients.length === 0) {
+    io.logger.info("No recipients need signing reminders");
+    return;
+  }
+  io.logger.info(`Found ${recipients.length} recipients needing signing reminders`);
+  await Promise.allSettled(recipients.map(async (recipient) => {
+    await jobs.triggerJob({
+      name: "internal.process-signing-reminder",
+      payload: {
+        recipientId: recipient.id
+      }
+    });
+  }));
+};
 export {
-  aY as allowedActionOrigins,
-  aZ as assets,
-  a_ as assetsBuildDirectory,
-  a$ as basename,
-  b0 as entry,
-  b1 as future,
-  b2 as isSpaMode,
-  b3 as prerender,
-  b4 as publicPath,
-  b5 as routeDiscovery,
-  b6 as routes,
-  b7 as ssr
+  run
 };
