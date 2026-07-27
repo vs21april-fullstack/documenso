@@ -1,0 +1,1 @@
+const e="field--FieldRootContainer field-card-container dark-mode-disabled group rounded-[2px] bg-white/90 ring-2 ring-gray-200 transition-all",n=`${e} relative z-20 flex h-full w-full items-center`,o=`field--FieldRootContainerProbe ${e}`,t=".embed--DocumentContainer";export{n as F,t as a,o as b};

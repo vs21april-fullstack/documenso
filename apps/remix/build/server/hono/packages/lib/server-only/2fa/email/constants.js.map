@@ -1,0 +1,1 @@
+{"version":3,"file":"constants.js","sources":["../../../../../../../../../../packages/lib/server-only/2fa/email/constants.ts"],"sourcesContent":["export const TWO_FACTOR_EMAIL_EXPIRATION_MINUTES = 5;\n"],"names":["TWO_FACTOR_EMAIL_EXPIRATION_MINUTES"],"mappings":"AAAO,MAAMA,mCAAmC,GAAG;;;;"}

@@ -1,0 +1,29 @@
+import { prisma as prismaWithReplicas } from '../../../prisma/index.js';
+import { SITE_SETTINGS_EMAIL_BLOCKLIST_ID, ZSiteSettingsEmailBlocklistSchema } from './schemas/email-blocklist.js';
+
+/**
+ * Returns the list of admin-configured email domains that should be treated as
+ * disposable / blocked, in addition to the bundled `mailchecker` list.
+ *
+ * Returns an empty array when the setting has not been configured, is
+ * disabled, or fails to parse — so a misconfigured setting can never block
+ * signups outright.
+ */
+const getEmailBlocklistDomains = async () => {
+  const setting = await prismaWithReplicas.siteSettings.findFirst({
+    where: {
+      id: SITE_SETTINGS_EMAIL_BLOCKLIST_ID
+    }
+  });
+  if (!setting || !setting.enabled) {
+    return [];
+  }
+  const parsed = ZSiteSettingsEmailBlocklistSchema.safeParse(setting);
+  if (!parsed.success) {
+    return [];
+  }
+  return parsed.data.data.domains;
+};
+
+export { getEmailBlocklistDomains };
+//# sourceMappingURL=get-email-blocklist-domains.js.map

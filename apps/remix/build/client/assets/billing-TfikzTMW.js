@@ -1,0 +1,1 @@
+import{i as t}from"./index-browser-CnbpKWEs.js";const S={[t.SubscriptionStatus.ACTIVE]:{id:"8TE5VM"},[t.SubscriptionStatus.INACTIVE]:{id:"j3UjVr"},[t.SubscriptionStatus.PAST_DUE]:{id:"+9aCHe"}};export{S};

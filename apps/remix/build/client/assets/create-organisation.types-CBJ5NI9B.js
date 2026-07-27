@@ -1,0 +1,1 @@
+import{Z as r}from"./name-B9Bt3kH5.js";import{o as e,s as t,u as o,l as a}from"./types-GU3YNY2F.js";const p=e({name:r,priceId:t().optional()});o([e({paymentRequired:a(!1)}),e({paymentRequired:a(!0),checkoutUrl:t()})]);export{p as Z};

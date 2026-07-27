@@ -1,0 +1,1 @@
+import{i as t}from"./index-browser-CnbpKWEs.js";import{s as e,g as i}from"./types-GU3YNY2F.js";const o=255,n=e().trim().min(1).max(o).describe("The title of the document."),r=e().trim().max(255).describe("The external ID of the document.");i(t.DocumentVisibility).describe("The visibility of the document.");export{o as D,n as Z,r as a};

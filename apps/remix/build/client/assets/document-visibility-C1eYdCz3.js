@@ -1,0 +1,1 @@
+import{D as A}from"./document-visibility-MoZbJQQm.js";const N={[A.ADMIN]:{key:A.ADMIN,value:{id:"G0R0ns"}},[A.EVERYONE]:{key:A.EVERYONE,value:{id:"PsQmAw"}},[A.MANAGER_AND_ABOVE]:{key:A.MANAGER_AND_ABOVE,value:{id:"VpvYQ+"}}};export{N as D};

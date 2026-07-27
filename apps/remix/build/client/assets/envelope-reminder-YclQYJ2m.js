@@ -1,0 +1,1 @@
+import{o as e,n as o,e as i,l as t,u as r}from"./types-GU3YNY2F.js";const a=e({unit:i(["day","week","month","year"]),amount:o().int().min(1)}),s=e({disabled:t(!0)}),m=r([a,s]),d=e({unit:i(["day","week","month"]),amount:o().int().min(1)}),p=e({disabled:t(!0)}),n=r([d,p]),u=e({sendAfter:n,repeatEvery:n});export{u as Z,m as a};

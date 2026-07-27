@@ -3,7 +3,6 @@
 
 # React Router
 /.react-router/
-/build/
 
 # Vite
 vite.config.*.timestamp*

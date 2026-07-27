@@ -1,0 +1,1 @@
+import{o as s,s as e,n as a,e as o,r as t,u as n,b as E}from"./types-GU3YNY2F.js";const m=s({id:e(),title:e(),order:a(),documentDataId:e(),envelopeId:e()}),D=o(["EVERYONE","MANAGER_AND_ABOVE","ADMIN"]),p=t(e(),n([e(),E(),a()])),r=o(["DRAFT","PENDING","COMPLETED","REJECTED","CANCELLED"]);export{D,m as E,p as Z,r as a};

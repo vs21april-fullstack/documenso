@@ -1,0 +1,42 @@
+import { AppError, AppErrorCode } from '../../../lib/errors/app-error.js';
+import { verifyEmbeddingPresignToken } from '../../../lib/server-only/embedding-presign/verify-embedding-presign-token.js';
+import { createEnvelopeRouteCaller } from '../envelope-router/create-envelope.js';
+import { procedure } from '../trpc.js';
+import { ZCreateEmbeddingEnvelopeRequestSchema, ZCreateEmbeddingEnvelopeResponseSchema } from './create-embedding-envelope.types.js';
+
+const createEmbeddingEnvelopeRoute = procedure.input(ZCreateEmbeddingEnvelopeRequestSchema).output(ZCreateEmbeddingEnvelopeResponseSchema).mutation(async ({
+  input,
+  ctx
+}) => {
+  const {
+    req
+  } = ctx;
+  const authorizationHeader = req.headers.get('authorization');
+  const [presignToken] = (authorizationHeader || '').split('Bearer ').filter(s => s.length > 0);
+  if (!presignToken) {
+    throw new AppError(AppErrorCode.UNAUTHORIZED, {
+      message: 'No presign token provided'
+    });
+  }
+  const apiToken = await verifyEmbeddingPresignToken({
+    token: presignToken
+  });
+  const {
+    userId,
+    teamId
+  } = apiToken;
+  return await createEnvelopeRouteCaller({
+    userId,
+    teamId,
+    input,
+    options: {
+      // Default recipients should be added on the frontend automatically for embeds.
+      bypassDefaultRecipients: true
+    },
+    apiRequestMetadata: ctx.metadata,
+    logger: ctx.logger
+  });
+});
+
+export { createEmbeddingEnvelopeRoute };
+//# sourceMappingURL=create-embedding-envelope.js.map

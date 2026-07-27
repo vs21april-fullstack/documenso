@@ -1,0 +1,1 @@
+import{Z as o}from"./locales-CAv2cHk7.js";import{Z as s}from"./css-vars-MUIo1hcP.js";import{o as e,s as t,b as r}from"./types-GU3YNY2F.js";const l=e({darkModeDisabled:r().optional().default(!1),css:t().optional().transform(a=>a||void 0),cssVars:s.optional().default({}),language:o.optional()});export{l as Z};

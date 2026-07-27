@@ -1,0 +1,1 @@
+const e=t=>typeof t!="string"?[]:t.split(",").map(r=>parseInt(r,10)).filter(r=>!isNaN(r)),n=(t,r={})=>typeof t?.teamUrl=="string"?`/t/${t.teamUrl}`:r.returnEmptyRootString?"":"/";export{n as g,e as p};

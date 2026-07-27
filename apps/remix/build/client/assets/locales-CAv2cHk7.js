@@ -1,0 +1,1 @@
+import{e as a}from"./types-GU3YNY2F.js";const e=["de","en","fr","es","it","nl","pl","pt-BR","ja","ko","zh"],o={supportedLangs:e,sourceLang:"en",defaultLocale:"en-US"},s=a(e).catch("en");export{o as A,e as S,s as Z};

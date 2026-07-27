@@ -1,0 +1,126 @@
+import { getOptionalSession } from '../../../../packages/auth/server/lib/utils/get-session.js';
+import { verifyEmbeddingPresignToken } from '../../../../packages/lib/server-only/embedding-presign/verify-embedding-presign-token.js';
+import '@noble/ciphers/chacha';
+import '@noble/ciphers/utils';
+import '@noble/ciphers/webcrypto';
+import { sha256 } from '@noble/hashes/sha2';
+import { getFileServerSide } from '../../../../packages/lib/universal/upload/get-file.server.js';
+import { prisma as prismaWithReplicas } from '../../../../packages/prisma/index.js';
+import { sValidator } from '@hono/standard-validator';
+import { Hono } from 'hono';
+import { z } from 'zod';
+import { checkEnvelopeFileAccess } from '../files.helpers.js';
+
+const route = new Hono();
+const ZGetEnvelopeItemPdfRequestParamsSchema = z.object({
+  envelopeId: z.string().min(1),
+  envelopeItemId: z.string().min(1),
+  documentDataId: z.string().min(1),
+  version: z.enum(['initial', 'current'])
+});
+const ZGetEnvelopeItemPdfRequestQuerySchema = z.object({
+  presignToken: z.string().optional()
+});
+/**
+ * Returns a PDF file for an envelope item.
+ */
+route.get('/envelope/:envelopeId/envelopeItem/:envelopeItemId/dataId/:documentDataId/:version/item.pdf', sValidator('param', ZGetEnvelopeItemPdfRequestParamsSchema), sValidator('query', ZGetEnvelopeItemPdfRequestQuerySchema), async c => {
+  const {
+    envelopeId,
+    envelopeItemId,
+    documentDataId,
+    version
+  } = c.req.valid('param');
+  const {
+    presignToken
+  } = c.req.valid('query');
+  const session = await getOptionalSession(c);
+  let userId = session.user?.id;
+  // Check presignToken if provided
+  if (presignToken) {
+    const verifiedToken = await verifyEmbeddingPresignToken({
+      token: presignToken
+    }).catch(() => undefined);
+    userId = verifiedToken?.userId;
+  }
+  if (!userId) {
+    return c.json({
+      error: 'Not found'
+    }, 404);
+  }
+  // Note: We authenticate whether the user can access this in the `getTeamById` below.
+  const envelopeItem = await prismaWithReplicas.envelopeItem.findFirst({
+    where: {
+      id: envelopeItemId,
+      envelopeId,
+      documentDataId
+    },
+    include: {
+      documentData: true,
+      envelope: {
+        select: {
+          id: true,
+          type: true,
+          teamId: true,
+          templateType: true
+        }
+      }
+    }
+  });
+  if (!envelopeItem) {
+    return c.json({
+      error: 'Not found'
+    }, 404);
+  }
+  // Check whether the user has access to the document.
+  const hasAccess = await checkEnvelopeFileAccess({
+    userId,
+    teamId: envelopeItem.envelope.teamId,
+    envelopeType: envelopeItem.envelope.type,
+    templateType: envelopeItem.envelope.templateType
+  });
+  if (!hasAccess) {
+    return c.json({
+      error: 'Not found'
+    }, 404);
+  }
+  return await handleEnvelopeItemPdfRequest({
+    c,
+    envelopeItem,
+    version,
+    cacheStrategy: 'private'
+  });
+});
+const handleEnvelopeItemPdfRequest = async ({
+  c,
+  envelopeItem,
+  version,
+  cacheStrategy
+}) => {
+  // Determine which PDF data to use based on version requested.
+  const documentDataToUse = version === 'current' ? envelopeItem.documentData.data : envelopeItem.documentData.initialData;
+  const etag = Buffer.from(sha256(documentDataToUse)).toString('hex');
+  if (c.req.header('If-None-Match') === etag) {
+    return c.status(304);
+  }
+  const file = await getFileServerSide({
+    type: envelopeItem.documentData.type,
+    data: documentDataToUse
+  }).catch(error => {
+    console.error(error);
+    return null;
+  });
+  if (!file) {
+    return c.json({
+      error: 'Not found'
+    }, 404);
+  }
+  // Note: Only set these headers on success.
+  c.header('Content-Type', 'application/pdf');
+  c.header('ETag', etag);
+  c.header('Cache-Control', `${cacheStrategy}, max-age=31536000, immutable`);
+  return c.body(file);
+};
+
+export { route as default, handleEnvelopeItemPdfRequest };
+//# sourceMappingURL=get-envelope-item-pdf.js.map

@@ -1,0 +1,1 @@
+function f(t,...r){return typeof t=="string"||typeof t=="number"||typeof t=="symbol"?n=>o(n,t,...r):o(t,...r)}function o(t,...r){let n=t;for(let e of r){if(n==null)return;n=n[e]}return n}export{f as e};

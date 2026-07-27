@@ -1,0 +1,1 @@
+function i(e,r,n){let t=o=>e(o,...r);return n===void 0?t:Object.assign(t,{lazy:n,lazyArgs:r})}function u(e,r,n){let t=e.length-r.length;if(t===0)return e(...r);if(t===1)return i(e,r,n);throw Error("Wrong number of arguments")}export{u as t};

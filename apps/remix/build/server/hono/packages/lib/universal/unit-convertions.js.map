@@ -1,0 +1,1 @@
+{"version":3,"file":"unit-convertions.js","sources":["../../../../../../../../packages/lib/universal/unit-convertions.ts"],"sourcesContent":["export function megabytesToBytes(megabytes: number) {\n  return megabytes * 1000000;\n}\n"],"names":["megabytesToBytes","megabytes"],"mappings":"AAAM,SAAUA,gBAAgBA,CAACC,SAAiB,EAAA;EAChD,OAAOA,SAAS,GAAG,OAAO;AAC5B;;;;"}

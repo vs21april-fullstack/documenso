@@ -1,0 +1,151 @@
+import { AppError, AppErrorCode } from '../../../lib/errors/app-error.js';
+import { getEnvelopeWhereInput } from '../../../lib/server-only/envelope/get-envelope-by-id.js';
+import { getOrganisationTemplateWhereInput } from '../../../lib/server-only/template/get-organisation-template-by-id.js';
+import { prisma as prismaWithReplicas } from '../../../prisma/index.js';
+import { EnvelopeType } from '@prisma/client';
+import { maybeAuthenticatedProcedure } from '../trpc.js';
+import { ZGetEnvelopeItemsByTokenRequestSchema, ZGetEnvelopeItemsByTokenResponseSchema } from './get-envelope-items-by-token.types.js';
+
+// Not intended for V2 API usage.
+// NOTE: THIS IS A PUBLIC PROCEDURE
+const getEnvelopeItemsByTokenRoute = maybeAuthenticatedProcedure.input(ZGetEnvelopeItemsByTokenRequestSchema).output(ZGetEnvelopeItemsByTokenResponseSchema).query(async ({
+  input,
+  ctx
+}) => {
+  const {
+    teamId,
+    user
+  } = ctx;
+  const {
+    envelopeId,
+    access
+  } = input;
+  ctx.logger.info({
+    input: {
+      envelopeId,
+      access
+    }
+  });
+  if (access.type === 'user') {
+    if (!user || !teamId) {
+      throw new AppError(AppErrorCode.UNAUTHORIZED, {
+        message: 'User not found'
+      });
+    }
+    const {
+      envelopeItems: data
+    } = await handleGetEnvelopeItemsByUser({
+      envelopeId,
+      userId: user.id,
+      teamId
+    });
+    return {
+      data
+    };
+  }
+  const {
+    envelopeItems: data
+  } = await handleGetEnvelopeItemsByToken({
+    envelopeId,
+    token: access.token
+  });
+  return {
+    data
+  };
+});
+const handleGetEnvelopeItemsByToken = async ({
+  envelopeId,
+  token
+}) => {
+  const envelope = await prismaWithReplicas.envelope.findFirst({
+    where: {
+      id: envelopeId,
+      type: EnvelopeType.DOCUMENT,
+      // You cannot get template envelope items by token.
+      recipients: {
+        some: {
+          token
+        }
+      }
+    },
+    include: {
+      envelopeItems: {
+        include: {
+          documentData: true
+        }
+      }
+    }
+  });
+  if (!envelope) {
+    throw new AppError(AppErrorCode.NOT_FOUND, {
+      message: 'Envelope could not be found'
+    });
+  }
+  return {
+    envelopeItems: envelope.envelopeItems
+  };
+};
+const handleGetEnvelopeItemsByUser = async ({
+  envelopeId,
+  userId,
+  teamId
+}) => {
+  const {
+    envelopeWhereInput,
+    team: callerTeam
+  } = await getEnvelopeWhereInput({
+    id: {
+      type: 'envelopeId',
+      id: envelopeId
+    },
+    type: null,
+    userId,
+    teamId
+  });
+  // Try the standard team-scoped access path first (owner / current team / team email).
+  let envelope = await prismaWithReplicas.envelope.findUnique({
+    where: envelopeWhereInput,
+    include: {
+      envelopeItems: {
+        include: {
+          documentData: true
+        }
+      }
+    }
+  });
+  // Fallback: if the envelope is an ORGANISATION template owned by a sibling team
+  // in the caller's organisation, allow read access to the items metadata.
+  // Mirrors the access logic used by `createDocumentFromTemplate` and the
+  // file-download endpoint's `checkEnvelopeFileAccess` so this route stays in
+  // sync with where actual file access is granted.
+  if (!envelope) {
+    envelope = await prismaWithReplicas.envelope.findFirst({
+      where: getOrganisationTemplateWhereInput({
+        id: {
+          type: 'envelopeId',
+          id: envelopeId
+        },
+        organisationId: callerTeam.organisationId,
+        teamRole: callerTeam.currentTeamRole
+      }),
+      include: {
+        envelopeItems: {
+          include: {
+            documentData: true
+          }
+        }
+      }
+    });
+  }
+  if (!envelope) {
+    throw new AppError(AppErrorCode.NOT_FOUND, {
+      message: 'Envelope could not be found'
+    });
+  }
+  return {
+    envelopeItems: envelope.envelopeItems
+  };
+};
+
+export { getEnvelopeItemsByTokenRoute };
+//# sourceMappingURL=get-envelope-items-by-token.js.map

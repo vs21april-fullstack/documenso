@@ -1,0 +1,1 @@
+import{i as e}from"./index-browser-CnbpKWEs.js";import{z as a}from"./zod-uOrAM2YC.js";import{o as i,g as o,s as t,a as r}from"./types-GU3YNY2F.js";const s=i({email:a(),name:t(),role:o(e.RecipientRole)}),c=r(s);export{c as Z};

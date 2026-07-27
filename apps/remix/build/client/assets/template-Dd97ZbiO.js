@@ -1,0 +1,1 @@
+const t=/recipient\.\d+@documenso\.com/i,E=/Recipient \d+/i,e=i=>t.test(i),d=[{title:{id:"qChNnS"},description:{id:"eY6ns+"}},{title:{id:"OrcxNk"},description:{id:"GT+2nz"}},{title:{id:"y+hKWu"},description:{id:"JE2qy+"}},{title:{id:"rAqi0g"},description:{id:"bNUpvl"}}];export{d as D,t as T,E as a,e as i};

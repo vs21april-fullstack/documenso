@@ -1,0 +1,32 @@
+import { getDocumentWithDetailsById } from '../../../lib/server-only/document/get-document-with-details-by-id.js';
+import { authenticatedProcedure } from '../trpc.js';
+import { getDocumentMeta, ZGetDocumentRequestSchema, ZGetDocumentResponseSchema } from './get-document.types.js';
+
+const getDocumentRoute = authenticatedProcedure.meta(getDocumentMeta).input(ZGetDocumentRequestSchema).output(ZGetDocumentResponseSchema).query(async ({
+  input,
+  ctx
+}) => {
+  const {
+    teamId,
+    user
+  } = ctx;
+  const {
+    documentId
+  } = input;
+  ctx.logger.info({
+    input: {
+      documentId
+    }
+  });
+  return await getDocumentWithDetailsById({
+    userId: user.id,
+    teamId,
+    id: {
+      type: 'documentId',
+      id: documentId
+    }
+  });
+});
+
+export { getDocumentRoute };
+//# sourceMappingURL=get-document.js.map

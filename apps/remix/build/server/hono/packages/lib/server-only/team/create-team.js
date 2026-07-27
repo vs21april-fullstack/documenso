@@ -1,0 +1,132 @@
+import { AppError, AppErrorCode } from '../../errors/app-error.js';
+import { prisma as prismaWithReplicas } from '../../../prisma/index.js';
+import { OrganisationGroupType, OrganisationMemberRole, TeamMemberRole, Prisma } from '@prisma/client';
+import { match } from 'ts-pattern';
+import { IS_BILLING_ENABLED } from '../../constants/app.js';
+import { LOWEST_ORGANISATION_ROLE, ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '../../constants/organisations.js';
+import { TEAM_INTERNAL_GROUPS } from '../../constants/teams.js';
+import { generateDatabaseId } from '../../universal/id.js';
+import { buildOrganisationWhereQuery } from '../../utils/organisations.js';
+import { generateDefaultTeamSettings } from '../../utils/teams.js';
+
+const createTeam = async ({
+  userId,
+  teamName,
+  teamUrl,
+  organisationId,
+  inheritMembers
+}) => {
+  const organisation = await prismaWithReplicas.organisation.findFirst({
+    where: buildOrganisationWhereQuery({
+      organisationId,
+      userId,
+      roles: ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP['MANAGE_ORGANISATION']
+    }),
+    include: {
+      groups: true,
+      subscription: true,
+      organisationClaim: true,
+      owner: {
+        select: {
+          id: true,
+          name: true,
+          email: true
+        }
+      }
+    }
+  });
+  if (!organisation) {
+    throw new AppError(AppErrorCode.NOT_FOUND, {
+      message: 'Organisation not found.'
+    });
+  }
+  // Validate they have enough team slots. 0 means they can create unlimited teams.
+  if (organisation.organisationClaim.teamCount !== 0 && IS_BILLING_ENABLED()) {
+    const teamCount = await prismaWithReplicas.team.count({
+      where: {
+        organisationId
+      }
+    });
+    if (teamCount >= organisation.organisationClaim.teamCount) {
+      throw new AppError(AppErrorCode.LIMIT_EXCEEDED, {
+        message: 'You have reached the maximum number of teams for your plan.'
+      });
+    }
+  }
+  // Inherit internal organisation groups to the team.
+  // Organisation Admins/Mangers get assigned as team admins, members get assigned as team members.
+  const internalOrganisationGroups = organisation.groups.filter(group => {
+    if (group.type !== OrganisationGroupType.INTERNAL_ORGANISATION) {
+      return false;
+    }
+    // If we're inheriting members, allow all internal organisation groups.
+    if (inheritMembers) {
+      return true;
+    }
+    // Otherwise, only inherit organisation admins/managers.
+    return group.organisationRole === OrganisationMemberRole.ADMIN || group.organisationRole === OrganisationMemberRole.MANAGER;
+  }).map(group => match(group.organisationRole).with(OrganisationMemberRole.ADMIN, OrganisationMemberRole.MANAGER, () => ({
+    organisationGroupId: group.id,
+    teamRole: TeamMemberRole.ADMIN
+  })).with(OrganisationMemberRole.MEMBER, () => ({
+    organisationGroupId: group.id,
+    teamRole: TeamMemberRole.MEMBER
+  })).exhaustive());
+  await prismaWithReplicas.$transaction(async tx => {
+    const teamSettings = await tx.teamGlobalSettings.create({
+      data: {
+        ...generateDefaultTeamSettings(),
+        defaultRecipients: Prisma.DbNull,
+        id: generateDatabaseId('team_setting')
+      }
+    });
+    const team = await tx.team.create({
+      data: {
+        name: teamName,
+        url: teamUrl,
+        organisationId,
+        teamGlobalSettingsId: teamSettings.id,
+        teamGroups: {
+          createMany: {
+            // Attach the internal organisation groups to the team.
+            data: internalOrganisationGroups.map(group => ({
+              ...group,
+              id: generateDatabaseId('team_group')
+            }))
+          }
+        }
+      },
+      include: {
+        teamGroups: true
+      }
+    });
+    // Create the internal team groups.
+    await Promise.all(TEAM_INTERNAL_GROUPS.map(async teamGroup => tx.organisationGroup.create({
+      data: {
+        id: generateDatabaseId('org_group'),
+        type: teamGroup.type,
+        organisationRole: LOWEST_ORGANISATION_ROLE,
+        organisationId,
+        teamGroups: {
+          create: {
+            id: generateDatabaseId('team_group'),
+            teamId: team.id,
+            teamRole: teamGroup.teamRole
+          }
+        }
+      }
+    })));
+  }, {
+    timeout: 7500
+  }).catch(err => {
+    if (err.code === 'P2002') {
+      throw new AppError(AppErrorCode.ALREADY_EXISTS, {
+        message: 'Team URL already exists'
+      });
+    }
+    throw err;
+  });
+};
+
+export { createTeam };
+//# sourceMappingURL=create-team.js.map

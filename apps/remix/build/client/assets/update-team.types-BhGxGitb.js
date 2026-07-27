@@ -1,0 +1,1 @@
+import{Z as o}from"./name-B9Bt3kH5.js";import{Z as t}from"./schema-C5YC7Ppz.js";import{o as a,b as s,s as m,n as r,v as p}from"./types-GU3YNY2F.js";const e=256,c=a({teamId:r(),data:a({name:o.optional(),url:t.optional(),profileBio:m().max(e,{message:`Bio must be shorter than ${e+1} characters`}).optional(),profileEnabled:s().optional()})});p();export{e as M,c as Z};

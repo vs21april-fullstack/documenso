@@ -1,0 +1,1 @@
+const d=({filename:n,data:o})=>{if(typeof window>"u")throw new Error("downloadFile can only be called in browser environments");const e=window.document.createElement("a");e.href=window.URL.createObjectURL(o),e.download=n,e.click(),window.URL.revokeObjectURL(e.href)};export{d};

@@ -1,0 +1,162 @@
+import { AppError, AppErrorCode } from '../../../lib/errors/app-error.js';
+import { buildOrganisationWhereQuery } from '../../../lib/utils/organisations.js';
+import { prisma as prismaWithReplicas } from '../../../prisma/index.js';
+import { authenticatedProcedure } from '../trpc.js';
+import { ZFindOrganisationGroupsRequestSchema, ZFindOrganisationGroupsResponseSchema } from './find-organisation-groups.types.js';
+
+const findOrganisationGroupsRoute = authenticatedProcedure
+// .meta(findOrganisationGroupsMeta)
+.input(ZFindOrganisationGroupsRequestSchema).output(ZFindOrganisationGroupsResponseSchema).query(async ({
+  input,
+  ctx
+}) => {
+  const {
+    organisationId,
+    types,
+    query,
+    page,
+    perPage,
+    organisationGroupId,
+    organisationRoles,
+    excludeTeamId
+  } = input;
+  const {
+    user
+  } = ctx;
+  ctx.logger.info({
+    input: {
+      organisationId
+    }
+  });
+  return await findOrganisationGroups({
+    userId: user.id,
+    organisationId,
+    organisationGroupId,
+    organisationRoles,
+    types,
+    query,
+    page,
+    perPage,
+    excludeTeamId
+  });
+});
+const findOrganisationGroups = async ({
+  userId,
+  organisationId,
+  organisationGroupId,
+  organisationRoles = [],
+  types = [],
+  query,
+  page = 1,
+  perPage = 10,
+  excludeTeamId
+}) => {
+  const organisation = await prismaWithReplicas.organisation.findFirst({
+    where: buildOrganisationWhereQuery({
+      organisationId,
+      userId
+    })
+  });
+  if (!organisation) {
+    throw new AppError(AppErrorCode.NOT_FOUND);
+  }
+  const whereClause = {
+    organisationId: organisation.id,
+    type: types.length > 0 ? {
+      in: types
+    } : undefined,
+    organisationRole: organisationRoles.length > 0 ? {
+      in: organisationRoles
+    } : undefined,
+    id: organisationGroupId
+  };
+  if (query) {
+    whereClause.name = {
+      contains: query
+    };
+  }
+  // Exclude organisation groups that already have a team-group entry pointing
+  // at the given team — i.e. they're already attached.
+  if (excludeTeamId !== undefined) {
+    whereClause.teamGroups = {
+      none: {
+        teamId: excludeTeamId
+      }
+    };
+  }
+  const [data, count] = await Promise.all([prismaWithReplicas.organisationGroup.findMany({
+    where: whereClause,
+    skip: Math.max(page - 1, 0) * perPage,
+    take: perPage,
+    orderBy: {
+      name: 'desc'
+    },
+    select: {
+      id: true,
+      name: true,
+      type: true,
+      organisationId: true,
+      organisationRole: true,
+      teamGroups: {
+        select: {
+          id: true,
+          teamId: true,
+          teamRole: true,
+          team: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
+        }
+      },
+      organisationGroupMembers: {
+        select: {
+          organisationMember: {
+            select: {
+              id: true,
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  name: true,
+                  avatarImageId: true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }), prismaWithReplicas.organisationGroup.count({
+    where: whereClause
+  })]);
+  const mappedData = data.map(group => ({
+    ...group,
+    teams: group.teamGroups.map(teamGroup => ({
+      id: teamGroup.team.id,
+      name: teamGroup.team.name,
+      teamGroupId: teamGroup.id,
+      teamRole: teamGroup.teamRole
+    })),
+    members: group.organisationGroupMembers.map(({
+      organisationMember
+    }) => ({
+      id: organisationMember.id,
+      userId: organisationMember.user.id,
+      name: organisationMember.user.name || '',
+      email: organisationMember.user.email,
+      avatarImageId: organisationMember.user.avatarImageId
+    }))
+  }));
+  return {
+    data: mappedData,
+    count,
+    currentPage: Math.max(page, 1),
+    perPage,
+    totalPages: Math.ceil(count / perPage)
+  };
+};
+
+export { findOrganisationGroups, findOrganisationGroupsRoute };
+//# sourceMappingURL=find-organisation-groups.js.map
