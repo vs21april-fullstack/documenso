@@ -17,6 +17,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useHref,
   useMatches,
 } from 'react-router';
 import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from 'remix-themes';
@@ -110,6 +111,10 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
   } = useLoaderData<typeof loader>() || {};
 
   const [theme] = useTheme();
+  const appleTouchIconHref = useHref('/apple-touch-icon.png');
+  const favicon32Href = useHref('/favicon-32x32.png');
+  const favicon16Href = useHref('/favicon-16x16.png');
+  const manifestHref = useHref('/site.webmanifest');
 
   // Recipient routes (signing pages) put `documenso-branded` on <body> so the
   // <style> block from `RecipientBranding` applies to BOTH the main tree and
@@ -126,11 +131,11 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
     <html translate="no" lang={lang} data-theme={theme} className={theme ?? ''} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIconHref} />
+        <link rel="icon" type="image/png" sizes="32x32" href={favicon32Href} />
+        <link rel="icon" type="image/png" sizes="16x16" href={favicon16Href} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href={manifestHref} />
         <meta name="google" content="notranslate" />
         <Meta />
         <Links nonce={nonce(cspNonce)} />

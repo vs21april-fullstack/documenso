@@ -1,1 +1,0 @@
-import{w as t,O as s}from"./chunk-KS7C4IRE-BKI2UTax.js";import{j as e}from"./jsx-runtime-BBryS-eQ.js";const i=t(function(){return e.jsx("main",{className:"relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-12 md:p-12 lg:p-24",children:e.jsx("div",{className:"relative w-full",children:e.jsx(s,{})})})});export{i as default};

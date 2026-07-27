@@ -1,0 +1,1 @@
+import{u as n}from"./chunk-KS7C4IRE-DVEX7FC-.js";const m=()=>{const[s,t]=n();return c=>{const r=new URLSearchParams(s?.toString()??"");Object.entries(c).forEach(([e,a])=>{a==null?r.delete(e):r.set(e,String(a))}),t(r)}};export{m as u};
