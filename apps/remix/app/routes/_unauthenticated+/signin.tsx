@@ -29,7 +29,11 @@ export function meta() {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const { isAuthenticated } = await getOptionalSession(request);
+  const { isAuthenticated } = await getOptionalSession(request).catch(() => ({
+    isAuthenticated: false as const,
+    session: null,
+    user: null,
+  }));
 
   // SSR env variables.
   const isEmailPasswordSigninEnabled = isSigninEnabledForProvider('email');
