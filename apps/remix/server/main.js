@@ -31,6 +31,23 @@ server.use(
 
 const handler = handle(build, server, { getLoadContext });
 
+const applyBasenameToRedirect = async (responsePromise, basename) => {
+  const response = await responsePromise;
+  const location = response.headers.get('Location');
+
+  if (
+    basename &&
+    location?.startsWith('/') &&
+    !location.startsWith('//') &&
+    location !== basename &&
+    !location.startsWith(`${basename}/`)
+  ) {
+    response.headers.set('Location', `${basename}${location}`);
+  }
+
+  return response;
+};
+
 const fetch = (request) => {
   const url = new URL(request.url);
   const basename = build.basename.replace(/\/$/, '');
@@ -65,16 +82,16 @@ const fetch = (request) => {
   if (hasBasename && (isHonoApiRequest || isStaticAssetRequest)) {
     url.pathname = appPath;
 
-    return handler.fetch(new Request(url, request));
+    return applyBasenameToRedirect(handler.fetch(new Request(url, request)), basename);
   }
 
   if (build.basename === '/' || hasBasename || isHonoApiRequest || isStaticAssetRequest) {
-    return handler.fetch(isTrpcBatchRequest ? new Request(url, request) : request);
+    return applyBasenameToRedirect(handler.fetch(isTrpcBatchRequest ? new Request(url, request) : request), basename);
   }
 
   url.pathname = `${basename}${url.pathname}`;
 
-  return handler.fetch(new Request(url, request));
+  return applyBasenameToRedirect(handler.fetch(new Request(url, request)), basename);
 };
 
 const port = parseInt(process.env.PORT || '3000', 10);
