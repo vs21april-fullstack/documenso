@@ -33,22 +33,26 @@ const handler = handle(build, server, { getLoadContext });
 
 const fetch = async (request) => {
   const url = new URL(request.url);
-  const isApiRequest = url.pathname === '/api' || url.pathname.startsWith('/api/');
+  const basename = build.basename.replace(/\/$/, '');
+  const hasBasename = url.pathname === basename || url.pathname.startsWith(`${basename}/`);
+  const appPath = hasBasename ? url.pathname.slice(basename.length) || '/' : url.pathname;
+  const isApiRequest = appPath === '/api' || appPath.startsWith('/api/');
   const isStaticAssetRequest =
-    url.pathname.startsWith('/assets/') ||
-    url.pathname.startsWith('/fonts/') ||
-    (!url.pathname.endsWith('.data') && /\/[^/]+\.[a-z0-9]+$/i.test(url.pathname));
+    appPath.startsWith('/assets/') ||
+    appPath.startsWith('/fonts/') ||
+    (!appPath.endsWith('.data') && /\/[^/]+\.[a-z0-9]+$/i.test(appPath));
 
-  if (
-    build.basename === '/' ||
-    url.pathname.startsWith(build.basename) ||
-    isApiRequest ||
-    isStaticAssetRequest
-  ) {
+  if (hasBasename && (isApiRequest || isStaticAssetRequest)) {
+    url.pathname = appPath;
+
+    return handler.fetch(new Request(url, request));
+  }
+
+  if (build.basename === '/' || hasBasename || isApiRequest || isStaticAssetRequest) {
     return handler.fetch(request);
   }
 
-  url.pathname = `${build.basename}${url.pathname}`;
+  url.pathname = `${basename}${url.pathname}`;
 
   return handler.fetch(new Request(url, request));
 };
