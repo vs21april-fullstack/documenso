@@ -1,7 +1,7 @@
 import { getBaseUrl } from '@documenso/lib/universal/get-base-url';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { httpBatchLink, httpLink, isNonJsonSerializable, splitLink } from '@trpc/client';
+import { httpLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useMemo, useState } from 'react';
 
@@ -42,18 +42,10 @@ export function TrpcProvider({ children, headers }: TrpcProviderProps) {
     () =>
       trpc.createClient({
         links: [
-          splitLink({
-            condition: (op) => op.context.skipBatch === true || isNonJsonSerializable(op.input),
-            true: httpLink({
-              url: `${getBaseUrl()}/api/trpc`,
-              headers,
-              transformer: dataTransformer,
-            }),
-            false: httpBatchLink({
-              url: `${getBaseUrl()}/api/trpc`,
-              headers,
-              transformer: dataTransformer,
-            }),
+          httpLink({
+            url: `${getBaseUrl()}/api/trpc`,
+            headers,
+            transformer: dataTransformer,
           }),
         ],
       }),

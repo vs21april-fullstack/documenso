@@ -31,7 +31,7 @@ server.use(
 
 const handler = handle(build, server, { getLoadContext });
 
-const fetch = async (request) => {
+const fetch = (request) => {
   const url = new URL(request.url);
   const basename = build.basename.replace(/\/$/, '');
   const hasBasename = url.pathname === basename || url.pathname.startsWith(`${basename}/`);
@@ -47,9 +47,16 @@ const fetch = async (request) => {
     '/api/v2',
     '/api/v2-beta',
   ];
-  const isHonoApiRequest = honoApiPrefixes.some(
-    (prefix) => appPath === prefix || appPath.startsWith(`${prefix}/`),
-  );
+  const isHonoApiRequest = honoApiPrefixes.some((prefix) => appPath === prefix || appPath.startsWith(`${prefix}/`));
+  const isTrpcBatchRequest = appPath.startsWith('/api/trpc/') && appPath.slice('/api/trpc/'.length).includes(',');
+
+  // Some published-app proxies consume the `batch` query parameter before
+  // forwarding the request. tRPC then interprets the comma-separated procedure
+  // list as a single procedure and returns a misleading 404.
+  if (isTrpcBatchRequest && !url.searchParams.has('batch')) {
+    url.searchParams.set('batch', '1');
+  }
+
   const isStaticAssetRequest =
     appPath.startsWith('/assets/') ||
     appPath.startsWith('/fonts/') ||
@@ -62,7 +69,7 @@ const fetch = async (request) => {
   }
 
   if (build.basename === '/' || hasBasename || isHonoApiRequest || isStaticAssetRequest) {
-    return handler.fetch(request);
+    return handler.fetch(isTrpcBatchRequest ? new Request(url, request) : request);
   }
 
   url.pathname = `${basename}${url.pathname}`;

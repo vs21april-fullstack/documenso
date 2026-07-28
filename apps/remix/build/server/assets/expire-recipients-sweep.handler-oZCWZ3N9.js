@@ -1,4 +1,5 @@
-import { aY, aZ, a_, a$, b0, b1, b2, b3, b4, b5, b6, b7 } from "./assets/server-build-BNe-XpRU.js";
+import { p as prismaWithReplicas, J as jobs } from "./server-build-BNe-XpRU.js";
+import { DocumentStatus, SigningStatus } from "@prisma/client";
 import "react/jsx-runtime";
 import "node:stream";
 import "zod";
@@ -9,7 +10,6 @@ import "@react-router/node";
 import "isbot";
 import "react-dom/server";
 import "react-router";
-import "@prisma/client";
 import "@prisma/extension-read-replicas";
 import "kysely";
 import "prisma-extension-kysely";
@@ -117,17 +117,43 @@ import "satori";
 import "node:fs";
 import "stripe";
 import "jose";
+const run = async ({
+  io
+}) => {
+  const now = /* @__PURE__ */ new Date();
+  const expiredRecipients = await prismaWithReplicas.recipient.findMany({
+    where: {
+      expiresAt: {
+        lte: now
+      },
+      expirationNotifiedAt: null,
+      signingStatus: {
+        notIn: [SigningStatus.SIGNED, SigningStatus.REJECTED]
+      },
+      envelope: {
+        status: DocumentStatus.PENDING
+      }
+    },
+    select: {
+      id: true
+    },
+    take: 1e3
+    // Limit to 1000 to avoid long-running jobs. Will be picked up in the next run if there are more.
+  });
+  if (expiredRecipients.length === 0) {
+    io.logger.info("No expired recipients found");
+    return;
+  }
+  io.logger.info(`Found ${expiredRecipients.length} expired recipients`);
+  await Promise.allSettled(expiredRecipients.map(async (recipient) => {
+    await jobs.triggerJob({
+      name: "internal.process-recipient-expired",
+      payload: {
+        recipientId: recipient.id
+      }
+    });
+  }));
+};
 export {
-  aY as allowedActionOrigins,
-  aZ as assets,
-  a_ as assetsBuildDirectory,
-  a$ as basename,
-  b0 as entry,
-  b1 as future,
-  b2 as isSpaMode,
-  b3 as prerender,
-  b4 as publicPath,
-  b5 as routeDiscovery,
-  b6 as routes,
-  b7 as ssr
+  run
 };

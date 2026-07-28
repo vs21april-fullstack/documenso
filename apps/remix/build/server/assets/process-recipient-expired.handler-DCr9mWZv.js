@@ -1,4 +1,5 @@
-import { aY, aZ, a_, a$, b0, b1, b2, b3, b4, b5, b6, b7 } from "./assets/server-build-BNe-XpRU.js";
+import { p as prismaWithReplicas, k as createDocumentAuditLogData, l as DOCUMENT_AUDIT_LOG_TYPE, ab as triggerWebhook, ac as ZWebhookDocumentSchema, ad as mapEnvelopeToWebhookDocumentPayload, J as jobs } from "./server-build-BNe-XpRU.js";
+import { SigningStatus, WebhookTriggerEvents } from "@prisma/client";
 import "react/jsx-runtime";
 import "node:stream";
 import "zod";
@@ -9,7 +10,6 @@ import "@react-router/node";
 import "isbot";
 import "react-dom/server";
 import "react-router";
-import "@prisma/client";
 import "@prisma/extension-read-replicas";
 import "kysely";
 import "prisma-extension-kysely";
@@ -117,17 +117,76 @@ import "satori";
 import "node:fs";
 import "stripe";
 import "jose";
+const run = async ({
+  payload,
+  io
+}) => {
+  const {
+    recipientId
+  } = payload;
+  const claimedCount = await io.runTask("claim-recipient", async () => {
+    const result = await prismaWithReplicas.recipient.updateMany({
+      where: {
+        id: recipientId,
+        expirationNotifiedAt: null,
+        signingStatus: {
+          notIn: [SigningStatus.SIGNED, SigningStatus.REJECTED]
+        }
+      },
+      data: {
+        expirationNotifiedAt: /* @__PURE__ */ new Date()
+      }
+    });
+    return result.count;
+  });
+  if (claimedCount === 0) {
+    io.logger.info(`Recipient ${recipientId} already processed or no longer eligible, skipping`);
+    return;
+  }
+  const recipient = await prismaWithReplicas.recipient.findUniqueOrThrow({
+    where: {
+      id: recipientId
+    },
+    include: {
+      envelope: {
+        include: {
+          recipients: true,
+          documentMeta: true
+        }
+      }
+    }
+  });
+  const {
+    envelope
+  } = recipient;
+  io.logger.info(`Recipient ${recipientId} (${recipient.email}) expired on envelope ${recipient.envelopeId}`);
+  await io.runTask("create-audit-log", async () => {
+    await prismaWithReplicas.documentAuditLog.create({
+      data: createDocumentAuditLogData({
+        type: DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_EXPIRED,
+        envelopeId: recipient.envelopeId,
+        data: {
+          recipientEmail: recipient.email,
+          recipientName: recipient.name,
+          recipientId: recipient.id
+        }
+      })
+    });
+  });
+  await triggerWebhook({
+    event: WebhookTriggerEvents.RECIPIENT_EXPIRED,
+    data: ZWebhookDocumentSchema.parse(mapEnvelopeToWebhookDocumentPayload(envelope)),
+    userId: envelope.userId,
+    teamId: envelope.teamId
+  });
+  await jobs.triggerJob({
+    name: "send.owner.recipient.expired.email",
+    payload: {
+      recipientId: recipient.id,
+      envelopeId: recipient.envelopeId
+    }
+  });
+};
 export {
-  aY as allowedActionOrigins,
-  aZ as assets,
-  a_ as assetsBuildDirectory,
-  a$ as basename,
-  b0 as entry,
-  b1 as future,
-  b2 as isSpaMode,
-  b3 as prerender,
-  b4 as publicPath,
-  b5 as routeDiscovery,
-  b6 as routes,
-  b7 as ssr
+  run
 };
