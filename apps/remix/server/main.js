@@ -36,19 +36,32 @@ const fetch = async (request) => {
   const basename = build.basename.replace(/\/$/, '');
   const hasBasename = url.pathname === basename || url.pathname.startsWith(`${basename}/`);
   const appPath = hasBasename ? url.pathname.slice(basename.length) || '/' : url.pathname;
-  const isApiRequest = appPath === '/api' || appPath.startsWith('/api/');
+  const honoApiPrefixes = [
+    '/api/ai',
+    '/api/auth',
+    '/api/csc',
+    '/api/files',
+    '/api/jobs',
+    '/api/trpc',
+    '/api/v1',
+    '/api/v2',
+    '/api/v2-beta',
+  ];
+  const isHonoApiRequest = honoApiPrefixes.some(
+    (prefix) => appPath === prefix || appPath.startsWith(`${prefix}/`),
+  );
   const isStaticAssetRequest =
     appPath.startsWith('/assets/') ||
     appPath.startsWith('/fonts/') ||
     (!appPath.endsWith('.data') && /\/[^/]+\.[a-z0-9]+$/i.test(appPath));
 
-  if (hasBasename && (isApiRequest || isStaticAssetRequest)) {
+  if (hasBasename && (isHonoApiRequest || isStaticAssetRequest)) {
     url.pathname = appPath;
 
     return handler.fetch(new Request(url, request));
   }
 
-  if (build.basename === '/' || hasBasename || isApiRequest || isStaticAssetRequest) {
+  if (build.basename === '/' || hasBasename || isHonoApiRequest || isStaticAssetRequest) {
     return handler.fetch(request);
   }
 
