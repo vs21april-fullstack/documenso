@@ -8,7 +8,7 @@ import type { AuthAppType } from '../server';
 import type { SessionValidationResult } from '../server/lib/session/session';
 import type { PartialAccount } from '../server/lib/utils/get-accounts';
 import type { ActiveSession } from '../server/lib/utils/get-session';
-import { handleSignInRedirect } from '../server/lib/utils/redirect';
+import { handleRequestRedirect, handleSignInRedirect } from '../server/lib/utils/redirect';
 import type {
   TDisableTwoFactorRequestSchema,
   TEnableTwoFactorRequestSchema,
@@ -45,7 +45,7 @@ export class AuthClient {
   public async signOut({ redirectPath }: { redirectPath?: string } = {}) {
     await this.client.signout.$post();
 
-    window.location.href = redirectPath ?? this.signOutredirectPath;
+    handleRequestRedirect(redirectPath ?? this.signOutredirectPath);
   }
 
   public async signOutAllSessions() {
@@ -58,7 +58,7 @@ export class AuthClient {
     });
 
     if (redirectPath) {
-      window.location.href = redirectPath;
+      handleRequestRedirect(redirectPath);
     }
   }
 

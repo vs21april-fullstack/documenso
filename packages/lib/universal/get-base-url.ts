@@ -4,13 +4,13 @@ import { env } from '../utils/env';
 
 export const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
-    return '';
+    return NEXT_PUBLIC_WEBAPP_URL().replace(/\/$/, '');
   }
 
   const webAppUrl = NEXT_PUBLIC_WEBAPP_URL();
 
   if (webAppUrl) {
-    return webAppUrl;
+    return webAppUrl.replace(/\/$/, '');
   }
 
   return `http://localhost:${env('PORT') ?? 3000}`;

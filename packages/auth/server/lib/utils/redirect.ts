@@ -1,5 +1,24 @@
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 
+const resolveWebAppRedirect = (redirectUrl: string) => {
+  const webAppUrl = new URL(NEXT_PUBLIC_WEBAPP_URL());
+  const basePath = webAppUrl.pathname.replace(/\/$/, '');
+
+  if (redirectUrl.startsWith('/')) {
+    webAppUrl.pathname = `${basePath}${redirectUrl}`;
+    webAppUrl.search = '';
+    webAppUrl.hash = '';
+
+    return webAppUrl.toString();
+  }
+
+  const url = new URL(redirectUrl, `${webAppUrl.toString().replace(/\/$/, '')}/`);
+  const isWithinWebApp =
+    url.origin === webAppUrl.origin && (url.pathname === basePath || url.pathname.startsWith(`${basePath}/`));
+
+  return isWithinWebApp ? url.toString() : webAppUrl.toString();
+};
+
 /**
  * Handle an optional redirect path.
  */
@@ -8,21 +27,9 @@ export const handleRequestRedirect = (redirectUrl?: string) => {
     return;
   }
 
-  const url = new URL(redirectUrl, NEXT_PUBLIC_WEBAPP_URL());
-
-  if (url.origin !== NEXT_PUBLIC_WEBAPP_URL()) {
-    window.location.href = '/';
-  } else {
-    window.location.href = redirectUrl;
-  }
+  window.location.href = resolveWebAppRedirect(redirectUrl);
 };
 
 export const handleSignInRedirect = (redirectUrl: string = '/') => {
-  const url = new URL(redirectUrl, NEXT_PUBLIC_WEBAPP_URL());
-
-  if (url.origin !== NEXT_PUBLIC_WEBAPP_URL()) {
-    window.location.href = '/';
-  } else {
-    window.location.href = redirectUrl;
-  }
+  window.location.href = resolveWebAppRedirect(redirectUrl);
 };

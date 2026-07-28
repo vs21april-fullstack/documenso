@@ -12,7 +12,7 @@ export type GetLimitsOptions = {
 export const getLimits = async ({ headers, teamId }: GetLimitsOptions) => {
   const requestHeaders = headers ?? {};
 
-  const url = new URL('/api/limits', NEXT_PUBLIC_WEBAPP_URL());
+  const url = new URL(`${NEXT_PUBLIC_WEBAPP_URL().replace(/\/$/, '')}/api/limits`);
 
   if (teamId) {
     requestHeaders['team-id'] = teamId.toString();

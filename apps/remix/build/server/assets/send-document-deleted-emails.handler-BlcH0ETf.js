@@ -1,10 +1,33 @@
-import { aY, aZ, a_, a$, b0, b1, b2, b3, b4, b5, b6, b7 } from "./assets/server-build-DXgNBSZi.js";
+import { D as DocumentCancelTemplate } from "./document-cancel-gxwxtR1I.js";
+import { createElement } from "react";
+import { g as getI18nInstance, r as renderEmailWithI18N } from "./render-email-with-i18n-5RXJ57wn.js";
+import { N as NEXT_PUBLIC_WEBAPP_URL, i as isRecipientEmailValidForSending } from "./server-build-DXgNBSZi.js";
+import { g as getEmailContext } from "./get-email-context-Co3w5C6g.js";
 import "react/jsx-runtime";
+import "@lingui/react";
+import "@react-email/body";
+import "@react-email/container";
+import "@react-email/head";
+import "@react-email/hr";
+import "@react-email/html";
+import "@react-email/preview";
+import "@react-email/section";
+import "./template-branding-logo-XqGaEo9p.js";
+import "@react-email/img";
+import "@react-email/link";
+import "@react-email/text";
+import "./template-document-image-d_zk9qBW.js";
+import "@react-email/column";
+import "@react-email/row";
+import "@documenso/nodemailer-resend";
+import "nodemailer";
+import "colord";
+import "@react-email/render";
+import "@react-email/tailwind";
+import "@lingui/core";
 import "node:stream";
 import "zod";
-import "@lingui/core";
 import "ts-pattern";
-import "@lingui/react";
 import "@react-router/node";
 import "isbot";
 import "react-dom/server";
@@ -20,7 +43,6 @@ import "hono/cookie";
 import "hono/client";
 import "superjson";
 import "@trpc/client";
-import "react";
 import "@tanstack/react-query";
 import "@trpc/react-query";
 import "@vvo/tzdb";
@@ -94,7 +116,6 @@ import "react-dom";
 import "uqr";
 import "@simplewebauthn/browser";
 import "remeda";
-import "colord";
 import "konva";
 import "@radix-ui/react-separator";
 import "@hello-pangea/dnd";
@@ -117,17 +138,79 @@ import "satori";
 import "node:fs";
 import "stripe";
 import "jose";
+const run = async ({
+  payload,
+  io
+}) => {
+  const {
+    teamId,
+    documentName,
+    inviterName,
+    inviterEmail,
+    meta,
+    recipients
+  } = payload;
+  if (recipients.length === 0) {
+    return;
+  }
+  const {
+    branding,
+    emailLanguage,
+    senderEmail,
+    replyToEmail,
+    emailsDisabled,
+    emailTransport
+  } = await getEmailContext({
+    emailType: "RECIPIENT",
+    source: {
+      type: "team",
+      teamId
+    },
+    meta
+  });
+  if (emailsDisabled) {
+    return;
+  }
+  const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || "http://localhost:3000";
+  const i18n = await getI18nInstance(emailLanguage);
+  for (const recipient of recipients) {
+    await io.runTask(`send-document-deleted-emails-${recipient.email}`, async () => {
+      if (!isRecipientEmailValidForSending(recipient)) {
+        return;
+      }
+      const template = createElement(DocumentCancelTemplate, {
+        documentName,
+        inviterName: inviterName || void 0,
+        inviterEmail,
+        assetBaseUrl
+      });
+      const [html, text] = await Promise.all([renderEmailWithI18N(template, {
+        lang: emailLanguage,
+        branding
+      }), renderEmailWithI18N(template, {
+        lang: emailLanguage,
+        branding,
+        plainText: true
+      })]);
+      await emailTransport.sendMail({
+        to: {
+          address: recipient.email,
+          name: recipient.name
+        },
+        from: senderEmail,
+        replyTo: replyToEmail,
+        subject: i18n._(
+          /*i18n*/
+          {
+            id: "Kvf7iA"
+          }
+        ),
+        html,
+        text
+      });
+    });
+  }
+};
 export {
-  aY as allowedActionOrigins,
-  aZ as assets,
-  a_ as assetsBuildDirectory,
-  a$ as basename,
-  b0 as entry,
-  b1 as future,
-  b2 as isSpaMode,
-  b3 as prerender,
-  b4 as publicPath,
-  b5 as routeDiscovery,
-  b6 as routes,
-  b7 as ssr
+  run
 };
