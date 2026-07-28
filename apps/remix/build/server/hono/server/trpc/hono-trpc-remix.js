@@ -9,6 +9,7 @@ import { trpcServer } from '@hono/trpc-server';
 const reactRouterTrpcServer = trpcServer({
   router: appRouter,
   endpoint: '/api/trpc',
+  allowMethodOverride: true,
   createContext: async (_, c) => createTrpcContext({
     c,
     requestSource: 'app'

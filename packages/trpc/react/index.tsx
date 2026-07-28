@@ -45,6 +45,7 @@ export function TrpcProvider({ children, headers }: TrpcProviderProps) {
           httpLink({
             url: `${getBaseUrl()}/api/trpc`,
             headers,
+            methodOverride: 'POST',
             transformer: dataTransformer,
           }),
         ],

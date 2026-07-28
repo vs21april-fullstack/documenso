@@ -8,6 +8,7 @@ export const trpc = createTRPCClient<AppRouter>({
   links: [
     httpLink({
       url: `${getBaseUrl()}/api/trpc`,
+      methodOverride: 'POST',
       transformer: dataTransformer,
       headers: (opts) => {
         if (typeof opts.op.context.teamId === 'string') {
