@@ -54,6 +54,17 @@ const FRAMEABLE_PATH_REGEX = /^\/(signin|forgot-password|check-email|unverified-
  */
 export const CSP_NONCE_KEY = 'cspNonce' as const;
 
+/**
+ * Omni injects a small base-path bootstrap into published-app HTML after the
+ * application response leaves this server. Since that outer proxy cannot read
+ * our per-request nonce, authorize the immutable bootstrap by content hash.
+ *
+ * Without this hash the browser blocks the bootstrap before hydration, which
+ * leaves React Router with unrewritten URLs and causes React hydration errors
+ * 418/423. A hash keeps arbitrary inline scripts blocked.
+ */
+const PUBLISHED_APP_BOOTSTRAP_HASH = `'sha256-9ZQjCuDfoGf4HomjUTruyldIbQlmCR3Y+9zR5myXFWg='`;
+
 const generateNonce = () => {
   const buf = new Uint8Array(16);
   crypto.getRandomValues(buf);
@@ -78,7 +89,7 @@ const buildCspHeader = ({ nonce, kind }: { nonce: string; kind: CspPathKind }) =
     `base-uri 'self'`,
     `object-src 'none'`,
     `form-action 'self'`,
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    `script-src 'self' 'nonce-${nonce}' ${PUBLISHED_APP_BOOTSTRAP_HASH} 'strict-dynamic'`,
     // PDF.js (apps/remix/app/components/general/pdf-viewer/pdf-viewer.tsx)
     // creates a Web Worker via `new Worker(url)`. `'strict-dynamic'` does
     // not reliably propagate to worker creation across browsers, and
