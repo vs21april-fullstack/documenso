@@ -33,6 +33,14 @@ type TPasskeySignin = InferRequestType<AuthClientType['passkey']['authorize']['$
   redirectPath?: string;
 };
 
+const getAuthBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return `${NEXT_PUBLIC_WEBAPP_URL().replace(/\/$/, '')}/api/auth`;
+  }
+
+  return `${window.location.origin}/api/auth`;
+};
+
 export class AuthClient {
   public client: AuthClientType;
 
@@ -357,5 +365,5 @@ export class AuthClient {
 }
 
 export const authClient = new AuthClient({
-  baseUrl: `${NEXT_PUBLIC_WEBAPP_URL()}/api/auth`,
+  baseUrl: getAuthBaseUrl(),
 });
