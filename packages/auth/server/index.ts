@@ -1,6 +1,7 @@
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { extractRequestMetadata } from '@documenso/lib/universal/extract-request-metadata';
+import { env } from '@documenso/lib/utils/env';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
@@ -16,6 +17,20 @@ import { signOutRoute } from './routes/sign-out';
 import { twoFactorRoute } from './routes/two-factor';
 import type { HonoAuthContext } from './types/context';
 
+const isLocalDevelopmentOrigin = (origin: string) => {
+  if (env('NODE_ENV') === 'production') {
+    return false;
+  }
+
+  try {
+    const { hostname } = new URL(origin);
+
+    return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+  } catch {
+    return false;
+  }
+};
+
 // Note: You must chain routes for Hono RPC client to work.
 export const auth = new Hono<HonoAuthContext>()
   .use(async (c, next) => {
@@ -24,7 +39,7 @@ export const auth = new Hono<HonoAuthContext>()
     const validOrigin = new URL(NEXT_PUBLIC_WEBAPP_URL()).origin;
     const headerOrigin = c.req.header('Origin');
 
-    if (headerOrigin && headerOrigin !== validOrigin) {
+    if (headerOrigin && headerOrigin !== validOrigin && !isLocalDevelopmentOrigin(headerOrigin)) {
       return c.json(
         {
           message: 'Forbidden',
