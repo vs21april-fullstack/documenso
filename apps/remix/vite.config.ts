@@ -15,6 +15,7 @@ const require = createRequire(import.meta.url);
 
 const pdfjsDistPath = path.dirname(require.resolve('pdfjs-dist/package.json'));
 const cMapsDir = normalizePath(path.join(pdfjsDistPath, 'cmaps'));
+const publishedAppBase = '/published-apps/17/160/';
 
 /**
  * Note: We load the env variables externally so we can have runtime enviroment variables
@@ -23,7 +24,7 @@ const cMapsDir = normalizePath(path.join(pdfjsDistPath, 'cmaps'));
  * Do not configure any envs here.
  */
 export default defineConfig({
-  base: '/published-apps/17/160/',
+  base: publishedAppBase,
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
@@ -58,6 +59,8 @@ export default defineConfig({
         ...devServerDefaults.exclude.map((pattern) =>
           pattern instanceof RegExp && pattern.source === '.*\\.css$' ? /^(?!\/api\/jobs\/board\/).*\.css$/ : pattern,
         ),
+        /^\/published-apps\/17\/160\/(?:@fs|@id|@vite|app|assets|fonts|node_modules|static)\//,
+        /^\/published-apps\/17\/160\/(?:apple-touch-icon\.png|favicon(?:-\d+x\d+)?\.(?:ico|png)|site\.webmanifest)$/,
         '/assets/**',
         '/src/app/**',
         /\?(?:inline|url|no-inline|raw|import(?:&(?:inline|url|no-inline|raw)?)?)$/,
