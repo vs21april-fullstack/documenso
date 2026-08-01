@@ -6,6 +6,19 @@ export const APP_DOCUMENT_UPLOAD_SIZE_LIMIT = Number(env('NEXT_PUBLIC_DOCUMENT_S
 
 export const NEXT_PUBLIC_WEBAPP_URL = () => env('NEXT_PUBLIC_WEBAPP_URL') ?? 'http://localhost:3000';
 
+export const PUBLISHED_APP_URL = () => {
+  const webAppUrl = new URL(NEXT_PUBLIC_WEBAPP_URL());
+  const publishedAppBasePath = '/published-apps/17/160/';
+
+  if (!webAppUrl.pathname.startsWith(publishedAppBasePath)) {
+    webAppUrl.pathname = publishedAppBasePath;
+  }
+
+  return webAppUrl.toString();
+};
+
+export const EMAIL_ASSET_BASE_URL = PUBLISHED_APP_URL;
+
 export const NEXT_PUBLIC_SIGNING_CONTACT_INFO = () =>
   env('NEXT_PUBLIC_SIGNING_CONTACT_INFO') ?? NEXT_PUBLIC_WEBAPP_URL();
 

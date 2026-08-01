@@ -13,7 +13,7 @@ import {
 import { createElement } from 'react';
 
 import { getI18nInstance } from '../../../client-only/providers/i18n-server';
-import { NEXT_PUBLIC_WEBAPP_URL } from '../../../constants/app';
+import { EMAIL_ASSET_BASE_URL, PUBLISHED_APP_URL } from '../../../constants/app';
 import { RECIPIENT_ROLE_TO_EMAIL_TYPE, RECIPIENT_ROLES_DESCRIPTION } from '../../../constants/recipient-roles';
 import { buildEnvelopeEmailHeaders } from '../../../server-only/email/build-envelope-email-headers';
 import { getEmailContext } from '../../../server-only/email/get-email-context';
@@ -164,9 +164,9 @@ export const run = async ({ payload, io }: { payload: TSendSigningEmailJobDefini
     'document.name': envelope.title,
   };
 
-  const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';
-  const signDocumentLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}`;
-  const reportUrl = `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}`;
+  const assetBaseUrl = EMAIL_ASSET_BASE_URL();
+  const signDocumentLink = `${PUBLISHED_APP_URL()}sign/${recipient.token}`;
+  const reportUrl = `${PUBLISHED_APP_URL()}report/${recipient.token}`;
 
   const template = createElement(DocumentInviteEmailTemplate, {
     documentName: envelope.title,

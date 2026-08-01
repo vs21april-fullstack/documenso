@@ -6,6 +6,7 @@ import { RECIPIENT_ROLES_DESCRIPTION } from '@documenso/lib/constants/recipient-
 import { isTemplateRecipientEmailPlaceholder } from '@documenso/lib/constants/template';
 import { type TFieldMetaSchema as FieldMeta, ZFieldMetaSchema } from '@documenso/lib/types/field-meta';
 import type { TRecipientLite } from '@documenso/lib/types/recipient';
+import { MIN_FIELD_HEIGHT_PX, MIN_FIELD_WIDTH_PX } from '@documenso/lib/universal/field-renderer/field-renderer';
 import { nanoid } from '@documenso/lib/universal/id';
 import { ADVANCED_FIELD_TYPES_WITH_OPTIONAL_SETTING } from '@documenso/lib/utils/advanced-fields-helpers';
 import { parseMessageDescriptor } from '@documenso/lib/utils/i18n';
@@ -54,11 +55,8 @@ import { Form } from '../form/form';
 import { useStep } from '../stepper';
 import { type TAddTemplateFieldsFormSchema, ZAddTemplateFieldsFormSchema } from './add-template-fields.types';
 
-const MIN_HEIGHT_PX = 12;
-const MIN_WIDTH_PX = 36;
-
-const DEFAULT_HEIGHT_PX = MIN_HEIGHT_PX * 2.5;
-const DEFAULT_WIDTH_PX = MIN_WIDTH_PX * 2.5;
+const DEFAULT_HEIGHT_PX = 30;
+const DEFAULT_WIDTH_PX = 90;
 
 export type AddTemplateFieldsFormProps = {
   documentFlow: DocumentFlowStep;
@@ -549,8 +547,8 @@ export const AddTemplateFieldsFormPartial = ({
                     recipientIndex={recipientIndex === -1 ? 0 : recipientIndex}
                     field={field}
                     disabled={selectedSigner?.id !== field.recipientId}
-                    minHeight={MIN_HEIGHT_PX}
-                    minWidth={MIN_WIDTH_PX}
+                    minHeight={MIN_FIELD_HEIGHT_PX}
+                    minWidth={MIN_FIELD_WIDTH_PX}
                     defaultHeight={DEFAULT_HEIGHT_PX}
                     defaultWidth={DEFAULT_WIDTH_PX}
                     passive={isFieldWithinBounds && !!selectedField}

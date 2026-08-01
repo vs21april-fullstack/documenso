@@ -20,7 +20,7 @@ import {
 import { createElement } from 'react';
 
 import { getI18nInstance } from '../../client-only/providers/i18n-server';
-import { NEXT_PUBLIC_WEBAPP_URL } from '../../constants/app';
+import { EMAIL_ASSET_BASE_URL, PUBLISHED_APP_URL } from '../../constants/app';
 import { extractDerivedDocumentEmailSettings } from '../../types/document-email';
 import { mapEnvelopeToWebhookDocumentPayload, ZWebhookDocumentSchema } from '../../types/webhook-payload';
 import { isDocumentCompleted } from '../../utils/document';
@@ -238,9 +238,9 @@ export const resendDocument = async ({ id, userId, recipients, teamId, requestMe
         'document.name': envelope.title,
       };
 
-      const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';
-      const signDocumentLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}`;
-      const reportUrl = `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}`;
+      const assetBaseUrl = EMAIL_ASSET_BASE_URL();
+      const signDocumentLink = `${PUBLISHED_APP_URL()}sign/${recipient.token}`;
+      const reportUrl = `${PUBLISHED_APP_URL()}report/${recipient.token}`;
 
       const template = createElement(DocumentInviteEmailTemplate, {
         documentName: envelope.title,

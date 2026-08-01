@@ -352,7 +352,7 @@ export const EnvelopeEditorFieldsPageRenderer = ({ pageData }: { pageData: PageR
       flipEnabled: false,
       boundBoxFunc: (oldBox, newBox) => {
         // Enforce minimum size
-        if (newBox.width < 30 || newBox.height < 20) {
+        if (newBox.width < MIN_FIELD_WIDTH_PX || newBox.height < MIN_FIELD_HEIGHT_PX) {
           return oldBox;
         }
 

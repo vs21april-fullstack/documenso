@@ -4,8 +4,8 @@ import type Konva from 'konva';
 
 import type { TFieldMetaSchema } from '../../types/field-meta';
 
-export const MIN_FIELD_HEIGHT_PX = 12;
-export const MIN_FIELD_WIDTH_PX = 36;
+export const MIN_FIELD_HEIGHT_PX = 6;
+export const MIN_FIELD_WIDTH_PX = 12;
 
 export type FieldToRender = Pick<
   Field,

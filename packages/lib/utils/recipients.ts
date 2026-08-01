@@ -2,7 +2,7 @@ import { isSignatureFieldType } from '@documenso/prisma/guards/is-signature-fiel
 import type { Envelope } from '@prisma/client';
 import { type Field, RecipientRole, SigningStatus } from '@prisma/client';
 
-import { NEXT_PUBLIC_WEBAPP_URL } from '../constants/app';
+import { PUBLISHED_APP_URL } from '../constants/app';
 import { AppError, AppErrorCode } from '../errors/app-error';
 import type { TRecipientLite } from '../types/recipient';
 import { extractLegacyIds } from '../universal/id';
@@ -37,7 +37,7 @@ export const getRecipientsWithMissingFields = <T extends Pick<TRecipientLite, 'i
   });
 };
 
-export const formatSigningLink = (token: string) => `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${token}`;
+export const formatSigningLink = (token: string) => `${PUBLISHED_APP_URL()}sign/${token}`;
 
 /**
  * Whether a recipient can be modified by the document owner.

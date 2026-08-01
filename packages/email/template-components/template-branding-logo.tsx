@@ -1,4 +1,4 @@
-import { Img, Link } from '../components';
+import { Img, Link, Text } from '../components';
 import { useBranding } from '../providers/branding';
 import { getSafeBrandingUrl } from '../utils/branding-url';
 
@@ -14,15 +14,14 @@ export type TemplateBrandingLogoProps = {
  *   If a safe (http/https) Brand Website is configured, the logo links to it.
  * - Otherwise the Documenso logo is shown.
  */
-export const TemplateBrandingLogo = ({ assetBaseUrl, className = 'mb-4 h-6' }: TemplateBrandingLogoProps) => {
+export const TemplateBrandingLogo = (props: TemplateBrandingLogoProps) => {
+  const { className = 'mb-4 h-6' } = props;
   const branding = useBranding();
 
   const hasCustomBrandingLogo = branding.brandingEnabled && Boolean(branding.brandingLogo);
 
   if (!hasCustomBrandingLogo) {
-    const documensoLogoUrl = new URL('/static/logo.png', assetBaseUrl).toString();
-
-    return <Img src={documensoLogoUrl} alt="Documenso Logo" className={className} />;
+    return <Text className={`${className} font-bold text-xl leading-none`}>Omni Sign</Text>;
   }
 
   const brandingLogo = <Img src={branding.brandingLogo} alt="Branding Logo" className={className} />;

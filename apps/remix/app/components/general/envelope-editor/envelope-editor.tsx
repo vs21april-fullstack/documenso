@@ -101,6 +101,20 @@ export const EnvelopeEditor = () => {
     },
   } = editorConfig;
 
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
+
+  useEffect(() => {
+    const compactViewportQuery = window.matchMedia('(max-width: 1023px)');
+    const updateCompactViewport = () => setIsCompactViewport(compactViewportQuery.matches);
+
+    updateCompactViewport();
+    compactViewportQuery.addEventListener('change', updateCompactViewport);
+
+    return () => compactViewportQuery.removeEventListener('change', updateCompactViewport);
+  }, []);
+
+  const isLeftSidebarMinimized = minimizeLeftSidebar || isCompactViewport;
+
   const envelopeEditorSteps = useMemo(() => {
     const steps: EnvelopeEditorStepData[] = [];
 
@@ -183,11 +197,11 @@ export const EnvelopeEditor = () => {
         {/* Left Section - Step Navigation */}
         <div
           className={cn('flex w-80 flex-shrink-0 flex-col overflow-y-auto border-border border-r bg-background py-4', {
-            'w-14': minimizeLeftSidebar,
+            'w-14': isLeftSidebarMinimized,
           })}
         >
           {/* Left section step selector. */}
-          {minimizeLeftSidebar ? (
+          {isLeftSidebarMinimized ? (
             <div className="flex justify-center px-4">
               <div className="relative flex h-10 w-10 items-center justify-center">
                 <svg className="size-10 -rotate-90" viewBox="0 0 40 40" aria-hidden>
@@ -254,8 +268,8 @@ export const EnvelopeEditor = () => {
 
           <div
             className={cn('space-y-3', {
-              'px-4': !minimizeLeftSidebar,
-              'mt-4 flex flex-col items-center': minimizeLeftSidebar,
+              'px-4': !isLeftSidebarMinimized,
+              'mt-4 flex flex-col items-center': isLeftSidebarMinimized,
             })}
           >
             {envelopeEditorSteps.map((step) => {
@@ -274,7 +288,7 @@ export const EnvelopeEditor = () => {
                         : 'border border-gray-200 hover:bg-gray-50 dark:border-gray-400/20 dark:hover:bg-gray-400/10'
                     }`,
                     {
-                      'p-3': !minimizeLeftSidebar,
+                      'p-3': !isLeftSidebarMinimized,
                     },
                   )}
                   onClick={() => void navigateToStep(step.id as EnvelopeEditorStep)}
@@ -290,7 +304,7 @@ export const EnvelopeEditor = () => {
                       <Icon className={`h-4 w-4 ${isActive ? 'text-green-600' : 'text-gray-600'}`} />
                     </div>
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <div>
                         <div
                           className={`font-medium text-sm ${
@@ -312,17 +326,17 @@ export const EnvelopeEditor = () => {
 
           <Separator
             className={cn('my-6', {
-              'mx-auto mb-4 w-4/5': minimizeLeftSidebar,
+              'mx-auto mb-4 w-4/5': isLeftSidebarMinimized,
             })}
           />
 
           {/* Quick Actions. */}
           <div
             className={cn('space-y-3 px-4 [&_.lucide]:text-muted-foreground', {
-              'px-2': minimizeLeftSidebar,
+              'px-2': isLeftSidebarMinimized,
             })}
           >
-            {!minimizeLeftSidebar && (
+            {!isLeftSidebarMinimized && (
               <h4 className="font-semibold text-foreground text-sm">
                 <Trans>Quick Actions</Trans>
               </h4>
@@ -334,7 +348,7 @@ export const EnvelopeEditor = () => {
                   <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Settings`)}>
                     <SettingsIcon className="h-4 w-4" />
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <span className="ml-2">
                         {isDocument ? <Trans>Document Settings</Trans> : <Trans>Template Settings</Trans>}
                       </span>
@@ -352,7 +366,7 @@ export const EnvelopeEditor = () => {
                     <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Send Envelope`)}>
                       <SendIcon className="h-4 w-4" />
 
-                      {!minimizeLeftSidebar && (
+                      {!isLeftSidebarMinimized && (
                         <span className="ml-2">
                           <Trans>Send Document</Trans>
                         </span>
@@ -367,7 +381,7 @@ export const EnvelopeEditor = () => {
                     <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Resend Envelope`)}>
                       <SendIcon className="h-4 w-4" />
 
-                      {!minimizeLeftSidebar && (
+                      {!isLeftSidebarMinimized && (
                         <span className="ml-2">
                           <Trans>Resend Document</Trans>
                         </span>
@@ -389,7 +403,7 @@ export const EnvelopeEditor = () => {
                   <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Direct Link`)}>
                     <LinkIcon className="h-4 w-4" />
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <span className="ml-2">
                         <Trans>Direct Link</Trans>
                       </span>
@@ -407,7 +421,7 @@ export const EnvelopeEditor = () => {
                   <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Duplicate Envelope`)}>
                     <CopyPlusIcon className="h-4 w-4" />
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <span className="ml-2">
                         {isDocument ? <Trans>Duplicate Document</Trans> : <Trans>Duplicate Template</Trans>}
                       </span>
@@ -424,7 +438,7 @@ export const EnvelopeEditor = () => {
                   <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Save as Template`)}>
                     <FileOutputIcon className="h-4 w-4" />
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <span className="ml-2">
                         <Trans>Save as Template</Trans>
                       </span>
@@ -444,7 +458,7 @@ export const EnvelopeEditor = () => {
                   <Button variant="ghost" size="sm" className="w-full justify-start" title={t(msg`Download PDF`)}>
                     <DownloadCloudIcon className="h-4 w-4" />
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <span className="ml-2">
                         <Trans>Download PDF</Trans>
                       </span>
@@ -472,7 +486,7 @@ export const EnvelopeEditor = () => {
                   >
                     <Trash2Icon className="h-4 w-4" />
 
-                    {!minimizeLeftSidebar && (
+                    {!isLeftSidebarMinimized && (
                       <span className="ml-2">
                         {isDocument ? <Trans>Delete Document</Trans> : <Trans>Delete Template</Trans>}
                       </span>
@@ -494,20 +508,20 @@ export const EnvelopeEditor = () => {
           {!editorConfig.embedded && (
             <div
               className={cn('mt-auto px-4', {
-                'px-2': minimizeLeftSidebar,
+                'px-2': isLeftSidebarMinimized,
               })}
             >
               <Button
                 variant="ghost"
                 className={cn('w-full justify-start', {
-                  'flex items-center justify-center': minimizeLeftSidebar,
+                  'flex items-center justify-center': isLeftSidebarMinimized,
                 })}
                 asChild
               >
                 <Link to={relativePath.basePath}>
                   <ArrowLeftIcon className="h-4 w-4 flex-shrink-0" />
 
-                  {!minimizeLeftSidebar && (
+                  {!isLeftSidebarMinimized && (
                     <span className="ml-2">
                       {isDocument ? <Trans>Return to documents</Trans> : <Trans>Return to templates</Trans>}
                     </span>

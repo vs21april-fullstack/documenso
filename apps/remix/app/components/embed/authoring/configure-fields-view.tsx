@@ -3,6 +3,7 @@ import { useDocumentElement } from '@documenso/lib/client-only/hooks/use-documen
 import { getPdfPagesCount, PDF_VIEWER_PAGE_SELECTOR } from '@documenso/lib/constants/pdf-viewer';
 import { type TFieldMetaSchema, ZFieldMetaSchema } from '@documenso/lib/types/field-meta';
 import type { TRecipientLite } from '@documenso/lib/types/recipient';
+import { MIN_FIELD_HEIGHT_PX, MIN_FIELD_WIDTH_PX } from '@documenso/lib/universal/field-renderer/field-renderer';
 import { nanoid } from '@documenso/lib/universal/id';
 import { ADVANCED_FIELD_TYPES_WITH_OPTIONAL_SETTING } from '@documenso/lib/utils/advanced-fields-helpers';
 import { getDocumentDataUrlForPdfViewer } from '@documenso/lib/utils/envelope-download';
@@ -33,11 +34,8 @@ import PDFViewerLazy from '~/components/general/pdf-viewer/pdf-viewer-lazy';
 import type { TConfigureEmbedFormSchema } from './configure-document-view.types';
 import type { TConfigureFieldsFormSchema } from './configure-fields-view.types';
 
-const MIN_HEIGHT_PX = 12;
-const MIN_WIDTH_PX = 36;
-
-const DEFAULT_HEIGHT_PX = MIN_HEIGHT_PX * 2.5;
-const DEFAULT_WIDTH_PX = MIN_WIDTH_PX * 2.5;
+const DEFAULT_HEIGHT_PX = 30;
+const DEFAULT_WIDTH_PX = 90;
 
 export type ConfigureFieldsViewProps = {
   configData: TConfigureEmbedFormSchema;
@@ -534,8 +532,8 @@ export const ConfigureFieldsView = ({
                       <FieldItem
                         key={field.formId}
                         field={field}
-                        minHeight={MIN_HEIGHT_PX}
-                        minWidth={MIN_WIDTH_PX}
+                        minHeight={MIN_FIELD_HEIGHT_PX}
+                        minWidth={MIN_FIELD_WIDTH_PX}
                         defaultHeight={DEFAULT_HEIGHT_PX}
                         defaultWidth={DEFAULT_WIDTH_PX}
                         onResize={(node) => onFieldResize(node, index)}

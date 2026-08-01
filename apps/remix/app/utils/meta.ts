@@ -3,16 +3,12 @@ import { i18n, type MessageDescriptor } from '@lingui/core';
 
 export const appMetaTags = (title?: MessageDescriptor) => {
   const description =
-    'Join Documenso, the open signing infrastructure, and get a 10x better signing experience. Pricing starts at $30/mo. forever! Sign in now and enjoy a faster, smarter, and more beautiful document signing process. Integrates with your favorite tools, customizable, and expandable. Support our mission and become a part of our open-source community.';
-  const translatedTitle = title
-    ? i18n.locale
-      ? i18n._(title)
-      : (title.message ?? title.id)
-    : null;
+    'Join Omni Sign, the open signing infrastructure, and get a 10x better signing experience. Sign in now and enjoy a faster, smarter, and more beautiful document signing process.';
+  const translatedTitle = title ? (i18n.locale ? i18n._(title) : (title.message ?? title.id)) : null;
 
   return [
     {
-      title: translatedTitle ? `${translatedTitle} - Documenso` : 'Documenso',
+      title: translatedTitle ? `${translatedTitle} - Omni Sign` : 'Omni Sign',
     },
     {
       name: 'description',
@@ -20,12 +16,11 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       name: 'keywords',
-      content:
-        'Documenso, open source, DocuSign alternative, document signing, open signing infrastructure, open-source community, fast signing, beautiful signing, smart templates',
+      content: 'Omni Sign, electronic signatures, document signing, fast signing, secure signing, smart templates',
     },
     {
       name: 'author',
-      content: 'Documenso, Inc.',
+      content: 'Omni Sign',
     },
     {
       name: 'robots',
@@ -33,7 +28,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       property: 'og:title',
-      content: 'Documenso - The Open Source DocuSign Alternative',
+      content: 'Omni Sign - Electronic Document Signing',
     },
     {
       property: 'og:description',

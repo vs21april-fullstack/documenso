@@ -7,7 +7,7 @@ export interface TemplateDocumentImageProps {
 
 export const TemplateDocumentImage = ({ assetBaseUrl, className }: TemplateDocumentImageProps) => {
   const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
+    return new URL(path.replace(/^\/+/, ''), assetBaseUrl).toString();
   };
 
   return (
@@ -16,7 +16,7 @@ export const TemplateDocumentImage = ({ assetBaseUrl, className }: TemplateDocum
         <Column />
 
         <Column>
-          <Img className="mx-auto h-42" src={getAssetUrl('/static/document.png')} alt="Documenso" />
+          <Img className="mx-auto h-42" src={getAssetUrl('/static/document.png')} alt="Omni Sign" />
         </Column>
 
         <Column />
