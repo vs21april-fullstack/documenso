@@ -12,12 +12,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://docs.documenso.com'),
   title: {
-    template: '%s | Documenso Docs',
-    default: 'Documenso Docs',
+    template: '%s | Omni Sign Docs',
+    default: 'Omni Sign Docs',
   },
-  description: 'The official documentation for Documenso, the open-source document signing platform.',
+  description: 'The official documentation for Omni Sign, the open-source document signing platform.',
   openGraph: {
-    siteName: 'Documenso Docs',
+    siteName: 'Omni Sign Docs',
     type: 'website',
   },
   twitter: {
