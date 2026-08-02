@@ -1,6 +1,7 @@
 import signingCelebration from '@documenso/assets/images/signing-celebration.png';
 import { getOptionalSession } from '@documenso/auth/server/lib/utils/get-session';
 import { useOptionalSession } from '@documenso/lib/client-only/providers/session';
+import { PUBLISHED_APP_URL } from '@documenso/lib/constants/app';
 import { isSignupEnabledForProvider } from '@documenso/lib/constants/auth';
 import { loadRecipientBrandingByTeamId } from '@documenso/lib/server-only/branding/load-recipient-branding';
 import { getDocumentAndSenderByToken } from '@documenso/lib/server-only/document/get-document-by-token';
@@ -87,7 +88,10 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const canRedirectToFolder = user && document.userId === user.id && document.folderId && document.team?.url;
 
-  const returnToHomePath = canRedirectToFolder ? `/t/${document.team.url}/documents/f/${document.folderId}` : '/';
+  const returnToHomePath = new URL(
+    canRedirectToFolder ? `t/${document.team.url}/documents/f/${document.folderId}` : '.',
+    PUBLISHED_APP_URL(),
+  ).toString();
 
   return {
     isDocumentAccessValid: true,
