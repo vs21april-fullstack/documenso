@@ -48,6 +48,10 @@ export const EnvelopeEditorPreviewPage = () => {
 
     const faker = fakerInstance;
     return fields.map((field) => {
+      if (field.inserted) {
+        return field;
+      }
+
       const fieldMeta = ZFieldAndMetaSchema.parse(field);
 
       const recipient = envelope.recipients.find((recipient) => recipient.id === field.recipientId);

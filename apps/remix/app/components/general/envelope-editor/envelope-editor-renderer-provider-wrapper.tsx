@@ -1,5 +1,6 @@
 import { useCurrentEnvelopeEditor } from '@documenso/lib/client-only/providers/envelope-editor-provider';
 import { EnvelopeRenderProvider } from '@documenso/lib/client-only/providers/envelope-render-provider';
+import { trpc } from '@documenso/trpc/react';
 
 export const EnvelopeEditorRenderProviderWrapper = ({
   children,
@@ -11,6 +12,9 @@ export const EnvelopeEditorRenderProviderWrapper = ({
   presignedToken?: string;
 }) => {
   const { envelope } = useCurrentEnvelopeEditor();
+  const { data: signatures = [] } = trpc.envelope.field.getSignatures.useQuery({
+    envelopeId: envelope.id,
+  });
 
   return (
     <EnvelopeRenderProvider
@@ -18,6 +22,7 @@ export const EnvelopeEditorRenderProviderWrapper = ({
       envelope={envelope}
       envelopeItems={envelope.envelopeItems}
       fields={envelope.fields}
+      signatures={signatures}
       recipients={envelope.recipients}
       token={token}
       presignToken={presignedToken}

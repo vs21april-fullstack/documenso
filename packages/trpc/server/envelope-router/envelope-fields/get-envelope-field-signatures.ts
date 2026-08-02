@@ -39,7 +39,9 @@ export const getEnvelopeFieldSignaturesRoute = authenticatedProcedure
         fields: {
           where: {
             inserted: true,
-            type: FieldType.SIGNATURE,
+            type: {
+              in: [FieldType.SIGNATURE, FieldType.FREE_SIGNATURE],
+            },
           },
           include: {
             signature: true,
