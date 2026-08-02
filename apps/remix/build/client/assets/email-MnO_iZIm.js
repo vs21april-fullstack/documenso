@@ -1,0 +1,1 @@
+import{e as E}from"./app-uAhqo_pP.js";const R=E("NEXT_PRIVATE_SMTP_FROM_ADDRESS")||"noreply@documenso.com";E("NEXT_PRIVATE_SMTP_FROM_NAME");const _={NOT_FOUND:"NOT_FOUND",VERIFIED:"VERIFIED",EXPIRED:"EXPIRED",ALREADY_VERIFIED:"ALREADY_VERIFIED"};export{_ as E,R as F};

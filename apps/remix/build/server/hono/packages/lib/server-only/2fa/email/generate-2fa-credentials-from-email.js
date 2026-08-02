@@ -3,7 +3,7 @@ import { sha256 } from '@noble/hashes/sha256';
 import { createTOTPKeyURI } from 'oslo/otp';
 import { DOCUMENSO_ENCRYPTION_KEY } from '../../../constants/crypto.js';
 
-const ISSUER = 'Documenso Email 2FA';
+const ISSUER = 'Omni Sign Email 2FA';
 /**
  * Generate an encrypted token containing a 6-digit 2FA code for email verification.
  *

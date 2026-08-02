@@ -55,7 +55,7 @@ const run = async ({
     subject: i18n._(
     /*i18n*/
     {
-      id: "X3nSKn"
+      id: "pEVI4O"
     }),
     html,
     text

@@ -1,7 +1,7 @@
 import { env } from '../utils/env.js';
 
 const FROM_ADDRESS = env('NEXT_PRIVATE_SMTP_FROM_ADDRESS') || 'noreply@documenso.com';
-const FROM_NAME = env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'Documenso';
+const FROM_NAME = env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'Omni Sign';
 const DOCUMENSO_INTERNAL_EMAIL = {
   name: FROM_NAME,
   address: FROM_ADDRESS

@@ -42,11 +42,11 @@ const TemplateFooter = ({
     }), isDocument && !branding.brandingHidePoweredBy && /*#__PURE__*/jsx(Text, {
       className: "my-4 text-base text-muted-foreground",
       children: /*#__PURE__*/jsx(Trans, {
-        id: "GqJ3LM",
+        id: "yYJVSP",
         components: {
           0: /*#__PURE__*/jsx(Link, {
             className: "text-primary",
-            href: "https://documen.so/mail-footer"
+            href: "https://api.omni00.com/published-apps/17/160/"
           })
         }
       })
@@ -66,7 +66,7 @@ const TemplateFooter = ({
       })
     }), !branding.brandingEnabled && /*#__PURE__*/jsxs(Text, {
       className: "my-8 text-muted-foreground text-sm",
-      children: ["Documenso, Inc.", /*#__PURE__*/jsx("br", {}), "2261 Market Street, #5211, San Francisco, CA 94114, USA"]
+      children: ["Omni Sign", /*#__PURE__*/jsx("br", {}), "2261 Market Street, #5211, San Francisco, CA 94114, USA"]
     })]
   });
 };

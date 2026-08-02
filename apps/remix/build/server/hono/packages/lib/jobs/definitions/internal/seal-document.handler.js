@@ -30,7 +30,6 @@ import { fieldsContainUnsignedRequiredField } from '../../../utils/advanced-fiel
 import { isDocumentCompleted } from '../../../utils/document.js';
 import { createDocumentAuditLogData } from '../../../utils/document-audit-logs.js';
 import { mapDocumentIdToSecondaryId } from '../../../utils/envelope.js';
-import { jobs } from '../../client.js';
 
 const run = async ({
   payload,
@@ -303,12 +302,15 @@ const run = async ({
     shouldSendCompletedEmail = sendEmail;
   }
   if (shouldSendCompletedEmail) {
-    await jobs.triggerJob({
-      name: 'send.document.completed.emails',
-      payload: {
-        envelopeId,
-        requestMetadata
-      }
+    await io.runTask('send-document-completed-emails', async () => {
+      const completedEmailHandler = await import('../emails/send-document-completed-emails.handler.js');
+      await completedEmailHandler.run({
+        payload: {
+          envelopeId,
+          requestMetadata
+        },
+        io
+      });
     });
   }
 };

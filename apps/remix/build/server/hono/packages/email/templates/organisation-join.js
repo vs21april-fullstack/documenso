@@ -35,7 +35,7 @@ const OrganisationJoinEmailTemplate = ({
   const previewText =
   /*i18n*/
   {
-    id: "7dNG0w"
+    id: "VjbXJY"
   };
   return /*#__PURE__*/jsxs(Html, {
     children: [/*#__PURE__*/jsx(Head, {}), /*#__PURE__*/jsxs(Body, {

@@ -8,7 +8,7 @@ const getAuthenticatorOptions = () => {
   const webAppBaseUrl = new URL(NEXT_PUBLIC_WEBAPP_URL());
   const rpId = webAppBaseUrl.hostname;
   return {
-    rpName: 'Documenso',
+    rpName: 'Omni Sign',
     rpId,
     origin: NEXT_PUBLIC_WEBAPP_URL(),
     timeout: PASSKEY_TIMEOUT

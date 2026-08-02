@@ -1,6 +1,6 @@
 import { isSignatureFieldType } from '../../prisma/guards/is-signature-field.js';
 import { RecipientRole, SigningStatus } from '@prisma/client';
-import { NEXT_PUBLIC_WEBAPP_URL } from '../constants/app.js';
+import { PUBLISHED_APP_URL } from '../constants/app.js';
 import { AppError, AppErrorCode } from '../errors/app-error.js';
 import { extractLegacyIds } from '../universal/id.js';
 import { zEmail } from './zod.js';
@@ -25,7 +25,7 @@ const getRecipientsWithMissingFields = (recipients, fields) => {
     return false;
   });
 };
-const formatSigningLink = token => `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${token}`;
+const formatSigningLink = token => `${PUBLISHED_APP_URL()}sign/${token}`;
 /**
  * Whether a recipient can be modified by the document owner.
  */

@@ -3,7 +3,7 @@ import { prisma as prismaWithReplicas } from '../../../../prisma/index.js';
 import { EnvelopeType, DocumentSource, RecipientRole } from '@prisma/client';
 import { createElement } from 'react';
 import { getI18nInstance } from '../../../client-only/providers/i18n-server.js';
-import { NEXT_PUBLIC_WEBAPP_URL } from '../../../constants/app.js';
+import { EMAIL_ASSET_BASE_URL, PUBLISHED_APP_URL } from '../../../constants/app.js';
 import { getEmailContext } from '../../../server-only/email/get-email-context.js';
 import { assertOrganisationRatesAndLimits } from '../../../server-only/rate-limit/assert-organisation-rates-and-limits.js';
 import { DOCUMENT_AUDIT_LOG_TYPE } from '../../../types/document-audit-logs.js';
@@ -100,10 +100,10 @@ const run = async ({
       contentType: 'application/pdf'
     };
   }));
-  const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';
-  let documentOwnerDownloadLink = `${NEXT_PUBLIC_WEBAPP_URL()}${formatDocumentsPath(envelope.team?.url)}/${envelope.id}`;
+  const assetBaseUrl = EMAIL_ASSET_BASE_URL();
+  let documentOwnerDownloadLink = `${PUBLISHED_APP_URL()}${formatDocumentsPath(envelope.team?.url).replace(/^\//, '')}/${envelope.id}`;
   if (envelope.team?.url) {
-    documentOwnerDownloadLink = `${NEXT_PUBLIC_WEBAPP_URL()}/t/${envelope.team.url}/documents/${envelope.id}`;
+    documentOwnerDownloadLink = `${PUBLISHED_APP_URL()}t/${envelope.team.url}/documents/${envelope.id}`;
   }
   const emailSettings = extractDerivedDocumentEmailSettings(envelope.documentMeta);
   const isDocumentCompletedEmailEnabled = emailSettings.documentCompleted;
@@ -193,8 +193,8 @@ const run = async ({
       'signer.email': recipient.email,
       'document.name': envelope.title
     };
-    const downloadLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}/complete`;
-    const reportUrl = recipient.role === RecipientRole.CC ? `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}` : undefined;
+    const downloadLink = `${PUBLISHED_APP_URL()}sign/${recipient.token}/complete`;
+    const reportUrl = recipient.role === RecipientRole.CC ? `${PUBLISHED_APP_URL()}report/${recipient.token}` : undefined;
     const template = /*#__PURE__*/createElement(DocumentCompletedEmailTemplate, {
       documentName: envelope.title,
       assetBaseUrl,

@@ -123,7 +123,7 @@ const sendTeamEmailVerificationEmail = async (email, token, team) => {
     subject: i18n._(
     /*i18n*/
     {
-      id: "QABzUh",
+      id: "0K/fOd",
       values: {
         0: team.name
       }

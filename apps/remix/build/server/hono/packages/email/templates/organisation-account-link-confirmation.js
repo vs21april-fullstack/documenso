@@ -37,7 +37,7 @@ const OrganisationAccountLinkConfirmationTemplate = ({
   } :
   /*i18n*/
   {
-    id: "S6+cWk"
+    id: "zsNmAo"
   };
   return /*#__PURE__*/jsxs(Html, {
     children: [/*#__PURE__*/jsx(Head, {}), /*#__PURE__*/jsxs(Body, {
@@ -64,7 +64,7 @@ const OrganisationAccountLinkConfirmationTemplate = ({
               children: type === 'create' ? /*#__PURE__*/jsx(Trans, {
                 id: "UGthSu"
               }) : /*#__PURE__*/jsx(Trans, {
-                id: "PXkRmr"
+                id: "RB9A3Q"
               })
             }), /*#__PURE__*/jsx(Text, {
               className: "text-center text-base",
@@ -79,7 +79,7 @@ const OrganisationAccountLinkConfirmationTemplate = ({
                   })
                 }
               }) : /*#__PURE__*/jsx(Trans, {
-                id: "iKu+zI",
+                id: "ks8yv+",
                 values: {
                   organisationName: organisationName
                 },

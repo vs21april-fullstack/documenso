@@ -35,7 +35,7 @@ const OrganisationLeaveEmailTemplate = ({
   const previewText =
   /*i18n*/
   {
-    id: "Z1ZGh6"
+    id: "eT6R/x"
   };
   return /*#__PURE__*/jsxs(Html, {
     children: [/*#__PURE__*/jsx(Head, {}), /*#__PURE__*/jsxs(Body, {

@@ -1,1 +1,0 @@
-import{e}from"./app-CfQsKa5h.js";const n="application/vnd.openxmlformats-officedocument.wordprocessingml.document",t=()=>typeof window>"u"?!!e("NEXT_PRIVATE_DOCUMENT_CONVERSION_URL"):e("NEXT_PUBLIC_DOCUMENT_CONVERSION_ENABLED")==="true",N=()=>{const o={"application/pdf":[".pdf"]};return t()&&(o[n]=[".docx"]),o};export{N as g};

@@ -34,7 +34,7 @@ const OrganisationInviteEmailTemplate = ({
   const previewText =
   /*i18n*/
   {
-    id: "WYvXLv"
+    id: "YnhFGj"
   };
   return /*#__PURE__*/jsxs(Html, {
     children: [/*#__PURE__*/jsx(Head, {}), /*#__PURE__*/jsxs(Body, {
@@ -59,7 +59,7 @@ const OrganisationInviteEmailTemplate = ({
             children: [/*#__PURE__*/jsx(Text, {
               className: "text-center font-medium text-foreground text-lg",
               children: /*#__PURE__*/jsx(Trans, {
-                id: "e3jCYJ",
+                id: "u7CW2P",
                 values: {
                   organisationName: organisationName
                 }

@@ -26,7 +26,7 @@ const signPdf = async ({
     bytes
   } = await pdf.sign({
     signer,
-    reason: 'Signed by Documenso',
+    reason: 'Signed by Omni Sign',
     location: NEXT_PUBLIC_WEBAPP_URL(),
     contactInfo: NEXT_PUBLIC_SIGNING_CONTACT_INFO(),
     subFilter: NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER() ? 'adbe.pkcs7.detached' : 'ETSI.CAdES.detached',

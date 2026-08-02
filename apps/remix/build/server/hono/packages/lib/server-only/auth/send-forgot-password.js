@@ -46,7 +46,7 @@ const sendForgotPassword = async ({
       name: user.name || ''
     },
     from: {
-      name: env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'Documenso',
+      name: env('NEXT_PRIVATE_SMTP_FROM_NAME') || 'Omni Sign',
       address: env('NEXT_PRIVATE_SMTP_FROM_ADDRESS') || 'noreply@documenso.com'
     },
     subject: i18n._(

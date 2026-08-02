@@ -1,12 +1,16 @@
 import 'luxon';
 import './time-zones.js';
 
-const DEFAULT_DOCUMENT_DATE_FORMAT = 'yyyy-MM-dd hh:mm a';
-const VALID_DATE_FORMAT_VALUES = [DEFAULT_DOCUMENT_DATE_FORMAT, 'yyyy-MM-dd', 'dd/MM/yyyy', 'dd-MM-yyyy', 'MM/dd/yyyy', 'yy-MM-dd', 'MMMM dd, yyyy', 'EEEE, MMMM dd, yyyy', 'dd/MM/yyyy hh:mm a', 'dd/MM/yyyy HH:mm', 'dd-MM-yyyy hh:mm a', 'dd-MM-yyyy HH:mm', 'MM/dd/yyyy hh:mm a', 'MM/dd/yyyy HH:mm', 'dd.MM.yyyy', 'dd.MM.yyyy HH:mm', 'yyyy-MM-dd HH:mm', 'yy-MM-dd hh:mm a', 'yy-MM-dd HH:mm', 'yyyy-MM-dd HH:mm:ss', 'MMMM dd, yyyy hh:mm a', 'MMMM dd, yyyy HH:mm', 'EEEE, MMMM dd, yyyy hh:mm a', 'EEEE, MMMM dd, yyyy HH:mm', "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"];
+const DEFAULT_DOCUMENT_DATE_FORMAT = 'MM/dd/yyyy hh:mm a';
+const VALID_DATE_FORMAT_VALUES = [DEFAULT_DOCUMENT_DATE_FORMAT, 'yyyy-MM-dd hh:mm a', 'yyyy-MM-dd', 'dd/MM/yyyy', 'dd-MM-yyyy', 'MM/dd/yyyy', 'yy-MM-dd', 'MMMM dd, yyyy', 'EEEE, MMMM dd, yyyy', 'dd/MM/yyyy hh:mm a', 'dd/MM/yyyy HH:mm', 'dd-MM-yyyy hh:mm a', 'dd-MM-yyyy HH:mm', 'MM/dd/yyyy HH:mm', 'dd.MM.yyyy', 'dd.MM.yyyy HH:mm', 'yyyy-MM-dd HH:mm', 'yy-MM-dd hh:mm a', 'yy-MM-dd HH:mm', 'yyyy-MM-dd HH:mm:ss', 'MMMM dd, yyyy hh:mm a', 'MMMM dd, yyyy HH:mm', 'EEEE, MMMM dd, yyyy hh:mm a', 'EEEE, MMMM dd, yyyy HH:mm', "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"];
 const DATE_FORMATS = [{
+  key: 'MMDDYYYY_TIME_12H',
+  label: 'MM/DD/YYYY hh:mm AM/PM',
+  value: DEFAULT_DOCUMENT_DATE_FORMAT
+}, {
   key: 'yyyy-MM-dd_HH:mm_12H',
   label: 'YYYY-MM-DD hh:mm AM/PM',
-  value: DEFAULT_DOCUMENT_DATE_FORMAT
+  value: 'yyyy-MM-dd hh:mm a'
 }, {
   key: 'yyyy-MM-dd_HH:mm',
   label: 'YYYY-MM-DD HH:mm',
@@ -31,10 +35,6 @@ const DATE_FORMATS = [{
   key: 'MMDDYYYY_TIME',
   label: 'MM/DD/YYYY HH:mm',
   value: 'MM/dd/yyyy HH:mm'
-}, {
-  key: 'MMDDYYYY_TIME_12H',
-  label: 'MM/DD/YYYY HH:mm AM/PM',
-  value: 'MM/dd/yyyy hh:mm a'
 }, {
   key: 'DDMMYYYYHHMM',
   label: 'DD.MM.YYYY HH:mm',

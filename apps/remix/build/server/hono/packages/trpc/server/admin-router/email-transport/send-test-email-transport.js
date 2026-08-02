@@ -36,7 +36,7 @@ const sendTestEmailTransportRoute = adminProcedure.input(ZSendTestEmailTransport
         name: transport.fromName,
         address: transport.fromAddress
       },
-      subject: 'Documenso email transport test',
+      subject: 'Omni Sign email transport test',
       text: `This is a test email sent through the "${transport.name}" email transport.`
     });
   } catch (err) {

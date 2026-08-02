@@ -1,0 +1,1 @@
+import{i}from"./index-browser-CnbpKWEs.js";import{I as s}from"./app-uAhqo_pP.js";import{I as t}from"./subscription-MVyIYEGf.js";const o=r=>!s()||r.type!==i.OrganisationType.ORGANISATION||r.subscription?!1:r.organisationClaim.originalSubscriptionClaimId===t.FREE;export{o as i};

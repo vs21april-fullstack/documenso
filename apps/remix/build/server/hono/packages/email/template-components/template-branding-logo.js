@@ -14,23 +14,21 @@ import '@react-email/render';
 import '@react-email/row';
 import '@react-email/section';
 import '@react-email/tailwind';
-import '@react-email/text';
+import { Text } from '@react-email/text';
 import { useBranding } from '../providers/branding.js';
 import { getSafeBrandingUrl } from '../utils/branding-url.js';
 import { jsx } from 'react/jsx-runtime';
 
-const TemplateBrandingLogo = ({
-  assetBaseUrl,
-  className = 'mb-4 h-6'
-}) => {
+const TemplateBrandingLogo = props => {
+  const {
+    className = 'mb-4 h-6'
+  } = props;
   const branding = useBranding();
   const hasCustomBrandingLogo = branding.brandingEnabled && Boolean(branding.brandingLogo);
   if (!hasCustomBrandingLogo) {
-    const documensoLogoUrl = new URL('/static/logo.png', assetBaseUrl).toString();
-    return /*#__PURE__*/jsx(Img, {
-      src: documensoLogoUrl,
-      alt: "Documenso Logo",
-      className: className
+    return /*#__PURE__*/jsx(Text, {
+      className: `${className} font-bold text-xl leading-none`,
+      children: "Omni Sign"
     });
   }
   const brandingLogo = /*#__PURE__*/jsx(Img, {

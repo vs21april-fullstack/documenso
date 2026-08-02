@@ -72,7 +72,7 @@ const SUBSCRIPTION_CLAIM_FEATURE_FLAGS = {
   },
   hidePoweredBy: {
     key: 'hidePoweredBy',
-    label: 'Hide Documenso branding by'
+    label: 'Hide Omni Sign branding by'
   },
   emailDomains: {
     key: 'emailDomains',

@@ -35,7 +35,7 @@ const ConfirmTeamEmailTemplate = ({
   const previewText =
   /*i18n*/
   {
-    id: "Op9d1U",
+    id: "3YyK2l",
     values: {
       teamName: teamName
     }
@@ -68,7 +68,7 @@ const ConfirmTeamEmailTemplate = ({
             }), /*#__PURE__*/jsx(Text, {
               className: "text-center text-base",
               children: /*#__PURE__*/jsx(Trans, {
-                id: "sUVMWT",
+                id: "trWZzS",
                 values: {
                   teamName: teamName
                 },
@@ -115,7 +115,7 @@ const ConfirmTeamEmailTemplate = ({
               }), /*#__PURE__*/jsx(Text, {
                 className: "mt-2 text-sm",
                 children: /*#__PURE__*/jsx(Trans, {
-                  id: "V9OaQz",
+                  id: "jRQJTw",
                   components: {
                     0: /*#__PURE__*/jsx(Link, {
                       href: `${baseUrl}/settings/teams`

@@ -129,7 +129,7 @@ const sendTeamDeleteEmail = async ({
     subject: i18n._(
     /*i18n*/
     {
-      id: "iefRzN",
+      id: "aC8+WC",
       values: {
         0: team.name
       }

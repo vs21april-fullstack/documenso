@@ -8,7 +8,7 @@ import { Head } from '@react-email/head';
 import '@react-email/heading';
 import '@react-email/hr';
 import { Html } from '@react-email/html';
-import { Img } from '@react-email/img';
+import '@react-email/img';
 import '@react-email/link';
 import { Preview } from '@react-email/preview';
 import '@react-email/render';
@@ -17,6 +17,7 @@ import { Section } from '@react-email/section';
 import '@react-email/tailwind';
 import '@react-email/text';
 import { TemplateAdminUserCreated } from '../template-components/template-admin-user-created.js';
+import { TemplateBrandingLogo } from '../template-components/template-branding-logo.js';
 import { TemplateFooter } from '../template-components/template-footer.js';
 import { jsxs, jsx } from 'react/jsx-runtime';
 
@@ -30,10 +31,7 @@ const AdminUserCreatedTemplate = ({
   const previewText =
   /*i18n*/
   {
-    id: "eY6+MB"
-  };
-  const getAssetUrl = path => {
-    return new URL(path, assetBaseUrl).toString();
+    id: "zpc9Or"
   };
   return /*#__PURE__*/jsxs(Html, {
     children: [/*#__PURE__*/jsx(Head, {}), /*#__PURE__*/jsxs(Body, {
@@ -44,9 +42,8 @@ const AdminUserCreatedTemplate = ({
         children: [/*#__PURE__*/jsx(Container, {
           className: "mx-auto mt-8 mb-2 max-w-xl rounded-lg border border-border border-solid p-4 backdrop-blur-sm",
           children: /*#__PURE__*/jsxs(Section, {
-            children: [/*#__PURE__*/jsx(Img, {
-              src: getAssetUrl('/static/logo.png'),
-              alt: "Documenso Logo",
+            children: [/*#__PURE__*/jsx(TemplateBrandingLogo, {
+              assetBaseUrl: assetBaseUrl,
               className: "mb-4 h-6"
             }), /*#__PURE__*/jsx(TemplateAdminUserCreated, {
               resetPasswordLink: resetPasswordLink,

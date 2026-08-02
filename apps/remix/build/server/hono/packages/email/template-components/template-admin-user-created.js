@@ -32,12 +32,12 @@ const TemplateAdminUserCreated = ({
       children: [/*#__PURE__*/jsx(Text, {
         className: "mx-auto mb-0 max-w-[80%] text-center font-semibold text-foreground text-lg",
         children: /*#__PURE__*/jsx(Trans, {
-          id: "AJn4Lp"
+          id: "OHIGvJ"
         })
       }), /*#__PURE__*/jsx(Text, {
         className: "my-1 text-center text-base text-muted-foreground",
         children: /*#__PURE__*/jsx(Trans, {
-          id: "pz9XDv"
+          id: "WXtKxK"
         })
       }), /*#__PURE__*/jsx(Text, {
         className: "my-1 text-center text-base text-muted-foreground",

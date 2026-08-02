@@ -22,7 +22,7 @@ const TemplateDocumentImage = ({
   className
 }) => {
   const getAssetUrl = path => {
-    return new URL(path, assetBaseUrl).toString();
+    return new URL(path.replace(/^\/+/, ''), assetBaseUrl).toString();
   };
   return /*#__PURE__*/jsx(Section, {
     className: className,
@@ -32,7 +32,7 @@ const TemplateDocumentImage = ({
         children: /*#__PURE__*/jsx(Img, {
           className: "mx-auto h-42",
           src: getAssetUrl('/static/document.png'),
-          alt: "Documenso"
+          alt: "Omni Sign"
         })
       }), /*#__PURE__*/jsx(Column, {})]
     })

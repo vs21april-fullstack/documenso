@@ -5,7 +5,7 @@ import { createTOTPKeyURI } from 'oslo/otp';
 import { DOCUMENSO_ENCRYPTION_KEY } from '../../constants/crypto.js';
 import { symmetricEncrypt } from '../../universal/crypto.js';
 
-const ISSUER = 'Documenso';
+const ISSUER = 'Omni Sign';
 const setupTwoFactorAuthentication = async ({
   user
 }) => {

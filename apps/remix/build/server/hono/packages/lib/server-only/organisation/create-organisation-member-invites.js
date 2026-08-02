@@ -175,7 +175,7 @@ const sendOrganisationMemberInviteEmail = async ({
     subject: i18n._(
     /*i18n*/
     {
-      id: "wodouR",
+      id: "k2k6rI",
       values: {
         0: organisation.name
       }

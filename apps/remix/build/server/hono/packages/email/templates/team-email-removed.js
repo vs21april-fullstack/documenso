@@ -35,7 +35,7 @@ const TeamEmailRemovedTemplate = ({
   const previewText =
   /*i18n*/
   {
-    id: "BqcTIZ",
+    id: "hR3iKS",
     values: {
       teamName: teamName
     }
