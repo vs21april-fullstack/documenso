@@ -1,6 +1,7 @@
 import { env } from '@documenso/lib/utils/env';
 
 import { AzureBlobProvider } from './azure-blob-provider';
+import { OmniProvider } from './omni-provider';
 import { S3Provider } from './s3-provider';
 import type { StorageProvider } from './storage-provider';
 
@@ -16,6 +17,9 @@ export const getStorageProvider = (): StorageProvider => {
   const transport = env('NEXT_PUBLIC_UPLOAD_TRANSPORT');
 
   switch (transport) {
+    case 'omni':
+      cached = new OmniProvider();
+      return cached;
     case 's3':
       cached = new S3Provider();
       return cached;
@@ -23,6 +27,6 @@ export const getStorageProvider = (): StorageProvider => {
       cached = new AzureBlobProvider();
       return cached;
     default:
-      throw new Error(`Invalid object storage transport: "${transport}". Expected "s3" or "azure-blob".`);
+      throw new Error(`Invalid object storage transport: "${transport}". Expected "s3", "omni" or "azure-blob".`);
   }
 };

@@ -77,6 +77,7 @@ export const putFileServerSide = async (file: File) => {
   const NEXT_PUBLIC_UPLOAD_TRANSPORT = env('NEXT_PUBLIC_UPLOAD_TRANSPORT');
 
   return await match(NEXT_PUBLIC_UPLOAD_TRANSPORT)
+    .with('omni', async () => putFileInObjectStorage(file))
     .with('s3', async () => putFileInObjectStorage(file))
     .with('azure-blob', async () => putFileInObjectStorage(file))
     .otherwise(async () => putFileInDatabase(file));

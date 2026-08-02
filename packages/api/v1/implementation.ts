@@ -222,11 +222,11 @@ export const ApiContractV1Implementation = tsr.router(ApiContractV1, {
       }
 
       // This error is done AFTER the get envelope so we can test access controls without S3.
-      if (process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 's3') {
+      if (process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 's3' && process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 'omni') {
         return {
           status: 500,
           body: {
-            message: 'Document downloads are only available when S3 storage is configured.',
+            message: 'Document downloads are only available when S3 or Omni storage is configured.',
           },
         };
       }
@@ -350,11 +350,11 @@ export const ApiContractV1Implementation = tsr.router(ApiContractV1, {
     const { body } = args;
 
     try {
-      if (process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 's3') {
+      if (process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 's3' && process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 'omni') {
         return {
           status: 500,
           body: {
-            message: 'Create document is not available without S3 transport.',
+            message: 'Create document is not available without S3 or Omni transport.',
           },
         };
       }
@@ -500,11 +500,11 @@ export const ApiContractV1Implementation = tsr.router(ApiContractV1, {
     } = body;
 
     try {
-      if (process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 's3') {
+      if (process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 's3' && process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT !== 'omni') {
         return {
           status: 500,
           body: {
-            message: 'Create template is not available without S3 transport.',
+            message: 'Create template is not available without S3 or Omni transport.',
           },
         };
       }
