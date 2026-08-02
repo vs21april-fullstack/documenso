@@ -1,4 +1,4 @@
-import { a_, a$, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 } from "./assets/server-build-CEznbUHz.js";
+import { p as prismaWithReplicas, w as AppError, x as AppErrorCode } from "./server-build-CEznbUHz.js";
 import "react/jsx-runtime";
 import "node:stream";
 import "zod";
@@ -117,17 +117,33 @@ import "satori";
 import "node:fs";
 import "stripe";
 import "jose";
+const run = async ({
+  payload,
+  io
+}) => {
+  const {
+    subscriptionClaimId,
+    flags
+  } = payload;
+  const subscriptionClaim = await prismaWithReplicas.subscriptionClaim.findFirst({
+    where: {
+      id: subscriptionClaimId
+    }
+  });
+  if (!subscriptionClaim) {
+    throw new AppError(AppErrorCode.NOT_FOUND, {
+      message: "Subscription claim not found"
+    });
+  }
+  await io.runTask("backport-claims", async () => {
+    const newFlagsJson = JSON.stringify(flags);
+    await prismaWithReplicas.$executeRaw`
+      UPDATE OrganisationClaim
+      SET flags = JSON_MERGE_PATCH(flags, ${newFlagsJson})
+      WHERE originalSubscriptionClaimId = ${subscriptionClaimId}
+    `;
+  });
+};
 export {
-  a_ as allowedActionOrigins,
-  a$ as assets,
-  b0 as assetsBuildDirectory,
-  b1 as basename,
-  b2 as entry,
-  b3 as future,
-  b4 as isSpaMode,
-  b5 as prerender,
-  b6 as publicPath,
-  b7 as routeDiscovery,
-  b8 as routes,
-  b9 as ssr
+  run
 };
