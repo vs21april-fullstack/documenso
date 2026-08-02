@@ -8,7 +8,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 ## Embedded Signing vs Embedded Editor
 
-Documenso offers two types of embedding:
+Omni Sign offers two types of embedding:
 
 - **Embedded Signing** lets you embed the signing experience in your application. Your users sign documents without leaving your site. Available on Teams Plan and above.
 - **Embedded Editor** lets you embed document and template _creation and editing_ in your application. This is an [Enterprise](/docs/policies/enterprise-edition) feature (also available as a Platform Plan add-on). See the [Editor](/docs/developers/embedding/editor) guide.
@@ -25,7 +25,7 @@ The [Platform Plan](https://documen.so/platform-cta-pricing) adds enhanced custo
 
 - Custom CSS and styling variables
 - Dark mode controls
-- Removal of Documenso branding
+- Removal of Omni Sign branding
 
 ---
 
@@ -81,7 +81,7 @@ import { EmbedSignDocument } from '@documenso/embed-react';
 {/* prettier-ignore */}
 <Steps>
 <Step>
-Navigate to your team's templates in Documenso
+Navigate to your team's templates in Omni Sign
 
 ![Team Templates](/embedding/team-templates.png)
 
@@ -152,7 +152,7 @@ If you prefer not to use any SDK, you can embed signing using [Direct Links](/do
 | Prop                  | Type       | Description                                                      |
 | --------------------- | ---------- | ---------------------------------------------------------------- |
 | `token`               | `string`   | **Required.** The direct template token.                         |
-| `host`                | `string`   | Documenso instance URL. Defaults to `https://app.documenso.com`. |
+| `host`                | `string`   | Omni Sign instance URL. Defaults to `https://app.documenso.com`. |
 | `name`                | `string`   | Pre-fill the signer's name.                                      |
 | `lockName`            | `boolean`  | Prevent the signer from changing their name.                     |
 | `email`               | `string`   | Pre-fill the signer's email.                                     |
@@ -173,7 +173,7 @@ If you prefer not to use any SDK, you can embed signing using [Direct Links](/do
 | Prop                  | Type       | Description                                                      |
 | --------------------- | ---------- | ---------------------------------------------------------------- |
 | `token`               | `string`   | **Required.** The recipient's signing token.                     |
-| `host`                | `string`   | Documenso instance URL. Defaults to `https://app.documenso.com`. |
+| `host`                | `string`   | Omni Sign instance URL. Defaults to `https://app.documenso.com`. |
 | `name`                | `string`   | Pre-fill the signer's name.                                      |
 | `lockName`            | `boolean`  | Prevent the signer from changing their name.                     |
 | `language`            | `string`   | Set the UI language. See [Supported Languages](https://github.com/documenso/documenso/tree/main/packages/lib/constants/locales.ts). |

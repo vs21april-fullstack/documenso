@@ -12,7 +12,7 @@ export type TemplateBrandingLogoProps = {
  *
  * - When custom branding is enabled with a logo, the branding logo is shown.
  *   If a safe (http/https) Brand Website is configured, the logo links to it.
- * - Otherwise the Documenso logo is shown.
+ * - Otherwise the Omni Sign logo is shown.
  */
 export const TemplateBrandingLogo = (props: TemplateBrandingLogoProps) => {
   const { className = 'mb-4 h-6' } = props;

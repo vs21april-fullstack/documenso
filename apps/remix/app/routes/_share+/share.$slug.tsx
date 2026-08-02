@@ -69,7 +69,7 @@ export const loader = async ({ request, params: { slug } }: Route.LoaderArgs) =>
     return {};
   }
 
-  // Is hardcoded because this whole meta is hardcoded anyway for Documenso.
+  // Is hardcoded because this whole meta is hardcoded anyway for Omni Sign.
   throw redirect('https://documenso.com');
 };
 

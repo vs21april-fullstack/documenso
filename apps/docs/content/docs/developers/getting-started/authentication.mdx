@@ -9,8 +9,8 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 ## Prerequisites
 
-- A Documenso account (cloud or self-hosted)
-- A Documenso account on any plan (Free, Individual, Team, or Enterprise)
+- A Omni Sign account (cloud or self-hosted)
+- A Omni Sign account on any plan (Free, Individual, Team, or Enterprise)
 
 <Callout type="info">
   Free accounts include API access with a limit of 5 documents per month. [Upgrade to a paid
@@ -24,7 +24,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 <Step>
 ### Open settings
 
-- Log in to your Documenso account
+- Log in to your Omni Sign account
 - Click your avatar in the top right corner
 - Select **Settings** from the dropdown menu
 
@@ -92,12 +92,12 @@ const documents = await response.json();
 
 ### Using the TypeScript SDK
 
-Documenso provides official SDKs that handle authentication for you:
+Omni Sign provides official SDKs that handle authentication for you:
 
 ```typescript
-import { Documenso } from '@documenso/sdk-typescript';
+import { Omni Sign } from '@documenso/sdk-typescript';
 
-const client = new Documenso({
+const client = new Omni Sign({
   apiKey: 'api_xxxxxxxxxxxxxxxx',
 });
 
@@ -146,7 +146,7 @@ DOCUMENSO_API_KEY=api_xxxxxxxxxxxxxxxx
 ```
 
 ```typescript
-const client = new Documenso({
+const client = new Omni Sign({
   apiKey: process.env.DOCUMENSO_API_KEY,
 });
 ```
