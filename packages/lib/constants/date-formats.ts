@@ -2,10 +2,11 @@ import { DateTime } from 'luxon';
 
 import { DEFAULT_DOCUMENT_TIME_ZONE } from './time-zones';
 
-export const DEFAULT_DOCUMENT_DATE_FORMAT = 'yyyy-MM-dd hh:mm a';
+export const DEFAULT_DOCUMENT_DATE_FORMAT = 'MM/dd/yyyy hh:mm a';
 
 export const VALID_DATE_FORMAT_VALUES = [
   DEFAULT_DOCUMENT_DATE_FORMAT,
+  'yyyy-MM-dd hh:mm a',
   'yyyy-MM-dd',
   'dd/MM/yyyy',
   'dd-MM-yyyy',
@@ -17,7 +18,6 @@ export const VALID_DATE_FORMAT_VALUES = [
   'dd/MM/yyyy HH:mm',
   'dd-MM-yyyy hh:mm a',
   'dd-MM-yyyy HH:mm',
-  'MM/dd/yyyy hh:mm a',
   'MM/dd/yyyy HH:mm',
   'dd.MM.yyyy',
   'dd.MM.yyyy HH:mm',
@@ -36,9 +36,14 @@ export type ValidDateFormat = (typeof VALID_DATE_FORMAT_VALUES)[number];
 
 export const DATE_FORMATS = [
   {
+    key: 'MMDDYYYY_TIME_12H',
+    label: 'MM/DD/YYYY hh:mm AM/PM',
+    value: DEFAULT_DOCUMENT_DATE_FORMAT,
+  },
+  {
     key: 'yyyy-MM-dd_HH:mm_12H',
     label: 'YYYY-MM-DD hh:mm AM/PM',
-    value: DEFAULT_DOCUMENT_DATE_FORMAT,
+    value: 'yyyy-MM-dd hh:mm a',
   },
   {
     key: 'yyyy-MM-dd_HH:mm',
@@ -69,11 +74,6 @@ export const DATE_FORMATS = [
     key: 'MMDDYYYY_TIME',
     label: 'MM/DD/YYYY HH:mm',
     value: 'MM/dd/yyyy HH:mm',
-  },
-  {
-    key: 'MMDDYYYY_TIME_12H',
-    label: 'MM/DD/YYYY HH:mm AM/PM',
-    value: 'MM/dd/yyyy hh:mm a',
   },
   {
     key: 'DDMMYYYYHHMM',
