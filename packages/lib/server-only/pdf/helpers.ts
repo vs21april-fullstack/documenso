@@ -56,6 +56,22 @@ export const resolvePdfFontPath = (workingDirectory = process.cwd()) => {
   return fontPath;
 };
 
+export const resolvePdfStaticAssetPath = (assetName: string, workingDirectory = process.cwd()) => {
+  const assetPathCandidates = [
+    path.join(workingDirectory, 'public/static', assetName),
+    path.join(workingDirectory, 'apps/remix/public/static', assetName),
+    path.join(workingDirectory, 'apps/remix/build/client/static', assetName),
+  ];
+
+  const assetPath = assetPathCandidates.find((candidate) => existsSync(candidate));
+
+  if (!assetPath) {
+    throw new Error(`Unable to locate PDF static asset "${assetName}" from working directory: ${workingDirectory}`);
+  }
+
+  return assetPath;
+};
+
 type RecipientPlaceholderInfo = {
   email: string;
   name: string;

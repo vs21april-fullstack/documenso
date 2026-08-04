@@ -47,6 +47,18 @@ const resolvePdfFontPath = (workingDirectory = process.cwd()) => {
   }
   return fontPath;
 };
+const resolvePdfStaticAssetPath = (assetName, workingDirectory = process.cwd()) => {
+  const assetPathCandidates = [
+    path.join(workingDirectory, 'public/static', assetName),
+    path.join(workingDirectory, 'apps/remix/public/static', assetName),
+    path.join(workingDirectory, 'apps/remix/build/client/static', assetName),
+  ];
+  const assetPath = assetPathCandidates.find((candidate) => existsSync(candidate));
+  if (!assetPath) {
+    throw new Error(`Unable to locate PDF static asset "${assetName}" from working directory: ${workingDirectory}`);
+  }
+  return assetPath;
+};
 /*
   Parse field type string to FieldType enum.
   Normalizes the input (uppercase, trim) and validates it's a valid field type.
@@ -166,5 +178,6 @@ export {
   parseFieldMetaFromPlaceholder,
   parseFieldTypeFromPlaceholder,
   resolvePdfFontPath,
+  resolvePdfStaticAssetPath,
 };
 //# sourceMappingURL=helpers.js.map

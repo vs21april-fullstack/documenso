@@ -1,4 +1,5 @@
-import { a_, a$, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 } from './assets/server-build-BA7AMcCx.js';
+import { DateTime } from 'luxon';
+import { p as prismaWithReplicas } from './server-build-BA7AMcCx.js';
 import 'react/jsx-runtime';
 import 'node:stream';
 import 'zod';
@@ -24,7 +25,6 @@ import 'react';
 import '@tanstack/react-query';
 import '@trpc/react-query';
 import '@vvo/tzdb';
-import 'luxon';
 import '@node-rs/bcrypt';
 import 'crypto';
 import 'node:module';
@@ -117,18 +117,28 @@ import 'satori';
 import 'node:fs';
 import 'stripe';
 import 'jose';
-
-export {
-  a_ as allowedActionOrigins,
-  a$ as assets,
-  b0 as assetsBuildDirectory,
-  b1 as basename,
-  b2 as entry,
-  b3 as future,
-  b4 as isSpaMode,
-  b5 as prerender,
-  b6 as publicPath,
-  b7 as routeDiscovery,
-  b8 as routes,
-  b9 as ssr,
+const BATCH_SIZE = 1e4;
+const run = async ({ io }) => {
+  const cutoff = DateTime.now()
+    .minus({
+      hours: 24,
+    })
+    .toJSDate();
+  let totalDeleted = 0;
+  let deleted = 0;
+  do {
+    deleted = await prismaWithReplicas.$executeRaw`
+      DELETE FROM RateLimit
+      WHERE createdAt < ${cutoff}
+      LIMIT ${BATCH_SIZE}
+    `;
+    totalDeleted += deleted;
+  } while (deleted >= BATCH_SIZE);
+  if (totalDeleted > 0) {
+    io.logger.info(`Cleaned up ${totalDeleted} expired rate limit entries`);
+  } else {
+    io.logger.info('No expired rate limit entries to clean up');
+  }
 };
+
+export { run };

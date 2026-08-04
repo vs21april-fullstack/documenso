@@ -1,7 +1,6 @@
 import Konva from 'konva';
 import 'konva/skia-backend';
 import fs__default from 'node:fs';
-import path from 'node:path';
 import { DateTime } from 'luxon';
 import { Image } from 'skia-canvas';
 import { match, P } from 'ts-pattern';
@@ -11,7 +10,7 @@ import { APP_I18N_OPTIONS } from '../../constants/locales.js';
 import { RECIPIENT_ROLES_DESCRIPTION } from '../../constants/recipient-roles.js';
 import { DOCUMENT_AUDIT_LOG_TYPE } from '../../types/document-audit-logs.js';
 import { formatDocumentAuditLogAction } from '../../utils/document-audit-logs.js';
-import { ensureFontLibrary } from './helpers.js';
+import { ensureFontLibrary, resolvePdfStaticAssetPath } from './helpers.js';
 
 const parser = new UAParser();
 const textMutedForegroundLight = '#929DAE';
@@ -25,14 +24,11 @@ const pageBottomMargin = 27;
 const contentMaxWidth = 768;
 const rowPadding = 10;
 const titleFontSize = 18;
-const renderOverviewCardLabels = options => {
-  const {
-    width,
-    text
-  } = options;
+const renderOverviewCardLabels = (options) => {
+  const { width, text } = options;
   const labelYSpacing = 4;
   const group = new Konva.Group({
-    x: options.groupX ?? 0
+    x: options.groupX ?? 0,
   });
   const label = new Konva.Text({
     x: 0,
@@ -41,7 +37,7 @@ const renderOverviewCardLabels = options => {
     fontStyle: fontMedium,
     fontFamily: 'Inter',
     fill: textForeground,
-    fontSize: textSm
+    fontSize: textSm,
   });
   group.add(label);
   if (typeof text === 'string') {
@@ -53,7 +49,7 @@ const renderOverviewCardLabels = options => {
       text,
       fill: textForeground,
       wrap: 'char',
-      fontSize: textSm
+      fontSize: textSm,
     });
     group.add(value);
   } else {
@@ -66,26 +62,18 @@ const renderOverviewCardLabels = options => {
         text: '• ' + textValue,
         fill: textForeground,
         wrap: 'char',
-        fontSize: textSm
+        fontSize: textSm,
       });
       group.add(value);
     }
   }
   return group;
 };
-const renderVerticalLabelAndText = options => {
-  const {
-    label,
-    text,
-    width,
-    align,
-    x,
-    y,
-    textFontFamily
-  } = options;
+const renderVerticalLabelAndText = (options) => {
+  const { label, text, width, align, x, y, textFontFamily } = options;
   const group = new Konva.Group({
     x: x ?? 0,
-    y: y ?? 0
+    y: y ?? 0,
   });
   const konvaLabel = new Konva.Text({
     align: align ?? 'left',
@@ -93,7 +81,7 @@ const renderVerticalLabelAndText = options => {
     width,
     text: label,
     fontSize: textXs,
-    fill: textMutedForegroundLight
+    fill: textMutedForegroundLight,
   });
   group.add(konvaLabel);
   const konvaText = new Konva.Text({
@@ -103,20 +91,13 @@ const renderVerticalLabelAndText = options => {
     width,
     text: text,
     fontSize: textXs,
-    fill: textForeground
+    fill: textForeground,
   });
   group.add(konvaText);
   return group;
 };
-const renderOverviewCard = options => {
-  const {
-    envelope,
-    envelopeItems,
-    envelopeOwner,
-    recipients,
-    width,
-    i18n
-  } = options;
+const renderOverviewCard = (options) => {
+  const { envelope, envelopeItems, envelopeOwner, recipients, width, i18n } = options;
   const cardPadding = 16;
   const overviewCard = new Konva.Group();
   const columnSpacing = 10;
@@ -124,108 +105,128 @@ const renderOverviewCard = options => {
   const rowVerticalSpacing = 32;
   const rowOne = new Konva.Group({
     x: cardPadding,
-    y: cardPadding
+    y: cardPadding,
   });
   const envelopeIdLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "YQM6Sv"
-    }),
+      /*i18n*/
+      {
+        id: 'YQM6Sv',
+      },
+    ),
     text: envelope.id,
-    width: columnWidth
+    width: columnWidth,
   });
   const ownerLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "LtI9AS"
-    }),
+      /*i18n*/
+      {
+        id: 'LtI9AS',
+      },
+    ),
     text: `${envelopeOwner.name} (${envelopeOwner.email})`,
     width: columnWidth,
-    groupX: columnWidth + columnSpacing
+    groupX: columnWidth + columnSpacing,
   });
   rowOne.add(envelopeIdLabel);
   rowOne.add(ownerLabel);
   overviewCard.add(rowOne);
   const rowTwo = new Konva.Group({
     x: cardPadding,
-    y: overviewCard.getClientRect().height + rowVerticalSpacing
+    y: overviewCard.getClientRect().height + rowVerticalSpacing,
   });
   const statusLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "uAQUqI"
-    }),
-    text: i18n._(envelope.deletedAt ?
-    /*i18n*/
-    {
-      id: "vGjmyl"
-    } : DOCUMENT_STATUS[envelope.status].description).toUpperCase(),
-    width: columnWidth
+      /*i18n*/
+      {
+        id: 'uAQUqI',
+      },
+    ),
+    text: i18n
+      ._(
+        envelope.deletedAt
+          ? /*i18n*/
+            {
+              id: 'vGjmyl',
+            }
+          : DOCUMENT_STATUS[envelope.status].description,
+      )
+      .toUpperCase(),
+    width: columnWidth,
   });
   const timeZoneLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "RxsRD6"
-    }),
+      /*i18n*/
+      {
+        id: 'RxsRD6',
+      },
+    ),
     text: envelope.documentMeta?.timezone || 'N/A',
     width: columnWidth,
-    groupX: columnWidth + columnSpacing
+    groupX: columnWidth + columnSpacing,
   });
   rowTwo.add(statusLabel);
   rowTwo.add(timeZoneLabel);
   overviewCard.add(rowTwo);
   const rowThree = new Konva.Group({
     x: cardPadding,
-    y: overviewCard.getClientRect().height + rowVerticalSpacing
+    y: overviewCard.getClientRect().height + rowVerticalSpacing,
   });
   const createdAtLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "88kg0+"
-    }),
-    text: DateTime.fromJSDate(envelope.createdAt).setLocale(APP_I18N_OPTIONS.defaultLocale).toFormat('yyyy-MM-dd hh:mm:ss a (ZZZZ)'),
-    width: columnWidth
+      /*i18n*/
+      {
+        id: '88kg0+',
+      },
+    ),
+    text: DateTime.fromJSDate(envelope.createdAt)
+      .setLocale(APP_I18N_OPTIONS.defaultLocale)
+      .toFormat('yyyy-MM-dd hh:mm:ss a (ZZZZ)'),
+    width: columnWidth,
   });
   const lastUpdatedLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "K7P0jz"
-    }),
-    text: DateTime.fromJSDate(envelope.updatedAt).setLocale(APP_I18N_OPTIONS.defaultLocale).toFormat('yyyy-MM-dd hh:mm:ss a (ZZZZ)'),
+      /*i18n*/
+      {
+        id: 'K7P0jz',
+      },
+    ),
+    text: DateTime.fromJSDate(envelope.updatedAt)
+      .setLocale(APP_I18N_OPTIONS.defaultLocale)
+      .toFormat('yyyy-MM-dd hh:mm:ss a (ZZZZ)'),
     width: columnWidth,
-    groupX: columnWidth + columnSpacing
+    groupX: columnWidth + columnSpacing,
   });
   rowThree.add(createdAtLabel);
   rowThree.add(lastUpdatedLabel);
   overviewCard.add(rowThree);
   const rowFour = new Konva.Group({
     x: cardPadding,
-    y: overviewCard.getClientRect().height + rowVerticalSpacing
+    y: overviewCard.getClientRect().height + rowVerticalSpacing,
   });
   const enclosedDocumentsLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "BBZOHp"
-    }),
+      /*i18n*/
+      {
+        id: 'BBZOHp',
+      },
+    ),
     text: envelopeItems,
-    width: columnWidth
+    width: columnWidth,
   });
   const recipientsLabel = renderOverviewCardLabels({
     label: i18n._(
-    /*i18n*/
-    {
-      id: "yPrbsy"
-    }),
-    text: recipients.map(recipient => `[${i18n._(RECIPIENT_ROLES_DESCRIPTION[recipient.role].roleName)}] ${recipient.name} (${recipient.email})`),
+      /*i18n*/
+      {
+        id: 'yPrbsy',
+      },
+    ),
+    text: recipients.map(
+      (recipient) =>
+        `[${i18n._(RECIPIENT_ROLES_DESCRIPTION[recipient.role].roleName)}] ${recipient.name} (${recipient.email})`,
+    ),
     width: columnWidth,
-    groupX: columnWidth + columnSpacing
+    groupX: columnWidth + columnSpacing,
   });
   rowFour.add(enclosedDocumentsLabel);
   rowFour.add(recipientsLabel);
@@ -238,17 +239,13 @@ const renderOverviewCard = options => {
     height: overviewCard.getClientRect().height + cardPadding * 2,
     stroke: '#e5e7eb',
     strokeWidth: 1.5,
-    cornerRadius: 8
+    cornerRadius: 8,
   });
   overviewCard.add(cardRect);
   return overviewCard;
 };
-const renderRow = options => {
-  const {
-    auditLog,
-    width,
-    i18n
-  } = options;
+const renderRow = (options) => {
+  const { auditLog, width, i18n } = options;
   const paddingWithinCard = 12;
   const columnSpacing = 10;
   const columnWidth = (width - paddingWithinCard * 2 - columnSpacing) / 2;
@@ -260,7 +257,7 @@ const renderRow = options => {
     x: indicatorWidth,
     y: indicatorWidth + 3,
     radius: indicatorWidth,
-    fill: getAuditLogIndicatorColor(auditLog.type)
+    fill: getAuditLogIndicatorColor(auditLog.type),
   });
   const auditLogTypeText = new Konva.Text({
     x: indicatorWidth + indicatorPaddingRight,
@@ -270,7 +267,7 @@ const renderRow = options => {
     fontFamily: 'Inter',
     fontSize: textSm,
     fontStyle: fontMedium,
-    fill: textMutedForeground
+    fill: textMutedForeground,
   });
   const auditLogDescriptionText = new Konva.Text({
     x: indicatorWidth + indicatorPaddingRight,
@@ -279,7 +276,7 @@ const renderRow = options => {
     text: formatDocumentAuditLogAction(i18n, auditLog).description,
     fontFamily: 'Inter',
     fontSize: textSm,
-    fill: textForeground
+    fill: textForeground,
   });
   const auditLogTimestampText = new Konva.Text({
     x: columnWidth + columnSpacing,
@@ -288,7 +285,7 @@ const renderRow = options => {
     fontFamily: 'Inter',
     align: 'right',
     fontSize: textSm,
-    fill: textMutedForeground
+    fill: textMutedForeground,
   });
   rowHeaderGroup.add(auditLogIndicatorColor);
   rowHeaderGroup.add(auditLogTypeText);
@@ -296,7 +293,7 @@ const renderRow = options => {
   rowHeaderGroup.add(auditLogTimestampText);
   rowHeaderGroup.setAttrs({
     x: paddingWithinCard,
-    y: paddingWithinCard
+    y: paddingWithinCard,
   });
   rowGroup.add(rowHeaderGroup);
   // Draw border line.
@@ -305,37 +302,43 @@ const renderRow = options => {
     stroke: '#e5e7eb',
     strokeWidth: 1,
     x: paddingWithinCard,
-    y: rowGroup.getClientRect().height + paddingWithinCard + 12
+    y: rowGroup.getClientRect().height + paddingWithinCard + 12,
   });
   rowGroup.add(borderLine);
   const bottomSection = new Konva.Group({
     x: paddingWithinCard,
-    y: rowGroup.getClientRect().height + paddingWithinCard + 12
+    y: rowGroup.getClientRect().height + paddingWithinCard + 12,
   });
   // Row 1 Column 1
   const userLabel = renderVerticalLabelAndText({
-    label: i18n._(
-    /*i18n*/
-    {
-      id: "7PzzBU"
-    }).toUpperCase(),
+    label: i18n
+      ._(
+        /*i18n*/
+        {
+          id: '7PzzBU',
+        },
+      )
+      .toUpperCase(),
     text: auditLog.email || 'N/A',
     align: 'left',
     width: columnWidth,
-    textFontFamily: 'ui-monospace'
+    textFontFamily: 'ui-monospace',
   });
   // Row 1 Column 2
   const ipAddressLabel = renderVerticalLabelAndText({
-    label: i18n._(
-    /*i18n*/
-    {
-      id: "1xMiTU"
-    }).toUpperCase(),
+    label: i18n
+      ._(
+        /*i18n*/
+        {
+          id: '1xMiTU',
+        },
+      )
+      .toUpperCase(),
     text: auditLog.ipAddress || 'N/A',
     align: 'right',
     x: columnWidth + columnSpacing,
     width: columnWidth,
-    textFontFamily: 'ui-monospace'
+    textFontFamily: 'ui-monospace',
   });
   bottomSection.add(userLabel);
   bottomSection.add(ipAddressLabel);
@@ -343,15 +346,18 @@ const renderRow = options => {
   const userAgentInfo = parser.getResult();
   // Row 2 Column 1
   const userAgentLabel = renderVerticalLabelAndText({
-    label: i18n._(
-    /*i18n*/
-    {
-      id: "qM884L"
-    }).toUpperCase(),
+    label: i18n
+      ._(
+        /*i18n*/
+        {
+          id: 'qM884L',
+        },
+      )
+      .toUpperCase(),
     text: i18n._(formatUserAgent(auditLog.userAgent, userAgentInfo)),
     align: 'left',
     width,
-    y: bottomSection.getClientRect().height + 16
+    y: bottomSection.getClientRect().height + 16,
   });
   bottomSection.add(userAgentLabel);
   rowGroup.add(bottomSection);
@@ -362,7 +368,7 @@ const renderRow = options => {
     height: rowGroup.getClientRect().height + paddingWithinCard * 2,
     stroke: '#e5e7eb',
     strokeWidth: 1,
-    cornerRadius: 8
+    cornerRadius: 8,
   });
   rowGroup.add(cardRect);
   return rowGroup;
@@ -370,26 +376,20 @@ const renderRow = options => {
 const renderBranding = () => {
   const branding = new Konva.Group();
   const brandingHeight = 16;
-  const logoPath = path.join(process.cwd(), 'public/static/logo.png');
+  const logoPath = resolvePdfStaticAssetPath('logo.png');
   const logo = fs__default.readFileSync(logoPath);
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const img = new Image(logo);
   const brandingImage = new Konva.Image({
     image: img,
     height: brandingHeight,
-    width: brandingHeight * (img.width / img.height)
+    width: brandingHeight * (img.width / img.height),
   });
   branding.add(brandingImage);
   return branding;
 };
-const groupRowsIntoPages = options => {
-  const {
-    auditLogs,
-    maxHeight,
-    contentWidth,
-    i18n,
-    overviewCard
-  } = options;
+const groupRowsIntoPages = (options) => {
+  const { auditLogs, maxHeight, contentWidth, i18n, overviewCard } = options;
   const groupedRows = [[]];
   const overviewCardHeight = overviewCard.getClientRect().height;
   // First page has title + overview card
@@ -400,7 +400,7 @@ const groupRowsIntoPages = options => {
     const row = renderRow({
       auditLog,
       width: contentWidth,
-      i18n
+      i18n,
     });
     const rowHeight = row.getClientRect().height;
     const requiredHeight = rowHeight + rowPadding;
@@ -417,14 +417,8 @@ const groupRowsIntoPages = options => {
   }
   return groupedRows;
 };
-const renderPages = options => {
-  const {
-    groupedRows,
-    margin,
-    pageTopMargin,
-    i18n,
-    overviewCard
-  } = options;
+const renderPages = (options) => {
+  const { groupedRows, margin, pageTopMargin, i18n, overviewCard } = options;
   const rowPadding = 10;
   const pages = [];
   // Render the rows for each page.
@@ -437,21 +431,22 @@ const renderPages = options => {
       height: pageTopMargin,
       verticalAlign: 'middle',
       text: i18n._(
-      /*i18n*/
-      {
-        id: "ilRCh1"
-      }),
+        /*i18n*/
+        {
+          id: 'ilRCh1',
+        },
+      ),
       fill: textForeground,
       fontFamily: 'Inter',
       fontSize: titleFontSize,
-      fontStyle: '700'
+      fontStyle: '700',
     });
     pageGroup.add(pageTitle);
     // Add overview card only on first page
     if (pageIndex === 0) {
       overviewCard.setAttrs({
         x: margin,
-        y: pageGroup.getClientRect().height
+        y: pageGroup.getClientRect().height,
       });
       pageGroup.add(overviewCard);
     }
@@ -460,7 +455,7 @@ const renderPages = options => {
       const yPosition = pageGroup.getClientRect().height + rowPadding;
       row.setAttrs({
         x: margin,
-        y: yPosition
+        y: yPosition,
       });
       pageGroup.add(row);
     }
@@ -477,7 +472,7 @@ async function renderAuditLogs({
   pageWidth,
   pageHeight,
   i18n,
-  hidePoweredBy
+  hidePoweredBy,
 }) {
   ensureFontLibrary();
   const minimumMargin = 10;
@@ -485,7 +480,7 @@ async function renderAuditLogs({
   const margin = (pageWidth - contentWidth) / 2;
   let stage = new Konva.Stage({
     width: pageWidth,
-    height: pageHeight
+    height: pageHeight,
   });
   const overviewCard = renderOverviewCard({
     envelope,
@@ -493,21 +488,21 @@ async function renderAuditLogs({
     envelopeItems,
     recipients,
     width: contentWidth,
-    i18n
+    i18n,
   });
   const groupedRows = groupRowsIntoPages({
     auditLogs,
     maxHeight: pageHeight - pageBottomMargin,
     contentWidth,
     i18n,
-    overviewCard
+    overviewCard,
   });
   const pageGroups = renderPages({
     groupedRows,
     margin,
     pageTopMargin,
     i18n,
-    overviewCard
+    overviewCard,
   });
   const brandingGroup = renderBranding();
   const brandingRect = brandingGroup.getClientRect();
@@ -522,13 +517,14 @@ async function renderAuditLogs({
       x: margin,
       y: pageHeight - textXs - 10,
       text: `${i18n._(
-      /*i18n*/
-      {
-        id: "YQM6Sv"
-      })}: ${envelope.id}`,
+        /*i18n*/
+        {
+          id: 'YQM6Sv',
+        },
+      )}: ${envelope.id}`,
       fontFamily: 'Inter',
       fontSize: textXs,
-      fill: textMutedForegroundLight
+      fill: textMutedForegroundLight,
     });
     page.add(footerText);
     page.add(pageGroup);
@@ -538,7 +534,7 @@ async function renderAuditLogs({
       if (brandingRect.height + brandingTopPadding <= remainingHeight) {
         brandingGroup.setAttrs({
           x: pageWidth - brandingRect.width - margin,
-          y: pageGroup.getClientRect().height + brandingTopPadding
+          y: pageGroup.getClientRect().height + brandingTopPadding,
         });
         page.add(brandingGroup);
         isBrandingPlaced = true;
@@ -556,19 +552,20 @@ async function renderAuditLogs({
     const page = new Konva.Layer();
     brandingGroup.setAttrs({
       x: pageWidth - brandingRect.width - margin,
-      y: pageTopMargin
+      y: pageTopMargin,
     });
     const overflowFooterText = new Konva.Text({
       x: margin,
       y: pageHeight - textXs - 10,
       text: `${i18n._(
-      /*i18n*/
-      {
-        id: "YQM6Sv"
-      })}: ${envelope.id}`,
+        /*i18n*/
+        {
+          id: 'YQM6Sv',
+        },
+      )}: ${envelope.id}`,
       fontFamily: 'Inter',
       fontSize: textXs,
-      fill: textMutedForegroundLight
+      fill: textMutedForegroundLight,
     });
     page.add(overflowFooterText);
     page.add(brandingGroup);
@@ -584,19 +581,25 @@ async function renderAuditLogs({
 }
 const dateFormat = {
   ...DateTime.DATETIME_SHORT,
-  hourCycle: 'h12'
+  hourCycle: 'h12',
 };
 /**
  * Get the color indicator for the audit log type
  */
-const getAuditLogIndicatorColor = type => match(type).with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_COMPLETED, () => '#22c55e') // bg-green-500
-.with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_REJECTED, () => '#ef4444') // bg-red-500
-.with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_SENT, () => '#f97316') // bg-orange-500
-.with(P.union(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_FIELD_INSERTED, DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_FIELD_UNINSERTED), () => '#3b82f6').otherwise(() => '#f1f5f9'); // bg-muted
+const getAuditLogIndicatorColor = (type) =>
+  match(type)
+    .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_COMPLETED, () => '#22c55e') // bg-green-500
+    .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_RECIPIENT_REJECTED, () => '#ef4444') // bg-red-500
+    .with(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_SENT, () => '#f97316') // bg-orange-500
+    .with(
+      P.union(DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_FIELD_INSERTED, DOCUMENT_AUDIT_LOG_TYPE.DOCUMENT_FIELD_UNINSERTED),
+      () => '#3b82f6',
+    )
+    .otherwise(() => '#f1f5f9'); // bg-muted
 const formatUserAgent = (userAgent, userAgentInfo) => {
   if (!userAgent) {
-    return /*i18n*/{
-      id: "fj5byd"
+    return /*i18n*/ {
+      id: 'fj5byd',
     };
   }
   const browser = userAgentInfo.browser.name;
@@ -605,19 +608,19 @@ const formatUserAgent = (userAgent, userAgentInfo) => {
   // If we can parse meaningful browser info, format it nicely
   if (browser && os) {
     const browserInfo = version ? `${browser} ${version}` : browser;
-    return /*i18n*/{
-      id: "0XTimV",
+    return /*i18n*/ {
+      id: '0XTimV',
       values: {
         browserInfo: browserInfo,
-        os: os
-      }
+        os: os,
+      },
     };
   }
-  return /*i18n*/{
-    id: "LvpoD+",
+  return /*i18n*/ {
+    id: 'LvpoD+',
     values: {
-      userAgent: userAgent
-    }
+      userAgent: userAgent,
+    },
   };
 };
 

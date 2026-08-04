@@ -4,7 +4,6 @@ import type { DocumentMeta, Envelope, RecipientRole } from '@prisma/client';
 import Konva from 'konva';
 import 'konva/skia-backend';
 import fs from 'node:fs';
-import path from 'node:path';
 import type { DateTimeFormatOptions } from 'luxon';
 import { DateTime } from 'luxon';
 import type { Canvas } from 'skia-canvas';
@@ -18,7 +17,7 @@ import { RECIPIENT_ROLES_DESCRIPTION } from '../../constants/recipient-roles';
 import type { TDocumentAuditLog } from '../../types/document-audit-logs';
 import { DOCUMENT_AUDIT_LOG_TYPE } from '../../types/document-audit-logs';
 import { formatDocumentAuditLogAction } from '../../utils/document-audit-logs';
-import { ensureFontLibrary } from './helpers';
+import { ensureFontLibrary, resolvePdfStaticAssetPath } from './helpers';
 
 export type AuditLogRecipient = {
   id: number;
@@ -440,7 +439,7 @@ const renderBranding = () => {
 
   const brandingHeight = 16;
 
-  const logoPath = path.join(process.cwd(), 'public/static/logo.png');
+  const logoPath = resolvePdfStaticAssetPath('logo.png');
   const logo = fs.readFileSync(logoPath);
 
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
