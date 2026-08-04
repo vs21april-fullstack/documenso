@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import type { Recipient } from '@prisma/client';
@@ -12,7 +13,7 @@ import { match } from 'ts-pattern';
  * times is a no-op after the first invocation.
  */
 export const ensureFontLibrary = () => {
-  const fontPath = path.join(process.cwd(), 'public/fonts');
+  const fontPath = resolvePdfFontPath();
 
   if (!FontLibrary.has('Caveat')) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -37,6 +38,22 @@ export const ensureFontLibrary = () => {
       ['Noto Sans Korean']: [path.join(fontPath, 'noto-sans-korean.ttf')],
     });
   }
+};
+
+export const resolvePdfFontPath = (workingDirectory = process.cwd()) => {
+  const fontPathCandidates = [
+    path.join(workingDirectory, 'public/fonts'),
+    path.join(workingDirectory, 'apps/remix/public/fonts'),
+    path.join(workingDirectory, 'apps/remix/build/client/fonts'),
+  ];
+
+  const fontPath = fontPathCandidates.find((candidate) => existsSync(path.join(candidate, 'caveat.ttf')));
+
+  if (!fontPath) {
+    throw new Error(`Unable to locate PDF fonts from working directory: ${workingDirectory}`);
+  }
+
+  return fontPath;
 };
 
 type RecipientPlaceholderInfo = {

@@ -1,4 +1,6 @@
-import { a_, a$, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 } from './assets/server-build-9dGanYtW.js';
+import { DocumentStatus, EnvelopeType, RecipientRole, SigningStatus } from '@prisma/client';
+import { DateTime } from 'luxon';
+import { L as jobs, aY as mapSecondaryIdToDocumentId, p as prismaWithReplicas } from './server-build-9dGanYtW.js';
 import 'react/jsx-runtime';
 import 'node:stream';
 import 'zod';
@@ -9,7 +11,6 @@ import '@react-router/node';
 import 'isbot';
 import 'react-dom/server';
 import 'react-router';
-import '@prisma/client';
 import '@prisma/extension-read-replicas';
 import 'kysely';
 import 'prisma-extension-kysely';
@@ -24,7 +25,6 @@ import 'react';
 import '@tanstack/react-query';
 import '@trpc/react-query';
 import '@vvo/tzdb';
-import 'luxon';
 import '@node-rs/bcrypt';
 import 'crypto';
 import 'node:module';
@@ -117,18 +117,74 @@ import 'satori';
 import 'node:fs';
 import 'stripe';
 import 'jose';
-
-export {
-  a_ as allowedActionOrigins,
-  a$ as assets,
-  b0 as assetsBuildDirectory,
-  b1 as basename,
-  b2 as entry,
-  b3 as future,
-  b4 as isSpaMode,
-  b5 as prerender,
-  b6 as publicPath,
-  b7 as routeDiscovery,
-  b8 as routes,
-  b9 as ssr,
+const run = async ({ io }) => {
+  const now = DateTime.now();
+  const fifteenMinutesAgo = now
+    .minus({
+      minutes: 15,
+    })
+    .toJSDate();
+  const sixHoursAgo = now
+    .minus({
+      hours: 6,
+    })
+    .toJSDate();
+  const candidates = await prismaWithReplicas.envelope.findMany({
+    where: {
+      status: DocumentStatus.PENDING,
+      type: EnvelopeType.DOCUMENT,
+      deletedAt: null,
+      recipients: {
+        some: {
+          signedAt: {
+            gt: sixHoursAgo,
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+      secondaryId: true,
+      recipients: {
+        select: {
+          role: true,
+          signedAt: true,
+          signingStatus: true,
+        },
+      },
+    },
+    take: 500,
+  });
+  const unsealedEnvelopes = candidates
+    .filter(({ recipients }) => {
+      const isReadyToSeal =
+        recipients.every(
+          (recipient) => recipient.signingStatus === SigningStatus.SIGNED || recipient.role === RecipientRole.CC,
+        ) || recipients.some((recipient) => recipient.signingStatus === SigningStatus.REJECTED);
+      const hasRecentActivity = recipients.some(
+        (recipient) => recipient.signedAt !== null && recipient.signedAt > fifteenMinutesAgo,
+      );
+      return isReadyToSeal && !hasRecentActivity;
+    })
+    .slice(0, 100);
+  if (unsealedEnvelopes.length === 0) {
+    io.logger.info('No unsealed documents found');
+    return;
+  }
+  io.logger.info(`Found ${unsealedEnvelopes.length} unsealed documents`);
+  await Promise.allSettled(
+    unsealedEnvelopes.map(async (envelope) => {
+      const documentId = mapSecondaryIdToDocumentId(envelope.secondaryId);
+      io.logger.info(`Triggering seal for document ${documentId} (${envelope.id})`);
+      await jobs.triggerJob({
+        name: 'internal.seal-document',
+        payload: {
+          documentId,
+          isResealing: true,
+        },
+      });
+    }),
+  );
 };
+
+export { run };
