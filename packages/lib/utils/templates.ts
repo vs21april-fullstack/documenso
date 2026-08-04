@@ -1,11 +1,11 @@
 import type { Envelope, Recipient } from '@prisma/client';
 
-import { NEXT_PUBLIC_WEBAPP_URL } from '../constants/app';
 import type { TTemplateLite } from '../types/template';
 import { mapSecondaryIdToTemplateId } from './envelope';
+import { resolveWebappUrl } from './url';
 
 export const formatDirectTemplatePath = (token: string) => {
-  return `${NEXT_PUBLIC_WEBAPP_URL()}/d/${token}`;
+  return resolveWebappUrl(`/d/${token}`);
 };
 
 /**

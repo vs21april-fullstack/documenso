@@ -7,7 +7,13 @@ export interface TemplateDocumentImageProps {
 
 export const TemplateDocumentImage = ({ assetBaseUrl, className }: TemplateDocumentImageProps) => {
   const getAssetUrl = (path: string) => {
-    return new URL(path.replace(/^\/+/, ''), assetBaseUrl).toString();
+    let base = assetBaseUrl;
+
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
 
   return (

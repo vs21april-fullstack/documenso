@@ -19,7 +19,13 @@ export const TemplateAccessAuth2FA = ({
   assetBaseUrl = 'http://localhost:3002',
 }: TemplateAccessAuth2FAProps) => {
   const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
+    let base = assetBaseUrl;
+
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
 
   return (

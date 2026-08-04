@@ -1,0 +1,372 @@
+import { a as j, b as T, A as u } from './alert-CE06zyBg.js';
+import { A as L } from './animate-generic-fade-in-out-CGjjMFem.js';
+import { A as R } from './avatar-image-BSlOEaps.js';
+import { B as d } from './button-Dm_JGgap.js';
+import { r as D, w as k } from './chunk-KS7C4IRE-FYOnnPbz.js';
+import { a as C, b as E, e as H, c as I, d as M, D as P, f as X } from './dialog-DKtG3c-O.js';
+import { c as A, b as F, F as K, a as N, u as Q, d as S, e as w, L as z } from './form-BX2-nwLu.js';
+import { t as h } from './index-BbY_VZqi.js';
+import { A as W } from './index-BlIM-koY.js';
+import { u as f, T as s } from './index-CkOHfBoV.js';
+import { a as J } from './index-PjhXdBcw.js';
+import { I as g } from './input-DdDbBJYb.js';
+import { j as e } from './jsx-runtime-DrYFQjIW.js';
+import { a as q } from './meta-1txnm5en.js';
+import { Z as Y } from './name-B9Bt3kH5.js';
+import { i as B } from './organisations-CAYnRnac.js';
+import { u as v } from './session-DJFUfUIe.js';
+import { S as V } from './settings-header-C7I7HmzF.js';
+import { S as G } from './signature-pad-dialog-CDyaU21P.js';
+import { o as O, s as Z } from './types-GU3YNY2F.js';
+import { u as b } from './use-toast-pMYLxjk1.js';
+import { c as _ } from './utils-C68LRSOY.js';
+import { t as U } from './zod-C00iebzH.js';
+import './data-transformer-DaTnp7WB.js';
+import './app-uAhqo_pP.js';
+import './index-BiLbLflF.js';
+import './index-DJ-EwNXm.js';
+import './time-zones-DGI2eNDr.js';
+import './envelope-reminder-YclQYJ2m.js';
+import './organisations-bLnymRV_.js';
+import './index-browser-CnbpKWEs.js';
+import './document-email-DcBZA0tR.js';
+import './useQuery-Cl3ReeOA.js';
+import './proxy-dEM8-k5c.js';
+import './loader-aSxoB_gm.js';
+import './createLucideIcon-UOjYlZt5.js';
+import './index-BoPcnRXW.js';
+import './index-DzY7AtIB.js';
+import './index-DAyHhKCk.js';
+import './index-J1tJADds.js';
+import './index-C829O7aq.js';
+import './index-UGPUXo4T.js';
+import './Combination-DaG98sNE.js';
+import './index-ZximTWpF.js';
+import './x-BhPRmTZ1.js';
+import './index-DNctjvwm.js';
+import './avatars-GsGH8fkv.js';
+import './recipient-formatter-WzUNI0pB.js';
+import './avatar-BS15TO7o.js';
+import './index-CWo-8VFg.js';
+import './index-CTt2uJ_H.js';
+import './index-BTNl4YRl.js';
+import './index-Chjiymov.js';
+import './i18n-CTl8GuWM.js';
+import './preload-helper-CW4hCJly.js';
+import './index-CBoJQWs5.js';
+import './locales-CAv2cHk7.js';
+import './document-CYL_BYk5.js';
+import './teams-WAT4Ivvc.js';
+import './teams-D27qC-4o.js';
+import './signatures-9TyUhfQR.js';
+import './signature-gMGlyIgk.js';
+import './select-Dvz92dRn.js';
+import './index-DXkD4Uno.js';
+import './index-_mbtlgCZ.js';
+import './index-DoLGTOH8.js';
+import './index-KpgwOPga.js';
+import './index-MjUwLcg-.js';
+import './index-CZmIGLNu.js';
+import './chevron-down-mVGROlJc.js';
+import './check--7Y29bNj.js';
+import './cloud-upload-BW9TGWWx.js';
+import './url-CP0Hgou8.js';
+const $ = ({ className: n }) => {
+    const { user: r } = v(),
+      { _: i } = f(),
+      { toast: t } = b(),
+      a = r.twoFactorEnabled,
+      [o, m] = D.useState(''),
+      { mutateAsync: p, isPending: x } = h.profile.deleteAccount.useMutation(),
+      l = async () => {
+        try {
+          return (
+            await p(),
+            t({ title: i({ id: 'TKFUnX' }), description: i({ id: 'gmJH7Y' }), duration: 5e3 }),
+            await J.signOut()
+          );
+        } catch {
+          t({ title: i({ id: 'vW+T+d' }), variant: 'destructive', description: i({ id: 'QbeZrm' }) });
+        }
+      };
+    return e.jsx('div', {
+      className: n,
+      children: e.jsxs(u, {
+        className: 'flex flex-col items-center justify-between gap-4 p-6 md:flex-row',
+        variant: 'neutral',
+        children: [
+          e.jsxs('div', {
+            children: [
+              e.jsx(T, { children: e.jsx(s, { id: 'vzX5FB' }) }),
+              e.jsx(j, { className: 'mr-2', children: e.jsx(s, { id: 'IJMZKG' }) }),
+            ],
+          }),
+          e.jsx('div', {
+            className: 'flex-shrink-0',
+            children: e.jsxs(P, {
+              onOpenChange: () => m(''),
+              children: [
+                e.jsx(C, {
+                  asChild: !0,
+                  children: e.jsx(d, { variant: 'destructive', children: e.jsx(s, { id: 'vzX5FB' }) }),
+                }),
+                e.jsxs(E, {
+                  children: [
+                    e.jsxs(I, {
+                      className: 'space-y-4',
+                      children: [
+                        e.jsx(M, { children: e.jsx(s, { id: 'vzX5FB' }) }),
+                        e.jsx(u, {
+                          variant: 'destructive',
+                          children: e.jsx(j, {
+                            className: 'selection:bg-red-100',
+                            children: e.jsx(s, { id: '3ap2Vv' }),
+                          }),
+                        }),
+                        a &&
+                          e.jsx(u, {
+                            variant: 'destructive',
+                            children: e.jsx(j, {
+                              className: 'selection:bg-red-100',
+                              children: e.jsx(s, { id: 'pf7wfS' }),
+                            }),
+                          }),
+                        e.jsx(H, {
+                          children: e.jsx(s, {
+                            id: 'dHxNXJ',
+                            components: { 0: e.jsx('span', { className: 'font-semibold' }) },
+                          }),
+                        }),
+                      ],
+                    }),
+                    !a &&
+                      e.jsxs('div', {
+                        children: [
+                          e.jsx(z, {
+                            children: e.jsx(s, {
+                              id: '2oj8HJ',
+                              values: { 0: r.email },
+                              components: { 0: e.jsx('span', { className: 'font-semibold text-muted-foreground' }) },
+                            }),
+                          }),
+                          e.jsx(g, {
+                            type: 'text',
+                            className: 'mt-2',
+                            'aria-label': 'Confirm Email',
+                            value: o,
+                            onChange: (c) => m(c.target.value),
+                          }),
+                        ],
+                      }),
+                    e.jsx(X, {
+                      children: e.jsx(d, {
+                        onClick: l,
+                        loading: x,
+                        variant: 'destructive',
+                        disabled: a || o !== r.email,
+                        children: i(x ? { id: 'cmDFUK' } : { id: 'w0Qb5v' }),
+                      }),
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          }),
+        ],
+      }),
+    });
+  },
+  ee = O({ name: Y, signature: Z().min(1, { message: 'ilZEHo' }) });
+O({ token: Z() });
+const se = ({ className: n }) => {
+    const { _: r } = f(),
+      { toast: i } = b(),
+      { user: t, refreshSession: a } = v(),
+      o = Q({ values: { name: t.name ?? '', signature: t.signature || '' }, resolver: U(ee) }),
+      m = o.formState.isSubmitting,
+      { mutateAsync: p } = h.profile.updateProfile.useMutation(),
+      x = async ({ name: l, signature: c }) => {
+        try {
+          await p({ name: l, signature: c }),
+            await a(),
+            i({ title: r({ id: 'srPuxS' }), description: r({ id: 'R+Yx9f' }), duration: 5e3 });
+        } catch {
+          i({ title: r({ id: 'vW+T+d' }), description: r({ id: 'ioKPVz' }), variant: 'destructive' });
+        }
+      };
+    return e.jsx(K, {
+      ...o,
+      children: e.jsxs('form', {
+        className: _('flex w-full flex-col gap-y-4', n),
+        onSubmit: o.handleSubmit(x),
+        children: [
+          e.jsxs('fieldset', {
+            className: 'flex w-full flex-col gap-y-4',
+            disabled: m,
+            children: [
+              e.jsx(N, {
+                control: o.control,
+                name: 'name',
+                render: ({ field: l }) =>
+                  e.jsxs(F, {
+                    children: [
+                      e.jsx(A, { children: e.jsx(s, { id: '/4TFrF' }) }),
+                      e.jsx(S, { children: e.jsx(g, { type: 'text', ...l }) }),
+                      e.jsx(w, {}),
+                    ],
+                  }),
+              }),
+              e.jsxs('div', {
+                children: [
+                  e.jsx(z, {
+                    htmlFor: 'email',
+                    className: 'text-muted-foreground',
+                    children: e.jsx(s, { id: 'O3oNi5' }),
+                  }),
+                  e.jsx(g, { id: 'email', type: 'email', className: 'mt-2 bg-muted', value: t.email, disabled: !0 }),
+                ],
+              }),
+              e.jsx(N, {
+                control: o.control,
+                name: 'signature',
+                render: ({ field: { onChange: l, value: c } }) =>
+                  e.jsxs(F, {
+                    children: [
+                      e.jsx(A, { children: e.jsx(s, { id: 'n+8yVN' }) }),
+                      e.jsx(S, {
+                        children: e.jsx(G, {
+                          disabled: m,
+                          fullName: t.name ?? '',
+                          value: c,
+                          onChange: (y) => l(y ?? ''),
+                        }),
+                      }),
+                      e.jsx(w, {}),
+                    ],
+                  }),
+              }),
+            ],
+          }),
+          e.jsx(d, { type: 'submit', loading: m, className: 'self-end', children: e.jsx(s, { id: 'vXPSuB' }) }),
+        ],
+      }),
+    });
+  },
+  ie = ({ teamEmail: n }) => {
+    const [r, i] = D.useState(!1),
+      { _: t } = f(),
+      { toast: a } = b(),
+      { mutateAsync: o, isPending: m } = h.team.email.delete.useMutation({
+        onSuccess: () => {
+          a({ title: t({ id: 'zzDlyQ' }), description: t({ id: 'PIl3Hg' }), duration: 5e3 });
+        },
+        onError: () => {
+          a({ title: t({ id: 'nwtY4N' }), description: t({ id: 'jMJahr' }), variant: 'destructive', duration: 1e4 });
+        },
+      });
+    return e.jsxs(u, {
+      variant: 'neutral',
+      className: 'flex flex-row items-center justify-between p-6',
+      children: [
+        e.jsxs('div', {
+          children: [
+            e.jsx(T, { className: 'mb-0', children: e.jsx(s, { id: 'rkqgH1' }) }),
+            e.jsxs(j, {
+              children: [
+                e.jsx('p', {
+                  children: e.jsx(s, {
+                    id: 'pSDzas',
+                    values: { 0: n.team.name, 1: n.team.url },
+                    components: { 0: e.jsx('span', { className: 'font-semibold' }) },
+                  }),
+                }),
+                e.jsx('p', { className: 'mt-1', children: e.jsx(s, { id: '9aYXQv' }) }),
+                e.jsxs('ul', {
+                  className: 'mt-0.5 list-inside list-disc',
+                  children: [
+                    e.jsx('li', { children: e.jsx(s, { id: 'Oq0b7I' }) }),
+                    e.jsx('li', { children: e.jsx(s, { id: 'pTCu0c' }) }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+        e.jsxs(P, {
+          open: r,
+          onOpenChange: (p) => !m && i(p),
+          children: [
+            e.jsx(C, {
+              asChild: !0,
+              children: e.jsx(d, { variant: 'destructive', children: e.jsx(s, { id: 'cg+Poy' }) }),
+            }),
+            e.jsxs(E, {
+              position: 'center',
+              children: [
+                e.jsxs(I, {
+                  children: [
+                    e.jsx(M, { children: e.jsx(s, { id: '6foA8n' }) }),
+                    e.jsx(H, {
+                      className: 'mt-4',
+                      children: e.jsx(s, {
+                        id: '3TbP+M',
+                        values: { 0: n.team.name, 1: n.team.url },
+                        components: { 0: e.jsx('span', { className: 'font-semibold' }) },
+                      }),
+                    }),
+                  ],
+                }),
+                e.jsx('fieldset', {
+                  disabled: m,
+                  children: e.jsxs(X, {
+                    children: [
+                      e.jsx(d, {
+                        type: 'button',
+                        variant: 'secondary',
+                        onClick: () => i(!1),
+                        children: e.jsx(s, { id: 'dEgA5A' }),
+                      }),
+                      e.jsx(d, {
+                        type: 'submit',
+                        variant: 'destructive',
+                        loading: m,
+                        onClick: async () => o({ teamId: n.teamId }),
+                        children: e.jsx(s, { id: 'GXsAby' }),
+                      }),
+                    ],
+                  }),
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    });
+  };
+function Ns() {
+  return q({ id: 'vERlcd' });
+}
+const Fs = k(() => {
+  const { _: r } = f(),
+    { organisations: i, user: t } = v(),
+    { data: a } = h.team.email.get.useQuery(),
+    o = B(i);
+  return e.jsxs('div', {
+    children: [
+      e.jsx(V, { title: r({ id: 'vERlcd' }), subtitle: r({ id: '+pEbZM' }) }),
+      e.jsx(R, { className: 'mb-8 max-w-xl' }),
+      e.jsx(se, { className: 'mb-8 max-w-xl' }),
+      e.jsx('hr', { className: 'my-4 max-w-xl' }),
+      e.jsxs('div', {
+        className: 'max-w-xl space-y-8',
+        children: [
+          e.jsx(W, {
+            children: (!o || t.email !== a?.email) && a && e.jsx(L, { children: e.jsx(ie, { teamEmail: a }) }),
+          }),
+          e.jsx($, {}),
+        ],
+      }),
+    ],
+  });
+});
+export { Fs as default, Ns as meta };

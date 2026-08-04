@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
+import { resolveWebappUrl } from '@documenso/lib/utils/url';
 import { i18n, type MessageDescriptor } from '@lingui/core';
 
 export const appMetaTags = (title?: MessageDescriptor) => {
@@ -36,7 +36,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       property: 'og:image',
-      content: `${NEXT_PUBLIC_WEBAPP_URL()}/opengraph-image.jpg`,
+      content: resolveWebappUrl('/opengraph-image.jpg'),
     },
     {
       property: 'og:type',
@@ -56,7 +56,7 @@ export const appMetaTags = (title?: MessageDescriptor) => {
     },
     {
       name: 'twitter:image',
-      content: `${NEXT_PUBLIC_WEBAPP_URL()}/opengraph-image.jpg`,
+      content: resolveWebappUrl('/opengraph-image.jpg'),
     },
   ];
 };

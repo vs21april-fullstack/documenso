@@ -17,18 +17,18 @@ import '@react-email/tailwind';
 import '@react-email/text';
 import { jsx } from 'react/jsx-runtime';
 
-const TemplateImage = ({
-  assetBaseUrl,
-  className,
-  staticAsset
-}) => {
-  const getAssetUrl = path => {
-    return new URL(path, assetBaseUrl).toString();
+const TemplateImage = ({ assetBaseUrl, className, staticAsset }) => {
+  const getAssetUrl = (path) => {
+    let base = assetBaseUrl;
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
-  return /*#__PURE__*/jsx(Img, {
+  return /*#__PURE__*/ jsx(Img, {
     className: className,
     src: getAssetUrl(`/static/${staticAsset}`),
-    alt: ""
+    alt: '',
   });
 };
 

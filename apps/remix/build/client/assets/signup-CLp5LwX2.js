@@ -1,0 +1,85 @@
+import { w as n } from './chunk-KS7C4IRE-FYOnnPbz.js';
+import { j as s } from './jsx-runtime-DrYFQjIW.js';
+import { a as e } from './meta-1txnm5en.js';
+import { a } from './signup-W1uVfPNM.js';
+import './index-PjhXdBcw.js';
+import './app-uAhqo_pP.js';
+import './index-BiLbLflF.js';
+import './types-GU3YNY2F.js';
+import './index-DJ-EwNXm.js';
+import './use-analytics-CnJvzaqs.js';
+import './preload-helper-CW4hCJly.js';
+import './feature-flags-CieBQceQ.js';
+import './name-B9Bt3kH5.js';
+import './zod-uOrAM2YC.js';
+import './schema-CBwwekVm.js';
+import './utils-C68LRSOY.js';
+import './button-Dm_JGgap.js';
+import './loader-aSxoB_gm.js';
+import './createLucideIcon-UOjYlZt5.js';
+import './form-BX2-nwLu.js';
+import './index-CkOHfBoV.js';
+import './index-DAyHhKCk.js';
+import './index-BlIM-koY.js';
+import './proxy-dEM8-k5c.js';
+import './input-DdDbBJYb.js';
+import './password-input-Bs5MrKTA.js';
+import './eye-off-CYdHb6Re.js';
+import './eye-BJpoQCg7.js';
+import './signature-pad-dialog-CDyaU21P.js';
+import './i18n-CTl8GuWM.js';
+import './index-CBoJQWs5.js';
+import './locales-CAv2cHk7.js';
+import './dialog-DKtG3c-O.js';
+import './index-BoPcnRXW.js';
+import './index-DzY7AtIB.js';
+import './index-J1tJADds.js';
+import './index-C829O7aq.js';
+import './index-UGPUXo4T.js';
+import './Combination-DaG98sNE.js';
+import './index-ZximTWpF.js';
+import './x-BhPRmTZ1.js';
+import './document-CYL_BYk5.js';
+import './teams-WAT4Ivvc.js';
+import './teams-D27qC-4o.js';
+import './index-browser-CnbpKWEs.js';
+import './signatures-9TyUhfQR.js';
+import './signature-gMGlyIgk.js';
+import './select-Dvz92dRn.js';
+import './animate-generic-fade-in-out-CGjjMFem.js';
+import './index-DXkD4Uno.js';
+import './index-_mbtlgCZ.js';
+import './index-DoLGTOH8.js';
+import './index-KpgwOPga.js';
+import './index-MjUwLcg-.js';
+import './index-CZmIGLNu.js';
+import './chevron-down-mVGROlJc.js';
+import './check--7Y29bNj.js';
+import './cloud-upload-BW9TGWWx.js';
+import './use-toast-pMYLxjk1.js';
+import './zod-C00iebzH.js';
+import './index-CbTZzQE2.js';
+import './index-C3kCGJtQ.js';
+import './file-CtHi3arR.js';
+import './url-CP0Hgou8.js';
+function Fo() {
+  return e({ id: 'mErq7F' });
+}
+const Mo = n(({ loaderData: o }) => {
+  const {
+    isEmailPasswordSignupEnabled: i,
+    isGoogleSignupEnabled: r,
+    isMicrosoftSignupEnabled: t,
+    isOidcSignupEnabled: p,
+    returnTo: m,
+  } = o;
+  return s.jsx(a, {
+    className: 'w-screen max-w-screen-2xl px-4 md:px-16 lg:-my-16',
+    isEmailPasswordSignupEnabled: i,
+    isGoogleSignupEnabled: r,
+    isMicrosoftSignupEnabled: t,
+    isOidcSignupEnabled: p,
+    returnTo: m,
+  });
+});
+export { Fo as meta, Mo as default };

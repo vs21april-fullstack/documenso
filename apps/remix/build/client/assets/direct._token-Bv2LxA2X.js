@@ -1,0 +1,559 @@
+import { A as Ee } from './app-uAhqo_pP.js';
+import { B as Be } from './branding-logo-CADWdcfF.js';
+import { B as b } from './button-Dm_JGgap.js';
+import { C as Ke } from './chevron-down-mVGROlJc.js';
+import { C as Qe } from './chevron-up-Co8ekvuW.js';
+import { w as ce, r as n, u as pe } from './chunk-KS7C4IRE-FYOnnPbz.js';
+import { i as ze } from './css-vars-DRNn4nM7.js';
+import { D as he } from './date-formats-DF6plI8e.js';
+import { E as qe, D as Ze } from './document-signing-page-view-v2-D9ekjpXY.js';
+import { l as $e, j as Ge, m as H, u as He } from './document-signing-reject-dialog-XUFHfAe3.js';
+import { Z as De } from './embed-base-schemas-DVjX96gl.js';
+import { a as Je } from './embed-document-rejected-HjidIY1b.js';
+import { E as Xe } from './embed-document-sign-schema-CIoXPWvH.js';
+import { E as fe, u as ge, a as xe } from './embed-document-signing-page-v2-B3tgej6G.js';
+import { a as ye } from './envelope-download-nW9wzRpS.js';
+import { b as ue } from './envelope-pdf-viewer-CWkS8txA.js';
+import { E as Fe, b as Ie, i as ke } from './field-checkbox-BxBWYnsv.js';
+import { F as Me } from './field-tooltip-DNS2J98o.js';
+import { s as Ce, v as z } from './fields-_NYj1Vq9.js';
+import { L as A } from './form-BX2-nwLu.js';
+import { d as Pe } from './i18n-CTl8GuWM.js';
+import { t as Le } from './index-BbY_VZqi.js';
+import { i as Z } from './index-browser-CnbpKWEs.js';
+import { T as d, u as Ue } from './index-CkOHfBoV.js';
+import { I as W } from './input-DdDbBJYb.js';
+import { i as Ae } from './is-signature-field-D16ckqDg.js';
+import { j as e } from './jsx-runtime-DrYFQjIW.js';
+import { A as ve } from './locales-CAv2cHk7.js';
+import { D as _e } from './luxon-CkcISRbr.js';
+import { c as be, P as je } from './pdf-viewer-lazy-DLZtRd2Q.js';
+import { S as Oe } from './signature-pad-dialog-CDyaU21P.js';
+import { u as Ye } from './super-json-loader-BioHmCVg.js';
+import { D as we } from './time-zones-DGI2eNDr.js';
+import { b as We } from './toast-error-messages-y5krxXxO.js';
+import { b as B, u as Ne, s as Se, l as Te } from './types-GU3YNY2F.js';
+import { u as Re } from './use-toast-pMYLxjk1.js';
+import { c as Ve } from './utils-C68LRSOY.js';
+import { z as q } from './zod-uOrAM2YC.js';
+import './index-BiLbLflF.js';
+import './field-root-container-classes-BAoS6g-a.js';
+import './index-CIc6bU3R.js';
+import './field-meta-DZwk3H3T.js';
+import './field-renderer-DaAJJPbZ.js';
+import './preload-helper-CW4hCJly.js';
+import './template-Dd97ZbiO.js';
+import './recipient-formatter-WzUNI0pB.js';
+import './signature-gMGlyIgk.js';
+import './avatar-BS15TO7o.js';
+import './index-UGPUXo4T.js';
+import './index-J1tJADds.js';
+import './index-DAyHhKCk.js';
+import './index-CWo-8VFg.js';
+import './badge-ChcBhPaW.js';
+import './loader-aSxoB_gm.js';
+import './createLucideIcon-UOjYlZt5.js';
+import './popover-CGHMP7Nz.js';
+import './index-DzY7AtIB.js';
+import './index-C829O7aq.js';
+import './Combination-DaG98sNE.js';
+import './index-DoLGTOH8.js';
+import './index-KpgwOPga.js';
+import './index-ZximTWpF.js';
+import './lock-BpOJ2dWJ.js';
+import './clock-BQjtjFZ4.js';
+import './eye-off-CYdHb6Re.js';
+import './alert-CE06zyBg.js';
+import './envelope-B-x3X451.js';
+import './spinner-CEVyI0yx.js';
+import './css-vars-MUIo1hcP.js';
+import './url-CP0Hgou8.js';
+import './id-DheyC1a4.js';
+import './index-CBoJQWs5.js';
+import './data-transformer-DaTnp7WB.js';
+import './index-DJ-EwNXm.js';
+import './useQuery-Cl3ReeOA.js';
+import './field-DWwpKYMI.js';
+import './tooltip-Dihvg_5U.js';
+import './index-CZmIGLNu.js';
+import './index-BlIM-koY.js';
+import './proxy-dEM8-k5c.js';
+import './dialog-DKtG3c-O.js';
+import './index-BoPcnRXW.js';
+import './x-BhPRmTZ1.js';
+import './document-CYL_BYk5.js';
+import './teams-WAT4Ivvc.js';
+import './teams-D27qC-4o.js';
+import './signatures-9TyUhfQR.js';
+import './select-Dvz92dRn.js';
+import './animate-generic-fade-in-out-CGjjMFem.js';
+import './index-DXkD4Uno.js';
+import './index-_mbtlgCZ.js';
+import './index-MjUwLcg-.js';
+import './check--7Y29bNj.js';
+import './cloud-upload-BW9TGWWx.js';
+import './purry-DH9cw9sy-D2C33_Ze.js';
+import './separator-BTSkB6b7.js';
+import './envelope-download-dialog-B6CCzceG.js';
+import './download-file-3Be3-k_S.js';
+import './skeleton-BRFgpeQI.js';
+import './file-text-BGtrLWy6.js';
+import './download-CZg2-a2o.js';
+import './validate-dropdown-DBn3_QaW.js';
+import './validate-text-DFgp4PHZ.js';
+import './checkbox-PtMmw-z5.js';
+import './zod-C00iebzH.js';
+import './main-Cp3YmMvv.js';
+import './command-DSdqtVmj.js';
+import './search-CRP2I58A.js';
+import './textarea-D4wUhXuy.js';
+import './session-DJFUfUIe.js';
+import './index-PjhXdBcw.js';
+import './direct-templates-DY4qo5DZ.js';
+import './field-Ooq0oJ6X.js';
+import './envelope-signing-2MMKj__o.js';
+import './prop-Cv_AVBuA-Bv7_dWkY.js';
+import './sortBy-CjYY6W42-C03OvpYK.js';
+import './is-http-url-BBrhEZRN.js';
+import './external-link-ezHaS_L7.js';
+import './radio-group-b7-5vHwN.js';
+import './index-BE7cqlHg.js';
+import './circle-DZ0kJoCe.js';
+import './dropdown-menu-2Yi5vAvU.js';
+import './chevron-right-DREuxHzc.js';
+import './use-analytics-CnJvzaqs.js';
+import './feature-flags-CieBQceQ.js';
+import './document-auth-KgEL3n3N.js';
+import './pin-input-C0sMYNZe.js';
+import './mail-CUQAW6vZ.js';
+import './auth-BdV2_PJT.js';
+import './document-auth-SSElLNZA.js';
+import './enable-authenticator-app-dialog-Cg9wx4x6.js';
+import './index-DTHQjZge.js';
+import './use-copy-to-clipboard-C-lPWuoY.js';
+import './copy-wv5mRIE-.js';
+import './toAuthenticatorAttachment-BAxCDoik.js';
+import './startAuthentication-mwDUkj2u.js';
+import './passkey-create-dialog-DkJvW9bn.js';
+import './name-B9Bt3kH5.js';
+import './ua-parser-CcEricqc.js';
+import './key-round-BrbTuIzk.js';
+import './chevron-left-BZCl9klZ.js';
+import './signing-card-Ci67rDlE.js';
+import './card-CN1paoKy.js';
+import './circle-x-ugx_ANb_.js';
+const et = De.extend({
+    email: Ne([Te(''), q()])
+      .optional()
+      .transform((m) => m || void 0),
+    lockEmail: B().optional().default(!1),
+    name: Se()
+      .optional()
+      .transform((m) => m || void 0),
+    lockName: B().optional().default(!1),
+  }),
+  tt = ({
+    token: m,
+    envelopeId: u,
+    updatedAt: a,
+    envelopeItems: o,
+    recipient: l,
+    fields: f,
+    metadata: s,
+    hidePoweredBy: g = !1,
+    allowWhiteLabelling: $ = !1,
+  }) => {
+    const { _: D } = Ue(),
+      { toast: G } = Re(),
+      [J] = pe(),
+      { fullName: j, email: S, signature: c, setFullName: L, setEmail: M, setSignature: X } = He(),
+      [N, T] = n.useState(!1),
+      [k, K] = n.useState(!1),
+      [Q, Y] = n.useState(!1),
+      [F, w] = n.useState(!1),
+      [V, ee] = n.useState(!1),
+      [O, te] = n.useState(!1),
+      [ie, E] = n.useState(!1),
+      [I, R] = n.useState(null),
+      [U, y] = ge(() => {
+        me();
+      }, 500),
+      [x, _] = n.useState(() => f),
+      [p] = [Ce(x.filter((t) => ke(t))), x.filter((t) => t.inserted)],
+      C = x.some((t) => Ae(t.type)),
+      re = !C || (c && c.trim() !== ''),
+      { mutateAsync: oe, isPending: P } = Le.template.createDocumentFromDirectTemplate.useMutation(),
+      ae = (t) => {
+        _((i) =>
+          i.map((r) => {
+            if (r.id !== t.fieldId) {
+              return r;
+            }
+            const h = structuredClone({ ...r, customText: t.value ?? '', inserted: !0, signedValue: t });
+            return (
+              r.type === Z.FieldType.SIGNATURE &&
+                (h.signature = {
+                  id: 1,
+                  created: new Date(),
+                  recipientId: 1,
+                  fieldId: 1,
+                  signatureImageAsBase64: t.value && t.value.startsWith('data:') ? t.value : null,
+                  typedSignature: t.value && !t.value.startsWith('data:') ? t.value : null,
+                }),
+              r.type === Z.FieldType.DATE &&
+                (h.customText = _e
+                  .now()
+                  .setZone(s?.timezone ?? we)
+                  .toFormat(s?.dateFormat ?? he)),
+              h
+            );
+          }),
+        ),
+          window.parent && window.parent.postMessage({ action: 'field-signed', data: null }, '*'),
+          E(!1);
+      },
+      se = (t) => {
+        _((i) =>
+          i.map((r) =>
+            r.id !== t.fieldId
+              ? r
+              : structuredClone({ ...r, customText: '', inserted: !1, signedValue: void 0, signature: void 0 }),
+          ),
+        ),
+          window.parent && window.parent.postMessage({ action: 'field-unsigned', data: null }, '*'),
+          E(!1);
+      },
+      ne = () => {
+        z(p), E(!0), w(!1);
+      },
+      me = async () => {
+        try {
+          if (!z(p)) {
+            E(!0);
+            return;
+          }
+          const { success: i } = q().safeParse(S);
+          if (!i) {
+            R(D({ id: 'N81bR0' })), w(!0);
+            return;
+          }
+          let r = J?.get('externalId') || void 0;
+          r && (r = decodeURIComponent(r));
+          const {
+            documentId: h,
+            token: de,
+            recipientId: le,
+          } = await oe({
+            directTemplateToken: m,
+            directTemplateExternalId: r,
+            directRecipientName: j,
+            directRecipientEmail: S,
+            templateUpdatedAt: a,
+            signedFieldValues: x.filter((v) => v.signedValue && (Ie(v) || v.inserted)).map((v) => v.signedValue),
+          });
+          window.parent &&
+            window.parent.postMessage(
+              { action: 'document-completed', data: { token: de, documentId: h, recipientId: le } },
+              '*',
+            ),
+            Y(!0);
+        } catch (t) {
+          window.parent && window.parent.postMessage({ action: 'document-error', data: String(t) }, '*');
+          const i = Ee.parseError(t),
+            r = We(i.code);
+          G({ title: D(r.title), description: D(r.description), variant: 'destructive' });
+        }
+      };
+    return (
+      n.useLayoutEffect(() => {
+        const t = window.location.hash.slice(1);
+        try {
+          const i = et.parse(JSON.parse(decodeURIComponent(atob(t))));
+          i.email && (M(i.email), ee(!!i.lockEmail)),
+            i.name && (L(i.name), te(!!i.lockName)),
+            i.darkModeDisabled && document.documentElement.classList.add('dark-mode-disabled'),
+            $ && ze({ css: i.css, cssVars: i.cssVars }),
+            i.language && i.language !== ve.sourceLang
+              ? Pe(i.language).finally(() => {
+                  T(!0);
+                })
+              : T(!0);
+        } catch (i) {
+          console.error(i), T(!0);
+        }
+      }, []),
+      n.useEffect(() => {
+        N && k && window.parent && window.parent.postMessage({ action: 'document-ready', data: null }, '*');
+      }, [N, k]),
+      Q
+        ? e.jsx(Je, {
+            name: j,
+            signature: {
+              id: 1,
+              fieldId: 1,
+              recipientId: 1,
+              created: new Date(),
+              signatureImageAsBase64: c?.startsWith('data:') ? c : null,
+              typedSignature: c?.startsWith('data:') ? null : c,
+            },
+          })
+        : e.jsxs('div', {
+            className:
+              'embed--Root relative mx-auto flex min-h-[100dvh] max-w-screen-lg flex-col items-center justify-center p-6',
+            children: [
+              (!N || !k) && e.jsx(fe, {}),
+              e.jsx('div', {
+                className: 'embed--Actions mb-4 flex w-full flex-row-reverse items-baseline justify-between',
+                children: e.jsx(Ze, { envelopeId: u, token: l.token }),
+              }),
+              e.jsxs('div', {
+                className: 'relative flex w-full flex-col gap-x-6 gap-y-12 md:flex-row',
+                children: [
+                  e.jsx('div', {
+                    className: 'flex-1',
+                    children: e.jsx(be, {
+                      data: ye({
+                        envelopeId: o[0]?.envelopeId,
+                        envelopeItemId: o[0]?.id,
+                        documentDataId: o[0]?.documentDataId,
+                        version: 'current',
+                        token: l.token,
+                        presignToken: void 0,
+                      }),
+                      scrollParentRef: 'window',
+                      onDocumentLoad: () => K(!0),
+                    }),
+                  }),
+                  e.jsx(
+                    'div',
+                    {
+                      className:
+                        'group/document-widget fixed bottom-8 left-0 z-50 h-fit max-h-[calc(100dvh-2rem)] w-full flex-shrink-0 px-6 md:sticky md:top-4 md:bottom-[unset] md:z-auto md:w-[350px] md:px-0',
+                      'data-expanded': F || void 0,
+                      children: e.jsxs('div', {
+                        className:
+                          'flex h-fit w-full flex-col rounded-xl border border-border bg-widget px-4 py-4 md:min-h-[min(calc(100dvh-2rem),48rem)] md:py-6',
+                        children: [
+                          e.jsx('div', {
+                            children: e.jsxs('div', {
+                              className: 'flex items-center justify-between gap-x-2',
+                              children: [
+                                e.jsx('h3', {
+                                  className: 'font-semibold text-foreground text-xl md:text-2xl',
+                                  children: e.jsx(d, { id: '/8S7J+' }),
+                                }),
+                                F
+                                  ? e.jsx(b, {
+                                      variant: 'outline',
+                                      className: 'h-8 w-8 p-0 md:hidden',
+                                      onClick: () => w(!1),
+                                      children: e.jsx(Ke, { className: 'h-5 w-5 text-muted-foreground' }),
+                                    })
+                                  : p.length > 0
+                                    ? e.jsx(b, {
+                                        variant: 'outline',
+                                        className: 'h-8 w-8 p-0 md:hidden',
+                                        onClick: () => w(!0),
+                                        children: e.jsx(Qe, { className: 'h-5 w-5 text-muted-foreground' }),
+                                      })
+                                    : e.jsx(b, {
+                                        variant: 'default',
+                                        size: 'sm',
+                                        className: 'md:hidden',
+                                        disabled: y || (C && !re),
+                                        loading: P,
+                                        onClick: () => U(),
+                                        children: e.jsx(d, { id: 'bD8I7O' }),
+                                      }),
+                              ],
+                            }),
+                          }),
+                          e.jsxs('div', {
+                            className: 'hidden group-data-[expanded]/document-widget:block md:block',
+                            children: [
+                              e.jsx('p', {
+                                className: 'mt-2 text-muted-foreground text-sm',
+                                children: e.jsx(d, { id: 'Mqwtkp' }),
+                              }),
+                              e.jsx('hr', { className: 'mt-4 mb-8 border-border' }),
+                            ],
+                          }),
+                          e.jsx('div', {
+                            className: '-mx-2 hidden px-2 group-data-[expanded]/document-widget:block md:block',
+                            children: e.jsxs('div', {
+                              className: 'flex flex-1 flex-col gap-y-4',
+                              children: [
+                                e.jsxs('div', {
+                                  children: [
+                                    e.jsx(A, { htmlFor: 'full-name', children: e.jsx(d, { id: '/4TFrF' }) }),
+                                    e.jsx(W, {
+                                      type: 'text',
+                                      id: 'full-name',
+                                      className: 'mt-2 bg-background',
+                                      disabled: O,
+                                      value: j,
+                                      onChange: (t) => !O && L(t.target.value),
+                                    }),
+                                  ],
+                                }),
+                                e.jsxs('div', {
+                                  children: [
+                                    e.jsx(A, { htmlFor: 'email', children: e.jsx(d, { id: 'O3oNi5' }) }),
+                                    e.jsx(W, {
+                                      type: 'email',
+                                      id: 'email',
+                                      className: Ve(
+                                        'mt-2 bg-background',
+                                        I && 'border-destructive ring-2 ring-destructive/20',
+                                      ),
+                                      disabled: V,
+                                      value: S,
+                                      onChange: (t) => {
+                                        V || (M(t.target.value.trim()), R(null));
+                                      },
+                                    }),
+                                    I &&
+                                      e.jsx('p', {
+                                        className: 'mt-2 font-medium text-destructive text-xs',
+                                        children: I,
+                                      }),
+                                  ],
+                                }),
+                                C &&
+                                  e.jsxs('div', {
+                                    children: [
+                                      e.jsx(A, { htmlFor: 'Signature', children: e.jsx(d, { id: 'n+8yVN' }) }),
+                                      e.jsx(Oe, {
+                                        className: 'mt-2',
+                                        disabled: y || P,
+                                        disableAnimation: !0,
+                                        fullName: j,
+                                        value: c ?? '',
+                                        onChange: (t) => X(t ?? ''),
+                                        typedSignatureEnabled: s?.typedSignatureEnabled,
+                                        uploadSignatureEnabled: s?.uploadSignatureEnabled,
+                                        drawSignatureEnabled: s?.drawSignatureEnabled,
+                                      }),
+                                    ],
+                                  }),
+                              ],
+                            }),
+                          }),
+                          e.jsx('div', {
+                            className: 'hidden flex-1 group-data-[expanded]/document-widget:block md:block',
+                          }),
+                          e.jsx('div', {
+                            className:
+                              'mt-4 hidden w-full grid-cols-2 items-center group-data-[expanded]/document-widget:grid md:grid',
+                            children:
+                              p.length > 0
+                                ? e.jsx(b, {
+                                    className: 'col-start-2',
+                                    onClick: () => ne(),
+                                    children: e.jsx(d, { id: 'hXzOVo' }),
+                                  })
+                                : e.jsx(b, {
+                                    className: 'col-start-2',
+                                    disabled: y,
+                                    loading: P,
+                                    onClick: () => U(),
+                                    children: e.jsx(d, { id: 'bD8I7O' }),
+                                  }),
+                          }),
+                        ],
+                      }),
+                    },
+                    F ? 'expanded' : 'collapsed',
+                  ),
+                  ie &&
+                    p.length > 0 &&
+                    e.jsx(Fe, {
+                      target: `${je}[data-page-number="${p[0].page}"]`,
+                      children: e.jsx(
+                        Me,
+                        { field: p[0], color: 'warning', children: e.jsx(d, { id: 'eZ6/Uj' }) },
+                        p[0].id,
+                      ),
+                    }),
+                  e.jsx(Xe, { fields: x, metadata: s, onSignField: ae, onUnsignField: se }),
+                ],
+              }),
+              !g &&
+                e.jsxs('div', {
+                  className:
+                    'fixed bottom-0 left-0 z-40 rounded-tr bg-primary px-2 py-1 font-medium text-primary-foreground text-xs opacity-60 hover:opacity-100',
+                  children: [
+                    e.jsx('span', { children: e.jsx(d, { id: 'g2UNkE' }) }),
+                    e.jsx(Be, { className: 'ml-2 inline-block h-[14px]' }),
+                  ],
+                }),
+            ],
+          })
+    );
+  },
+  _r = ce(() => {
+    const { version: u, payload: a } = Ye();
+    return u === 1 ? e.jsx(it, { data: a }) : e.jsx(rt, { data: a });
+  }),
+  it = ({ data: m }) => {
+    const {
+      token: u,
+      user: a,
+      template: o,
+      recipient: l,
+      fields: f,
+      hidePoweredBy: s,
+      allowEmbedSigningWhitelabel: g,
+    } = m;
+    return e.jsx($e, {
+      email: a?.email,
+      fullName: a?.name,
+      signature: a?.signature,
+      typedSignatureEnabled: o.templateMeta?.typedSignatureEnabled,
+      uploadSignatureEnabled: o.templateMeta?.uploadSignatureEnabled,
+      drawSignatureEnabled: o.templateMeta?.drawSignatureEnabled,
+      children: e.jsx(H, {
+        documentAuthOptions: o.authOptions,
+        recipient: l,
+        user: a,
+        children: e.jsx(Ge, {
+          recipient: l,
+          children: e.jsx(tt, {
+            token: u,
+            envelopeId: o.envelopeId,
+            updatedAt: o.updatedAt,
+            envelopeItems: o.envelopeItems,
+            recipient: l,
+            fields: f,
+            metadata: o.templateMeta,
+            hidePoweredBy: s,
+            allowWhiteLabelling: g,
+          }),
+        }),
+      }),
+    });
+  },
+  rt = ({ data: m }) => {
+    const { token: u, user: a, envelopeForSigning: o, hidePoweredBy: l, allowEmbedSigningWhitelabel: f } = m,
+      { envelope: s, recipient: g } = o;
+    return e.jsx(qe, {
+      envelopeData: o,
+      email: a?.email,
+      fullName: a?.name,
+      signature: a?.signature,
+      children: e.jsx(H, {
+        documentAuthOptions: s.authOptions,
+        recipient: g,
+        user: a,
+        isDirectTemplate: !0,
+        children: e.jsx(ue, {
+          version: 'current',
+          envelope: s,
+          envelopeItems: s.envelopeItems,
+          token: g.token,
+          children: e.jsx(xe, { hidePoweredBy: l, allowWhitelabelling: f }),
+        }),
+      }),
+    });
+  };
+export { _r as default };

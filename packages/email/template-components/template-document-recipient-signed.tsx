@@ -17,7 +17,13 @@ export const TemplateDocumentRecipientSigned = ({
   assetBaseUrl,
 }: TemplateDocumentRecipientSignedProps) => {
   const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
+    let base = assetBaseUrl;
+
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
 
   const recipientReference = recipientName || recipientEmail;

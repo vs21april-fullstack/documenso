@@ -1,0 +1,2347 @@
+import { A as bt, a as Nt, c as vt, b as yt } from './accordion-DtuzNAcG.js';
+import { A as Ys } from './animate-generic-fade-in-out-CGjjMFem.js';
+import { B as qe } from './button-Dm_JGgap.js';
+import { C as $, a as Z } from './card-CN1paoKy.js';
+import { C as Ze } from './checkbox-PtMmw-z5.js';
+import { C as Ws } from './chevron-down-mVGROlJc.js';
+import { C as ji } from './chevron-left-BZCl9klZ.js';
+import { C as Gs } from './chevrons-up-down-EpaIOjDM.js';
+import { L as _t, r as g, b as Lt, w as Vt } from './chunk-KS7C4IRE-FYOnnPbz.js';
+import { C as Qs } from './circle-question-mark-D1ll6wH4.js';
+import { R as $s, C as Zs } from './combobox-BB3QNPhJ.js';
+import { a as Es, C as Fs, d as ks, c as Os, b as Rs } from './command-DSdqtVmj.js';
+import { a as ei, D as kt } from './date-formats-DF6plI8e.js';
+import { c as As, D as bs, u as fs, C as js, a as Ns, H as Ss, G as Ts, P as vs, b as ys } from './dnd.esm-CfBNJDhH.js';
+import { Z as as, g as Dt, c as pt, f as rs } from './document-auth-KgEL3n3N.js';
+import { e as si } from './document-auth-SSElLNZA.js';
+import { D as es, b as Jt } from './document-CYL_BYk5.js';
+import { D as oi } from './document-email-checkboxes-CX8K1ZHz.js';
+import { Z as Pt } from './document-email-DcBZA0tR.js';
+import {
+  S as ds,
+  a as et,
+  d as it,
+  D as Je,
+  u as Ke,
+  e as ls,
+  c as st,
+  b as tt,
+} from './document-flow-root-C_DLP3ot.js';
+import { a as pi, i as ui, Z as xi } from './document-meta-KqDa_V10.js';
+import { D as Et, m as Rt } from './document-read-only-fields-CqAERPLf.js';
+import { D as li } from './document-signature-settings-tooltip-mnlREIOb.js';
+import { a as os } from './envelope-download-nW9wzRpS.js';
+import { A as Cs } from './field-checkbox-BxBWYnsv.js';
+import { C as gs, T as hs, u as nt, F as ps, a as xs } from './field-item-advanced-settings-BZLzFohb.js';
+import { k as Qe } from './field-meta-DZwk3H3T.js';
+import { M as Ds, a as ws } from './field-renderer-DaAJJPbZ.js';
+import { b as C, g as Ct, d as F, c as O, F as ot, e as P, u as rt, a as w } from './form-BX2-nwLu.js';
+import {
+  c as $t,
+  R as Gt,
+  F as Ht,
+  e as Qt,
+  f as qt,
+  a as Wt,
+  D as Xt,
+  b as Yt,
+  d as Zt,
+  S as zt,
+} from './form-error-message-CympeXs4.js';
+import { i as ss, S as ts } from './i18n-BYa2gP9D.js';
+import { p as ht } from './i18n-CTl8GuWM.js';
+import { n as Ie } from './id-DheyC1a4.js';
+import { t as Te } from './index-BbY_VZqi.js';
+import { M as ri } from './index-BiLbLflF.js';
+import { i as s } from './index-browser-CnbpKWEs.js';
+import { T as c, u as ze } from './index-CkOHfBoV.js';
+import { I as Oe } from './info-qk5PqWur.js';
+import { I as de } from './input-DdDbBJYb.js';
+import { j as e } from './jsx-runtime-DrYFQjIW.js';
+import { L as Kt } from './legacy-field-warning-popover-o5aFPDWu.js';
+import { L as Ks } from './link-2-4Mrr1zqj.js';
+import { S as mi } from './locales-CAv2cHk7.js';
+import { M as Hs } from './mail-CUQAW6vZ.js';
+import { M as di } from './multi-select-combobox-I6xiAn1a.js';
+import { u as Ft } from './organisation-Ylr4XBmr.js';
+import { h as cs, F as gt, b as ms, c as us, P as ve, g as xt } from './pdf-viewer-lazy-DLZtRd2Q.js';
+import { P as St } from './plus-C8JFN8md.js';
+import { b as Ls, P as Ms, a as Ps } from './popover-CGHMP7Nz.js';
+import { m as qs } from './proxy-dEM8-k5c.js';
+import { u as $e } from './react-hotkeys-hook.esm-CqA6Wvap.js';
+import { R as Is } from './recipient-roles-CquduZhz.js';
+import { S as _e, a as Be, c as Ge, d as Re, b as Ue } from './select-Dvz92dRn.js';
+import { u as is, S as ns, D as Ye } from './session-DJFUfUIe.js';
+import { S as Xs } from './square-check-big-DvZyRfr_.js';
+import { u as fi } from './super-json-loader-BioHmCVg.js';
+import { a as gi } from './team-BvmzkpNi.js';
+import { D as He, e as ii } from './teams-WAT4Ivvc.js';
+import { i as Ae } from './template-Dd97ZbiO.js';
+import { a as Bt, T as Ut } from './template-direct-link-badge-BpbpwuDd.js';
+import { a as ai, T as ni } from './template-type-select-F7CUlddZ.js';
+import { T as hi } from './template-type-uy8IHc8w.js';
+import { g as jt } from './templates-D-Awpyvf.js';
+import { T as ci } from './textarea-D4wUhXuy.js';
+import { D as Mt, T as ti } from './time-zones-DGI2eNDr.js';
+import { a as pe, T as ue, b as xe } from './tooltip-Dihvg_5U.js';
+import { T as Js } from './trash-DYg0tZZQ.js';
+import {
+  p as _s,
+  n as ae,
+  e as Bs,
+  o as De,
+  u as ft,
+  g as ge,
+  a as he,
+  l as Us,
+  b as Vs,
+  s as z,
+} from './types-GU3YNY2F.js';
+import { t as me, u as wt } from './use-toast-pMYLxjk1.js';
+import { U as zs } from './user-SZ6cyKhO.js';
+import { c as v } from './utils-C68LRSOY.js';
+import { t as at } from './zod-C00iebzH.js';
+import { z as Ot } from './zod-uOrAM2YC.js';
+import './client-B0NpaJ2O.js';
+import './purry-DH9cw9sy-D2C33_Ze.js';
+import './app-uAhqo_pP.js';
+import './constants-hyBT613B.js';
+import './use-copy-to-clipboard-C-lPWuoY.js';
+import './direct-templates-DY4qo5DZ.js';
+import './alert-CE06zyBg.js';
+import './loader-aSxoB_gm.js';
+import './createLucideIcon-UOjYlZt5.js';
+import './dialog-DKtG3c-O.js';
+import './index-BoPcnRXW.js';
+import './index-DzY7AtIB.js';
+import './index-DAyHhKCk.js';
+import './index-J1tJADds.js';
+import './index-C829O7aq.js';
+import './index-UGPUXo4T.js';
+import './Combination-DaG98sNE.js';
+import './index-ZximTWpF.js';
+import './x-BhPRmTZ1.js';
+import './switch-CsvfEGp8.js';
+import './index-MjUwLcg-.js';
+import './index-KpgwOPga.js';
+import './table-B2dCCbDr.js';
+import './link-CCDi6BEg.js';
+import './circle-DZ0kJoCe.js';
+import './multiselect-BlrA1Tug.js';
+import './document-visibility-C1eYdCz3.js';
+import './document-visibility-MoZbJQQm.js';
+import './index-CBoJQWs5.js';
+import './is-http-url-BBrhEZRN.js';
+import './alert-dialog-CMXz-8ZF.js';
+import './index-BlIM-koY.js';
+import './index-PjhXdBcw.js';
+import './index-DJ-EwNXm.js';
+import './data-transformer-DaTnp7WB.js';
+import './url-CP0Hgou8.js';
+import './useQuery-Cl3ReeOA.js';
+import './index-CIc6bU3R.js';
+import './preload-helper-CW4hCJly.js';
+import './spinner-CEVyI0yx.js';
+import './index-Chjiymov.js';
+import './field-content-BakZuKU1.js';
+import './radio-group-b7-5vHwN.js';
+import './index-BE7cqlHg.js';
+import './index-DXkD4Uno.js';
+import './index-_mbtlgCZ.js';
+import './settings-2-BBxFAIyW.js';
+import './validate-dropdown-DBn3_QaW.js';
+import './validate-text-DFgp4PHZ.js';
+import './chevron-up-Co8ekvuW.js';
+import './index-CWo-8VFg.js';
+import './tiny-invariant-DQBIkdlb.js';
+import './envelope-B-x3X451.js';
+import './search-CRP2I58A.js';
+import './index-DoLGTOH8.js';
+import './eye-BJpoQCg7.js';
+import './copy-wv5mRIE-.js';
+import './check--7Y29bNj.js';
+import './recipient-formatter-WzUNI0pB.js';
+import './field-DWwpKYMI.js';
+import './field-root-container-classes-BAoS6g-a.js';
+import './signature-gMGlyIgk.js';
+import './avatar-BS15TO7o.js';
+import './badge-ChcBhPaW.js';
+import './clock-BQjtjFZ4.js';
+import './eye-off-CYdHb6Re.js';
+import './index-CZmIGLNu.js';
+import './luxon-CkcISRbr.js';
+import './teams-D27qC-4o.js';
+import './envelope-reminder-YclQYJ2m.js';
+import './DocumentMetaSchema-DuD4SbwH.js';
+import './building-2-BkBdQblY.js';
+import './earth-CnM36IYl.js';
+import './lock-BpOJ2dWJ.js';
+const Si = De({
+    fields: he(
+      De({
+        formId: z().min(1),
+        nativeId: ae().optional(),
+        type: ge(s.FieldType),
+        signerEmail: z().min(1),
+        recipientId: ae().min(1),
+        signerToken: z(),
+        pageNumber: ae().min(1),
+        pageX: ae().min(0),
+        pageY: ae().min(0),
+        pageWidth: ae().min(0),
+        pageHeight: ae().min(0),
+        fieldMeta: Qe,
+      }),
+    ),
+  }),
+  Tt = 30,
+  At = 90,
+  bi = ({ documentFlow: N, recipients: x, fields: _, onSubmit: E, onAutoSave: y, teamId: re }) => {
+    const { _: G } = ze(),
+      { toast: ee } = wt(),
+      { isWithinPageBounds: L, getFieldPosition: B, getPage: te } = fs(),
+      { currentStep: m, totalSteps: A, previousStep: oe } = Ke(),
+      [Q, q] = g.useState(!1),
+      [K, X] = g.useState(),
+      [ce, se] = g.useState(null),
+      [r, le] = g.useState(null),
+      [J, b] = g.useState(null),
+      i = rt({
+        defaultValues: {
+          fields: _.map((t) => ({
+            nativeId: t.id,
+            formId: `${t.id}-${t.envelopeItemId}`,
+            pageNumber: t.page,
+            type: t.type,
+            pageX: Number(t.positionX),
+            pageY: Number(t.positionY),
+            pageWidth: Number(t.width),
+            pageHeight: Number(t.height),
+            recipientId: t.recipientId ?? -1,
+            signerEmail: x.find((p) => p.id === t.recipientId)?.email ?? '',
+            signerToken: x.find((p) => p.id === t.recipientId)?.token ?? '',
+            fieldMeta: t.fieldMeta ? Qe.parse(t.fieldMeta) : void 0,
+          })),
+        },
+        resolver: at(Si),
+      }),
+      n = i.handleSubmit(E),
+      { scheduleSave: H } = nt(y),
+      M = async () => {
+        if (!(await i.trigger())) {
+          return;
+        }
+        const p = i.getValues();
+        H(p);
+      },
+      { append: I, remove: fe, update: ie, fields: a } = Ct({ control: i.control, name: 'fields' }),
+      [o, j] = g.useState(null),
+      [h, je] = g.useState(null),
+      [U, ke] = g.useState(!1),
+      Xe = x.findIndex((t) => t.id === h?.id),
+      Me = xt(Xe),
+      Se = g.useCallback(
+        (t, p) => {
+          const { duplicate: D = !1, duplicateAll: f = !1 } = p ?? {};
+          if (r) {
+            if ((t?.preventDefault(), D)) {
+              const V = {
+                ...structuredClone(r),
+                nativeId: void 0,
+                formId: Ie(12),
+                signerEmail: h?.email ?? r.signerEmail,
+                recipientId: h?.id ?? r.recipientId,
+                signerToken: h?.token ?? r.signerToken,
+                pageX: r.pageX + 3,
+                pageY: r.pageY + 3,
+              };
+              I(V), M();
+              return;
+            }
+            if (f) {
+              const V = cs();
+              if (V < 1) {
+                return;
+              }
+              for (let Y = 1; Y <= V; Y += 1) {
+                if (Y === r.pageNumber) {
+                  continue;
+                }
+                const Ee = {
+                  ...structuredClone(r),
+                  nativeId: void 0,
+                  formId: Ie(12),
+                  signerEmail: h?.email ?? r.signerEmail,
+                  recipientId: h?.id ?? r.recipientId,
+                  signerToken: h?.token ?? r.signerToken,
+                  pageNumber: Y,
+                };
+                I(Ee);
+              }
+              M();
+              return;
+            }
+            b(r), ee({ title: G({ id: '4/En7/' }), description: G({ id: 'Jhyo/P' }) });
+          }
+        },
+        [I, r, h?.email, h?.id, h?.token, ee, M],
+      ),
+      ne = g.useCallback(
+        (t) => {
+          if (J) {
+            t.preventDefault();
+            const p = structuredClone(J);
+            I({
+              ...p,
+              formId: Ie(12),
+              nativeId: void 0,
+              signerEmail: h?.email ?? p.signerEmail,
+              recipientId: h?.id ?? p.recipientId,
+              signerToken: h?.token ?? p.signerToken,
+              pageX: p.pageX + 3,
+              pageY: p.pageY + 3,
+            }),
+              M();
+          }
+        },
+        [I, J, h?.email, h?.id, h?.token, M],
+      );
+    $e(['ctrl+c', 'meta+c'], (t) => Se(t)),
+      $e(['ctrl+v', 'meta+v'], (t) => ne(t)),
+      $e(['ctrl+d', 'meta+d'], (t) => Se(t, { duplicate: !0 }));
+    const we = (t, p) =>
+        t
+          .filter((D) => D.type === p)
+          .filter((D) => (D.fieldMeta && 'values' in D.fieldMeta ? D.fieldMeta.values?.length === 0 : !0)),
+      Ce = g.useMemo(() => we(a, s.FieldType.CHECKBOX), [a]),
+      Pe = g.useMemo(() => we(a, s.FieldType.RADIO), [a]),
+      We = g.useMemo(() => we(a, s.FieldType.DROPDOWN), [a]),
+      be = Ce.length > 0 || Pe.length > 0 || We.length > 0,
+      [Fe, d] = g.useState(!1),
+      [l, u] = g.useState({ x: 0, y: 0 }),
+      T = g.useRef({ height: 0, width: 0 }),
+      k = g.useCallback(
+        (t) => {
+          d(L(t, ve, T.current.width, T.current.height)),
+            u({ x: t.clientX - T.current.width / 2, y: t.clientY - T.current.height / 2 });
+        },
+        [L],
+      ),
+      S = g.useCallback(
+        (t) => {
+          if (!o || !h) {
+            return;
+          }
+          const p = te(t, ve);
+          if (!p || !L(t, ve, T.current.width, T.current.height)) {
+            j(null);
+            return;
+          }
+          const { top: D, left: f, height: V, width: Y } = ms(p),
+            Ee = parseInt(p.getAttribute('data-page-number') ?? '1', 10);
+          let Ve = ((t.pageX - f) / Y) * 100,
+            dt = ((t.pageY - D) / V) * 100;
+          const ct = (T.current.width / Y) * 100,
+            mt = (T.current.height / V) * 100;
+          (Ve -= ct / 2), (dt -= mt / 2);
+          const ut = {
+            formId: Ie(12),
+            type: o,
+            pageNumber: Ee,
+            pageX: Ve,
+            pageY: dt,
+            pageWidth: ct,
+            pageHeight: mt,
+            signerEmail: h.email,
+            recipientId: h.id,
+            signerToken: h.token ?? '',
+            fieldMeta: void 0,
+          };
+          I(ut), Cs.includes(o) && (X(ut), q(!0)), d(!1), j(null);
+        },
+        [I, L, o, h, te],
+      ),
+      R = g.useCallback(
+        (t, p) => {
+          const D = a[p],
+            f = window.document.querySelector(`${ve}[data-page-number="${D.pageNumber}"]`);
+          if (!f) {
+            return;
+          }
+          const { x: V, y: Y, width: Ee, height: Ve } = B(f, t);
+          ie(p, { ...D, pageX: V, pageY: Y, pageWidth: Ee, pageHeight: Ve }), M();
+        },
+        [B, a, ie, M],
+      ),
+      W = g.useCallback(
+        (t, p) => {
+          const D = a[p],
+            f = window.document.querySelector(`${ve}[data-page-number="${D.pageNumber}"]`);
+          if (!f) {
+            return;
+          }
+          const { x: V, y: Y } = B(f, t);
+          ie(p, { ...D, pageX: V, pageY: Y }), M();
+        },
+        [B, a, ie, M],
+      );
+    g.useEffect(
+      () => (
+        o && (window.addEventListener('mousemove', k), window.addEventListener('mouseup', S)),
+        () => {
+          window.removeEventListener('mousemove', k), window.removeEventListener('mouseup', S);
+        }
+      ),
+      [S, k, o],
+    ),
+      g.useEffect(() => {
+        const t = new MutationObserver((p) => {
+          document.querySelector(ve) && (T.current = { height: Math.max(Tt), width: Math.max(At) });
+        });
+        return (
+          t.observe(document.body, { childList: !0, subtree: !0 }),
+          () => {
+            t.disconnect();
+          }
+        );
+      }, []),
+      g.useEffect(() => {
+        je(x[0]);
+      }, [x]);
+    const Ne = g.useMemo(() => {
+      const t = { CC: [], VIEWER: [], SIGNER: [], APPROVER: [], ASSISTANT: [] };
+      return (
+        x.forEach((p) => {
+          t[p.role].push(p);
+        }),
+        t
+      );
+    }, [x]);
+    g.useEffect(() => {
+      const t = x.filter((p) => p.role !== s.RecipientRole.CC && p.role !== s.RecipientRole.ASSISTANT);
+      je(t.find((p) => p.sendStatus !== s.SendStatus.SENT) ?? t[0]);
+    }, [x]);
+    const Le = g.useMemo(
+        () =>
+          Object.entries(Ne).filter(
+            ([t]) => t !== s.RecipientRole.CC && t !== s.RecipientRole.VIEWER && t !== s.RecipientRole.ASSISTANT,
+          ),
+        [Ne],
+      ),
+      ye = () => {
+        q((t) => !t);
+      },
+      lt = (t) => {
+        const D = i.getValues().fields.map((f) => {
+          if (f.formId === K?.formId) {
+            const V = Qe.parse(t);
+            return { ...f, fieldMeta: V };
+          }
+          return f;
+        });
+        i.setValue('fields', D), M();
+      };
+    return e.jsx(e.Fragment, {
+      children:
+        Q && K
+          ? e.jsx(ps, {
+              title: { id: 'VNgKZz' },
+              description: { id: '92KLYs', values: { 0: ht(G, gt[K.type]) } },
+              field: K,
+              fields: a,
+              onAdvancedSettings: ye,
+              onSave: lt,
+              onAutoSave: async (t) => {
+                lt(t), await M();
+              },
+            })
+          : e.jsxs(e.Fragment, {
+              children: [
+                e.jsx(Je, { title: N.title, description: N.description }),
+                e.jsx(et, {
+                  children: e.jsxs('div', {
+                    className: 'flex flex-col',
+                    children: [
+                      o &&
+                        e.jsx('div', {
+                          className: v(
+                            'pointer-events-none fixed z-50 flex cursor-pointer flex-col items-center justify-center rounded-[2px] bg-white text-muted-foreground ring-2 transition duration-200 [container-type:size] dark:text-muted',
+                            Me?.base,
+                            { '-rotate-6 scale-90 opacity-50 dark:bg-black/20': !Fe, 'dark:text-black/60': Fe },
+                          ),
+                          style: { top: l.y, left: l.x, height: T.current.height, width: T.current.width },
+                          children: e.jsx('span', {
+                            className: 'text-[clamp(0.425rem,25cqw,0.825rem)]',
+                            children: ht(G, gt[o]),
+                          }),
+                        }),
+                      a.map((t, p) => {
+                        const D = x.findIndex((f) => f.id === t.recipientId);
+                        return e.jsx(
+                          xs,
+                          {
+                            recipientIndex: D === -1 ? 0 : D,
+                            field: t,
+                            disabled: h?.id !== t.recipientId,
+                            minHeight: ws,
+                            minWidth: Ds,
+                            defaultHeight: Tt,
+                            defaultWidth: At,
+                            passive: Fe && !!o,
+                            onFocus: () => le(t),
+                            onBlur: () => {
+                              le(null), M();
+                            },
+                            onResize: (f) => R(f, p),
+                            onMove: (f) => W(f, p),
+                            onRemove: () => {
+                              fe(p), M();
+                            },
+                            onDuplicate: () => {
+                              Se(null, { duplicate: !0 });
+                            },
+                            onDuplicateAllPages: () => {
+                              Se(null, { duplicateAll: !0 });
+                            },
+                            onAdvancedSettings: () => {
+                              X(t), ye();
+                            },
+                            active: ce === t.formId,
+                            onFieldActivate: () => se(t.formId),
+                            onFieldDeactivate: () => se(null),
+                          },
+                          p,
+                        );
+                      }),
+                      e.jsxs(Ms, {
+                        open: U,
+                        onOpenChange: ke,
+                        children: [
+                          e.jsx(Ps, {
+                            asChild: !0,
+                            children: e.jsxs(qe, {
+                              type: 'button',
+                              variant: 'outline',
+                              role: 'combobox',
+                              className: v(
+                                'mt-2 mb-12 justify-between bg-background font-normal text-muted-foreground hover:text-foreground',
+                                Me?.comboBoxTrigger,
+                              ),
+                              children: [
+                                h?.email &&
+                                  !Ae(h.email) &&
+                                  e.jsxs('span', {
+                                    className: 'flex-1 truncate text-left',
+                                    children: [h?.name, ' (', h?.email, ')'],
+                                  }),
+                                h?.email &&
+                                  Ae(h.email) &&
+                                  e.jsx('span', { className: 'flex-1 truncate text-left', children: h?.name }),
+                                !h?.email &&
+                                  e.jsx('span', {
+                                    className: 'flex-1 truncate text-left',
+                                    children: 'No recipient selected',
+                                  }),
+                                e.jsx(Gs, { className: 'ml-2 h-4 w-4' }),
+                              ],
+                            }),
+                          }),
+                          e.jsx(Ls, {
+                            className: 'p-0',
+                            align: 'start',
+                            children: e.jsxs(Fs, {
+                              value: h?.email,
+                              children: [
+                                e.jsx(Es, {}),
+                                e.jsx(Rs, {
+                                  children: e.jsx('span', {
+                                    className: 'inline-block px-4 text-muted-foreground',
+                                    children: e.jsx(c, { id: 'GBIRGD' }),
+                                  }),
+                                }),
+                                Le.map(([t, p], D) =>
+                                  e.jsxs(
+                                    Os,
+                                    {
+                                      children: [
+                                        e.jsx('div', {
+                                          className: 'mt-2 mb-1 ml-2 font-medium text-muted-foreground text-xs',
+                                          children: G(Is[t].roleNamePlural),
+                                        }),
+                                        p.length === 0 &&
+                                          e.jsx(
+                                            'div',
+                                            {
+                                              className:
+                                                'px-4 pt-2.5 pb-4 text-center text-muted-foreground/80 text-xs',
+                                              children: e.jsx(c, { id: 'f34Qxi' }),
+                                            },
+                                            `${t}-empty`,
+                                          ),
+                                        p.map((f) =>
+                                          e.jsx(
+                                            ks,
+                                            {
+                                              className: v(
+                                                'px-2 last:mb-1 [&:not(:first-child)]:mt-1',
+                                                xt(x.findIndex((V) => V.id === f.id))?.comboBoxItem,
+                                              ),
+                                              onSelect: () => {
+                                                je(f), ke(!1);
+                                              },
+                                              children: e.jsxs('span', {
+                                                className: v('truncate text-foreground/70', {
+                                                  'text-foreground/80': f === h,
+                                                }),
+                                                children: [
+                                                  f.name &&
+                                                    !Ae(f.email) &&
+                                                    e.jsxs('span', {
+                                                      title: `${f.name} (${f.email})`,
+                                                      children: [f.name, ' (', f.email, ')'],
+                                                    }),
+                                                  f.name &&
+                                                    Ae(f.email) &&
+                                                    e.jsx('span', { title: f.name, children: f.name }),
+                                                  !f.name &&
+                                                    !Ae(f.email) &&
+                                                    e.jsx('span', { title: f.email, children: f.email }),
+                                                ],
+                                              }),
+                                            },
+                                            f.id,
+                                          ),
+                                        ),
+                                      ],
+                                    },
+                                    D,
+                                  ),
+                                ),
+                              ],
+                            }),
+                          }),
+                        ],
+                      }),
+                      e.jsx(ot, {
+                        ...i,
+                        children: e.jsx('div', {
+                          className: '-mx-2 flex-1 overflow-y-auto px-2',
+                          children: e.jsxs('fieldset', {
+                            className: 'my-2 grid grid-cols-3 gap-4',
+                            children: [
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.SIGNATURE),
+                                onMouseDown: () => j(s.FieldType.SIGNATURE),
+                                'data-selected': o === s.FieldType.SIGNATURE ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'flex flex-col items-center justify-center px-6 py-4',
+                                    children: e.jsx('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal font-signature text-lg text-muted-foreground group-data-[selected]:text-foreground',
+                                      ),
+                                      children: e.jsx(c, { id: 'n+8yVN' }),
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.INITIALS),
+                                onMouseDown: () => j(s.FieldType.INITIALS),
+                                'data-selected': o === s.FieldType.INITIALS ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'flex flex-col items-center justify-center px-6 py-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(js, { className: 'h-4 w-4' }), e.jsx(c, { id: 'NgnQgJ' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.EMAIL),
+                                onMouseDown: () => j(s.FieldType.EMAIL),
+                                'data-selected': o === s.FieldType.EMAIL ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(Hs, { className: 'h-4 w-4' }), e.jsx(c, { id: 'O3oNi5' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.NAME),
+                                onMouseDown: () => j(s.FieldType.NAME),
+                                'data-selected': o === s.FieldType.NAME ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(zs, { className: 'h-4 w-4' }), e.jsx(c, { id: '6YtxFj' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.DATE),
+                                onMouseDown: () => j(s.FieldType.DATE),
+                                'data-selected': o === s.FieldType.DATE ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(gs, { className: 'h-4 w-4' }), e.jsx(c, { id: 'mYGY3B' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.TEXT),
+                                onMouseDown: () => j(s.FieldType.TEXT),
+                                'data-selected': o === s.FieldType.TEXT ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(hs, { className: 'h-4 w-4' }), e.jsx(c, { id: 'xeiujy' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.NUMBER),
+                                onMouseDown: () => j(s.FieldType.NUMBER),
+                                'data-selected': o === s.FieldType.NUMBER ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(Ss, { className: 'h-4 w-4' }), e.jsx(c, { id: 'HptUxX' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.RADIO),
+                                onMouseDown: () => j(s.FieldType.RADIO),
+                                'data-selected': o === s.FieldType.RADIO ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(bs, { className: 'h-4 w-4' }), e.jsx(c, { id: 'MtkqZc' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.CHECKBOX),
+                                onMouseDown: () => j(s.FieldType.CHECKBOX),
+                                'data-selected': o === s.FieldType.CHECKBOX ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(Xs, { className: 'h-4 w-4' }), e.jsx(c, { id: 'G1XxbZ' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                              e.jsx('button', {
+                                type: 'button',
+                                className: 'group h-full w-full',
+                                onClick: () => j(s.FieldType.DROPDOWN),
+                                onMouseDown: () => j(s.FieldType.DROPDOWN),
+                                'data-selected': o === s.FieldType.DROPDOWN ? !0 : void 0,
+                                children: e.jsx($, {
+                                  className: v(
+                                    'flex h-full w-full cursor-pointer items-center justify-center group-disabled:opacity-50',
+                                  ),
+                                  children: e.jsx(Z, {
+                                    className: 'p-4',
+                                    children: e.jsxs('p', {
+                                      className: v(
+                                        'flex items-center justify-center gap-x-1.5 font-normal text-muted-foreground text-sm group-data-[selected]:text-foreground',
+                                      ),
+                                      children: [e.jsx(Ws, { className: 'h-4 w-4' }), e.jsx(c, { id: 'iKQcPM' })],
+                                    }),
+                                  }),
+                                }),
+                              }),
+                            ],
+                          }),
+                        }),
+                      }),
+                      be &&
+                        e.jsx('div', {
+                          className: 'mt-4',
+                          children: e.jsx('ul', {
+                            children: e.jsx('li', {
+                              className: 'text-destructive text-sm',
+                              children: e.jsx(c, {
+                                id: 'UWmOq4',
+                                values: { 0: Ce.length > 0 ? 'Checkbox' : Pe.length > 0 ? 'Radio' : 'Select' },
+                              }),
+                            }),
+                          }),
+                        }),
+                      e.jsxs(tt, {
+                        children: [
+                          e.jsx(st, { step: m, maxStep: A }),
+                          e.jsx(it, {
+                            loading: i.formState.isSubmitting,
+                            disabled: i.formState.isSubmitting,
+                            goNextLabel: { id: '9Y3hAT' },
+                            disableNextStep: be,
+                            onGoBackClick: () => {
+                              oe(), fe();
+                            },
+                            onGoNextClick: () => {
+                              n();
+                            },
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+              ],
+            }),
+    });
+  },
+  Ni = De({
+    signers: he(
+      De({
+        formId: z().min(1),
+        nativeId: ae().optional(),
+        email: Ot().min(1),
+        name: z().min(1, { message: 'Name is required' }),
+        role: ge(s.RecipientRole),
+        signingOrder: ae().optional(),
+        actionAuth: he(as).optional().default([]),
+      }),
+    ),
+    signingOrder: ge(s.DocumentSigningOrder),
+    allowDictateNextSigner: Vs().default(!1),
+  }).refine(
+    (N) => {
+      const x = N.signers.map((_) => _.name.trim());
+      return new Set(x).size === x.length;
+    },
+    { message: 'Signers must have unique names', path: ['signers__root'] },
+  ),
+  yi = ({
+    documentFlow: N,
+    recipients: x,
+    templateDirectLink: _,
+    fields: E,
+    signingOrder: y,
+    allowDictateNextSigner: re,
+    isDocumentPdfLoaded: G,
+    onSubmit: ee,
+    onAutoSave: L,
+  }) => {
+    const B = g.useId(),
+      te = g.useRef(null),
+      { _: m } = ze(),
+      { user: A } = is(),
+      oe = Ft(),
+      [Q, q] = g.useState(() => (x.length > 1 ? x.length + 1 : 2)),
+      { currentStep: K, totalSteps: X, previousStep: ce } = Ke(),
+      se = () => {
+        if (x.length === 0) {
+          return [{ formId: B, role: s.RecipientRole.SIGNER, actionAuth: [], ...jt(1), signingOrder: 1 }];
+        }
+        let d = x.map((l, u) => ({
+          nativeId: l.id,
+          formId: String(l.id),
+          name: l.name,
+          email: l.email,
+          role: l.role,
+          actionAuth: pt.parse(l.authOptions)?.actionAuth ?? void 0,
+          signingOrder: l.signingOrder ?? u + 1,
+        }));
+        return (
+          y === s.DocumentSigningOrder.SEQUENTIAL &&
+            (d = d.sort((l, u) => (l.signingOrder ?? 0) - (u.signingOrder ?? 0))),
+          d
+        );
+      },
+      r = rt({
+        resolver: at(Ni),
+        defaultValues: {
+          signers: se(),
+          signingOrder: y || s.DocumentSigningOrder.PARALLEL,
+          allowDictateNextSigner: re ?? !1,
+        },
+      }),
+      le = g.useCallback(() => r.getValues('signers').filter((d) => d.email === ''), [r]),
+      { scheduleSave: J } = nt(L),
+      b = async () => {
+        if (le().length > 0 || !(await r.trigger())) {
+          return;
+        }
+        const l = r.getValues();
+        J(l, (u) => {
+          if (u?.recipients) {
+            const k = r.getValues('signers').map((S) => {
+              const R = u.recipients.find((W) => W.id === S.nativeId);
+              if (R) {
+                return { ...S, nativeId: R.id };
+              }
+              if (!S.nativeId) {
+                const W = u.recipients.find((Ne) => Ne.email === S.email);
+                if (W) {
+                  return { ...S, nativeId: W.id };
+                }
+              }
+              return S;
+            });
+            r.setValue('signers', k, { shouldValidate: !1 });
+          }
+        });
+      },
+      i = g.useMemo(() => {
+        const d = x.find((u) => {
+            const T = pt.parse(u.authOptions);
+            return T.accessAuth.length > 0 || T.actionAuth.length > 0;
+          }),
+          l = r.getValues('signers').find((u) => u.actionAuth.length > 0);
+        return d !== void 0 || l !== void 0;
+      }, [x, r]),
+      [n, H] = g.useState(i),
+      {
+        formState: { errors: M, isSubmitting: I },
+        control: fe,
+        watch: ie,
+      } = r,
+      a = ie('signers'),
+      o = ie('signingOrder') === s.DocumentSigningOrder.SEQUENTIAL,
+      j = (d) =>
+        d.sort((l, u) => (l.signingOrder ?? 0) - (u.signingOrder ?? 0)).map((l, u) => ({ ...l, signingOrder: u + 1 })),
+      h = r.handleSubmit(ee),
+      { append: je, fields: U, remove: ke } = Ct({ control: fe, name: 'signers' }),
+      Xe = () => {
+        je({
+          formId: Ie(12),
+          name: A.name ?? '',
+          email: A.email ?? '',
+          role: s.RecipientRole.SIGNER,
+          signingOrder: U.length > 0 ? (U[U.length - 1]?.signingOrder ?? 0) + 1 : 1,
+          actionAuth: [],
+        });
+      },
+      Me = () => {
+        je({
+          formId: Ie(12),
+          role: s.RecipientRole.SIGNER,
+          ...jt(Q),
+          signingOrder: U.length > 0 ? (U[U.length - 1]?.signingOrder ?? 0) + 1 : 1,
+          actionAuth: [],
+        }),
+          q((d) => d + 1);
+      },
+      Se = (d) => {
+        ke(d);
+        const l = U.filter((u, T) => T !== d);
+        r.setValue('signers', j(l), { shouldValidate: !0, shouldDirty: !0 }), b();
+      },
+      ne = (d) => _ !== null && d.nativeId === _?.directTemplateRecipientId,
+      we = g.useCallback(
+        async (d) => {
+          if (!d.destination) {
+            return;
+          }
+          const l = Array.from(a),
+            [u] = l.splice(d.source.index, 1),
+            T = d.destination.index;
+          l.splice(T, 0, u);
+          const k = l.map((R, W) => ({ ...R, signingOrder: W + 1 }));
+          r.setValue('signers', k, { shouldValidate: !0, shouldDirty: !0 }),
+            k[k.length - 1].role === s.RecipientRole.ASSISTANT &&
+              me({ title: m({ id: 'JH3snF' }), description: m({ id: '0rAOPj' }) }),
+            await r.trigger('signers'),
+            b();
+        },
+        [r, a, me, b],
+      ),
+      Ce = g.useCallback(
+        (d, l) => {
+          const u = l.trim();
+          if (!u) {
+            return;
+          }
+          const T = Number(u);
+          if (!Number.isInteger(T) || T < 1) {
+            return;
+          }
+          const k = r.getValues('signers'),
+            S = k[d],
+            R = k.filter((Le, ye) => ye !== d),
+            W = Math.min(Math.max(0, T - 1), k.length - 1);
+          R.splice(W, 0, S);
+          const Ne = R.map((Le, ye) => ({ ...Le, signingOrder: ye + 1 }));
+          r.setValue('signers', Ne, { shouldValidate: !0, shouldDirty: !0 }),
+            S.role === s.RecipientRole.ASSISTANT &&
+              W === R.length - 1 &&
+              me({ title: m({ id: 'JH3snF' }), description: m({ id: '0rAOPj' }) }),
+            b();
+        },
+        [r, me, b],
+      ),
+      Pe = g.useCallback(
+        (d, l) => {
+          const u = r.getValues('signers'),
+            T = r.getValues('signingOrder');
+          if (l === s.RecipientRole.ASSISTANT && T === s.DocumentSigningOrder.PARALLEL) {
+            r.setValue('signingOrder', s.DocumentSigningOrder.SEQUENTIAL, { shouldValidate: !0, shouldDirty: !0 }),
+              me({ title: m({ id: 'qqrIt1' }), description: m({ id: 'cOLwsz' }), variant: 'destructive' });
+            return;
+          }
+          const k = u.map((S, R) => ({ ...S, role: R === d ? l : S.role, signingOrder: R + 1 }));
+          r.setValue('signers', k, { shouldValidate: !0, shouldDirty: !0 }),
+            l === s.RecipientRole.ASSISTANT &&
+              d === k.length - 1 &&
+              me({ title: m({ id: 'JH3snF' }), description: m({ id: '0rAOPj' }) }),
+            b();
+        },
+        [r, me, b],
+      ),
+      [We, be] = g.useState(!1),
+      Fe = g.useCallback(() => {
+        be(!1);
+        const l = r
+          .getValues('signers')
+          .map((u) => ({ ...u, role: u.role === s.RecipientRole.ASSISTANT ? s.RecipientRole.SIGNER : u.role }));
+        r.setValue('signers', l, { shouldValidate: !0, shouldDirty: !0 }),
+          r.setValue('signingOrder', s.DocumentSigningOrder.PARALLEL, { shouldValidate: !0, shouldDirty: !0 }),
+          r.setValue('allowDictateNextSigner', !1, { shouldValidate: !0, shouldDirty: !0 }),
+          b();
+      }, [r, b]);
+    return e.jsxs(e.Fragment, {
+      children: [
+        e.jsx(Je, { title: N.title, description: N.description }),
+        e.jsxs(et, {
+          children: [
+            G && e.jsx(Et, { showRecipientColors: !0, recipientIds: x.map((d) => d.id), fields: Rt(E, x) }),
+            e.jsx(Ys, {
+              motionKey: n ? 'Show' : 'Hide',
+              children: e.jsxs(ot, {
+                ...r,
+                children: [
+                  e.jsx(w, {
+                    control: r.control,
+                    name: 'signingOrder',
+                    render: ({ field: d }) =>
+                      e.jsxs(C, {
+                        className: 'mb-6 flex flex-row items-center space-x-2 space-y-0',
+                        children: [
+                          e.jsx(F, {
+                            children: e.jsx(Ze, {
+                              ...d,
+                              id: 'signingOrder',
+                              checked: d.value === s.DocumentSigningOrder.SEQUENTIAL,
+                              onCheckedChange: (l) => {
+                                if (!l && a.some((u) => u.role === s.RecipientRole.ASSISTANT)) {
+                                  be(!0);
+                                  return;
+                                }
+                                d.onChange(l ? s.DocumentSigningOrder.SEQUENTIAL : s.DocumentSigningOrder.PARALLEL),
+                                  l ||
+                                    r.setValue('allowDictateNextSigner', !1, { shouldValidate: !0, shouldDirty: !0 }),
+                                  b();
+                              },
+                              disabled: I,
+                            }),
+                          }),
+                          e.jsx(O, {
+                            htmlFor: 'signingOrder',
+                            className: 'text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+                            children: e.jsx(c, { id: 'S+mLLv' }),
+                          }),
+                        ],
+                      }),
+                  }),
+                  e.jsx(w, {
+                    control: r.control,
+                    name: 'allowDictateNextSigner',
+                    render: ({ field: { value: d, ...l } }) =>
+                      e.jsxs(C, {
+                        className: 'mb-6 flex flex-row items-center space-x-2 space-y-0',
+                        children: [
+                          e.jsx(F, {
+                            children: e.jsx(Ze, {
+                              ...l,
+                              id: 'allowDictateNextSigner',
+                              checked: d,
+                              onCheckedChange: (u) => {
+                                l.onChange(u), b();
+                              },
+                              disabled: I || !o,
+                            }),
+                          }),
+                          e.jsxs('div', {
+                            className: 'flex items-center',
+                            children: [
+                              e.jsx(O, {
+                                htmlFor: 'allowDictateNextSigner',
+                                className:
+                                  'text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+                                children: e.jsx(c, { id: 'DFEsC5' }),
+                              }),
+                              e.jsxs(ue, {
+                                children: [
+                                  e.jsx(pe, {
+                                    asChild: !0,
+                                    children: e.jsx('span', {
+                                      className: 'ml-1 cursor-help text-muted-foreground',
+                                      children: e.jsx(Qs, { className: 'h-3.5 w-3.5' }),
+                                    }),
+                                  }),
+                                  e.jsx(xe, {
+                                    className: 'max-w-80 p-4',
+                                    children: e.jsx('p', { children: e.jsx(c, { id: 'IE45gX' }) }),
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                  }),
+                  e.jsx(Ns, {
+                    onDragEnd: we,
+                    sensors: [
+                      (d) => {
+                        te.current = d;
+                      },
+                    ],
+                    children: e.jsx(ys, {
+                      droppableId: 'signers',
+                      children: (d) =>
+                        e.jsxs('div', {
+                          ...d.droppableProps,
+                          ref: d.innerRef,
+                          className: 'flex w-full flex-col gap-y-2',
+                          children: [
+                            U.map((l, u) =>
+                              e.jsx(
+                                vs,
+                                {
+                                  draggableId: l.id,
+                                  index: u,
+                                  isDragDisabled: !o || I || ne(l) || !l.signingOrder,
+                                  children: (T, k) =>
+                                    e.jsx('div', {
+                                      ref: T.innerRef,
+                                      ...T.draggableProps,
+                                      ...T.dragHandleProps,
+                                      className: v('py-1', {
+                                        'pointer-events-none rounded-md bg-widget-foreground pt-2': k.isDragging,
+                                      }),
+                                      children: e.jsxs(qs.fieldset, {
+                                        'data-native-id': l.nativeId,
+                                        disabled: I || ne(l),
+                                        className: v('grid grid-cols-10 items-end gap-2 pb-2', {
+                                          'border-b pt-2': n,
+                                          'grid-cols-12 pr-3': o,
+                                        }),
+                                        children: [
+                                          o &&
+                                            e.jsx(w, {
+                                              control: r.control,
+                                              name: `signers.${u}.signingOrder`,
+                                              render: ({ field: S }) =>
+                                                e.jsxs(C, {
+                                                  className: 'col-span-2 mt-auto flex items-center gap-x-1 space-y-0',
+                                                  children: [
+                                                    e.jsx(Ts, { className: 'h-5 w-5 flex-shrink-0 opacity-40' }),
+                                                    e.jsx(F, {
+                                                      children: e.jsx(de, {
+                                                        type: 'number',
+                                                        max: U.length,
+                                                        'data-testid': 'placeholder-recipient-signing-order-input',
+                                                        className: v(
+                                                          'w-full text-center',
+                                                          '[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
+                                                        ),
+                                                        ...S,
+                                                        onChange: (R) => {
+                                                          S.onChange(R), Ce(u, R.target.value);
+                                                        },
+                                                        onBlur: (R) => {
+                                                          S.onBlur(), Ce(u, R.target.value);
+                                                        },
+                                                        disabled: k.isDragging || I || ne(l),
+                                                      }),
+                                                    }),
+                                                    e.jsx(P, {}),
+                                                  ],
+                                                }),
+                                            }),
+                                          e.jsx(w, {
+                                            control: r.control,
+                                            name: `signers.${u}.email`,
+                                            render: ({ field: S }) =>
+                                              e.jsxs(C, {
+                                                className: v('relative', { 'col-span-4': !n, 'col-span-5': n }),
+                                                children: [
+                                                  !n && u === 0 && e.jsx(O, { children: e.jsx(c, { id: 'O3oNi5' }) }),
+                                                  e.jsx(F, {
+                                                    children: e.jsx(de, {
+                                                      type: 'email',
+                                                      placeholder: m({ id: 'O3oNi5' }),
+                                                      ...S,
+                                                      value: Ae(S.value) ? '' : S.value,
+                                                      disabled: S.disabled || I || U[u].email === A?.email || ne(l),
+                                                      maxLength: 254,
+                                                      onBlur: b,
+                                                      'data-testid': 'placeholder-recipient-email-input',
+                                                    }),
+                                                  }),
+                                                  e.jsx(P, {}),
+                                                ],
+                                              }),
+                                          }),
+                                          e.jsx(w, {
+                                            control: r.control,
+                                            name: `signers.${u}.name`,
+                                            render: ({ field: S }) =>
+                                              e.jsxs(C, {
+                                                className: v({ 'col-span-4': !n, 'col-span-5': n }),
+                                                children: [
+                                                  !n && u === 0 && e.jsx(O, { children: e.jsx(c, { id: '6YtxFj' }) }),
+                                                  e.jsx(F, {
+                                                    children: e.jsx(de, {
+                                                      placeholder: m({ id: '6YtxFj' }),
+                                                      ...S,
+                                                      disabled: S.disabled || I || U[u].email === A?.email || ne(l),
+                                                      maxLength: 255,
+                                                      onBlur: b,
+                                                      'data-testid': 'placeholder-recipient-name-input',
+                                                    }),
+                                                  }),
+                                                  e.jsx(P, {}),
+                                                ],
+                                              }),
+                                          }),
+                                          n &&
+                                            oe.organisationClaim.flags.cfr21 &&
+                                            e.jsx(w, {
+                                              control: r.control,
+                                              name: `signers.${u}.actionAuth`,
+                                              render: ({ field: S }) =>
+                                                e.jsxs(C, {
+                                                  className: v('col-span-8', { 'col-span-10': o }),
+                                                  children: [
+                                                    e.jsx(F, {
+                                                      children: e.jsx(Gt, {
+                                                        ...S,
+                                                        onValueChange: S.onChange,
+                                                        disabled: I,
+                                                      }),
+                                                    }),
+                                                    e.jsx(P, {}),
+                                                  ],
+                                                }),
+                                            }),
+                                          e.jsxs('div', {
+                                            className: 'col-span-2 flex gap-x-2',
+                                            children: [
+                                              e.jsx(w, {
+                                                name: `signers.${u}.role`,
+                                                render: ({ field: S }) =>
+                                                  e.jsxs(C, {
+                                                    className: 'col-span-1 mt-auto',
+                                                    children: [
+                                                      e.jsx(F, {
+                                                        children: e.jsx($s, {
+                                                          ...S,
+                                                          onValueChange: (R) => {
+                                                            Pe(u, R);
+                                                          },
+                                                          disabled: I,
+                                                          hideCCerRole: ne(l),
+                                                        }),
+                                                      }),
+                                                      e.jsx(P, {}),
+                                                    ],
+                                                  }),
+                                              }),
+                                              ne(l)
+                                                ? e.jsxs(ue, {
+                                                    children: [
+                                                      e.jsx(pe, {
+                                                        className:
+                                                          'col-span-1 mt-auto inline-flex h-10 w-10 items-center justify-center text-muted-foreground hover:opacity-80',
+                                                        children: e.jsx(Ks, { className: 'h-4 w-4' }),
+                                                      }),
+                                                      e.jsxs(xe, {
+                                                        className: 'z-9999 max-w-md p-4 text-foreground',
+                                                        children: [
+                                                          e.jsx('h3', {
+                                                            className: 'font-semibold text-foreground text-lg',
+                                                            children: e.jsx(c, { id: 'NLXhq7' }),
+                                                          }),
+                                                          e.jsx('p', {
+                                                            className: 'mt-1 text-muted-foreground',
+                                                            children: e.jsx(c, { id: 'Qkeh+t' }),
+                                                          }),
+                                                        ],
+                                                      }),
+                                                    ],
+                                                  })
+                                                : e.jsx('button', {
+                                                    type: 'button',
+                                                    className:
+                                                      'col-span-1 mt-auto inline-flex h-10 w-10 items-center justify-center text-muted-foreground hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50',
+                                                    disabled: I || U.length === 1,
+                                                    onClick: () => Se(u),
+                                                    'data-testid': 'remove-placeholder-recipient-button',
+                                                    children: e.jsx(Js, { className: 'h-5 w-5' }),
+                                                  }),
+                                            ],
+                                          }),
+                                        ],
+                                      }),
+                                    }),
+                                },
+                                `${l.id}-${l.signingOrder}`,
+                              ),
+                            ),
+                            d.placeholder,
+                          ],
+                        }),
+                    }),
+                  }),
+                  e.jsx(Ht, { className: 'mt-2', error: 'signers__root' in M && M.signers__root }),
+                  e.jsxs('div', {
+                    className: v('mt-2 flex flex-row items-center space-x-4', { 'mt-4': n }),
+                    children: [
+                      e.jsxs(qe, {
+                        type: 'button',
+                        className: 'flex-1',
+                        disabled: I,
+                        onClick: () => Me(),
+                        children: [e.jsx(St, { className: 'mr-2 -ml-1 h-5 w-5' }), e.jsx(c, { id: '29QK6H' })],
+                      }),
+                      e.jsxs(qe, {
+                        type: 'button',
+                        className: 'bg-black/5 hover:bg-black/10 dark:bg-muted dark:hover:bg-muted/80',
+                        variant: 'secondary',
+                        disabled: I || r.getValues('signers').some((d) => d.email === A?.email),
+                        onClick: () => Xe(),
+                        children: [e.jsx(St, { className: 'mr-2 -ml-1 h-5 w-5' }), e.jsx(c, { id: 'jAa/lz' })],
+                      }),
+                    ],
+                  }),
+                  !i &&
+                    oe.organisationClaim.flags.cfr21 &&
+                    e.jsxs('div', {
+                      className: 'mt-4 flex flex-row items-center',
+                      children: [
+                        e.jsx(Ze, {
+                          id: 'showAdvancedRecipientSettings',
+                          className: 'h-5 w-5',
+                          checked: n,
+                          onCheckedChange: (d) => H(!!d),
+                        }),
+                        e.jsx('label', {
+                          className: 'ml-2 text-muted-foreground text-sm',
+                          htmlFor: 'showAdvancedRecipientSettings',
+                          children: e.jsx(c, { id: 'ydZ6yi' }),
+                        }),
+                      ],
+                    }),
+                ],
+              }),
+            }),
+          ],
+        }),
+        e.jsxs(tt, {
+          children: [
+            e.jsx(st, { step: K, maxStep: X }),
+            e.jsx(it, {
+              loading: I,
+              disabled: I,
+              canGoBack: K > 1,
+              onGoBackClick: () => ce(),
+              onGoNextClick: () => {
+                h();
+              },
+            }),
+          ],
+        }),
+        e.jsx(zt, { open: We, onOpenChange: be, onConfirm: Fe }),
+      ],
+    });
+  },
+  It = De({
+    title: z().trim().min(1, { message: "Title can't be empty" }),
+    externalId: z().optional(),
+    templateType: ge(s.TemplateType).optional(),
+    visibility: ge(s.DocumentVisibility).optional(),
+    globalAccessAuth: he(ft([Dt, Us('-1')]))
+      .transform((N) => (N.length === 1 && N[0] === '-1' ? [] : N))
+      .optional()
+      .default([]),
+    globalActionAuth: he(rs).optional().default([]),
+    meta: De({
+      subject: z(),
+      message: z(),
+      timezone: xi.default(Mt),
+      dateFormat: pi.default(kt),
+      distributionMethod: ge(s.DocumentDistributionMethod).optional().default(s.DocumentDistributionMethod.EMAIL),
+      redirectUrl: z()
+        .optional()
+        .refine((N) => N === void 0 || N === '' || ui(N), {
+          message: 'Please enter a valid URL, make sure you include http:// or https:// part of the url.',
+        }),
+      language: ft([z(), Bs(mi)])
+        .optional()
+        .default('en'),
+      emailId: z().nullable(),
+      emailReplyTo: _s((N) => (N === '' ? void 0 : N), Ot().optional()),
+      emailSettings: Pt,
+      signatureTypes: he(ge(He)).min(1, { message: 'R2bpwe' }),
+    }),
+  }),
+  vi = ({
+    documentFlow: N,
+    recipients: x,
+    fields: _,
+    isDocumentPdfLoaded: E,
+    template: y,
+    currentTeamMemberRole: re,
+    onSubmit: G,
+    onAutoSave: ee,
+  }) => {
+    const { _: L } = ze(),
+      B = Ft(),
+      { documentAuthOption: te } = si({ documentAuth: y.authOptions }),
+      m = rt({
+        resolver: at(It),
+        defaultValues: {
+          title: y.title,
+          externalId: y.externalId || void 0,
+          templateType: y.type || s.TemplateType.PRIVATE,
+          visibility: y.visibility || '',
+          globalAccessAuth: te?.globalAccessAuth || [],
+          globalActionAuth: te?.globalActionAuth || [],
+          meta: {
+            subject: y.templateMeta?.subject ?? '',
+            message: y.templateMeta?.message ?? '',
+            timezone: y.templateMeta?.timezone ?? Mt,
+            dateFormat: y.templateMeta?.dateFormat ?? kt,
+            distributionMethod: y.templateMeta?.distributionMethod || s.DocumentDistributionMethod.EMAIL,
+            redirectUrl: y.templateMeta?.redirectUrl ?? '',
+            language: y.templateMeta?.language ?? 'en',
+            emailId: y.templateMeta?.emailId ?? null,
+            emailReplyTo: y.templateMeta?.emailReplyTo ?? void 0,
+            emailSettings: Pt.parse(y?.templateMeta?.emailSettings),
+            signatureTypes: ii(y?.templateMeta),
+          },
+        },
+      }),
+      { stepIndex: A, currentStep: oe, totalSteps: Q, previousStep: q } = Ke(),
+      K = m.watch('meta.distributionMethod'),
+      X = m.watch('meta.emailSettings'),
+      { data: ce, isLoading: se } = Te.enterprise.organisation.email.find.useQuery({
+        organisationId: B.id,
+        perPage: 100,
+      }),
+      r = ce?.data || [],
+      le = ri(re)
+        .with(s.TeamMemberRole.ADMIN, () => !0)
+        .with(
+          s.TeamMemberRole.MANAGER,
+          () =>
+            y.visibility === s.DocumentVisibility.EVERYONE || y.visibility === s.DocumentVisibility.MANAGER_AND_ABOVE,
+        )
+        .otherwise(() => !1);
+    g.useEffect(() => {
+      !m.formState.touchedFields.meta?.timezone &&
+        !y.templateMeta?.timezone &&
+        m.setValue('meta.timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    }, [m, m.setValue, m.formState.touchedFields.meta?.timezone]);
+    const { scheduleSave: J } = nt(ee),
+      b = async () => {
+        if (!(await m.trigger())) {
+          return;
+        }
+        const n = m.getValues(),
+          H = It.safeParse(n);
+        H.success && J(H.data);
+      };
+    return e.jsxs(e.Fragment, {
+      children: [
+        e.jsx(Je, { title: N.title, description: N.description }),
+        e.jsxs(et, {
+          children: [
+            E && e.jsx(Et, { showRecipientColors: !0, recipientIds: x.map((i) => i.id), fields: Rt(_, x) }),
+            e.jsx(ot, {
+              ...m,
+              children: e.jsxs('fieldset', {
+                className: 'flex h-full flex-col space-y-6',
+                disabled: m.formState.isSubmitting,
+                children: [
+                  e.jsx(w, {
+                    control: m.control,
+                    name: 'title',
+                    render: ({ field: i }) =>
+                      e.jsxs(C, {
+                        children: [
+                          e.jsx(O, { required: !0, children: e.jsx(c, { id: 'URdrTr' }) }),
+                          e.jsx(F, {
+                            children: e.jsx(de, { className: 'bg-background', ...i, maxLength: 255, onBlur: b }),
+                          }),
+                          e.jsx(P, {}),
+                        ],
+                      }),
+                  }),
+                  e.jsx(w, {
+                    control: m.control,
+                    name: 'meta.language',
+                    render: ({ field: i }) =>
+                      e.jsxs(C, {
+                        children: [
+                          e.jsxs(O, {
+                            className: 'inline-flex items-center',
+                            children: [
+                              e.jsx(c, { id: 'vXIe7J' }),
+                              e.jsxs(ue, {
+                                children: [
+                                  e.jsx(pe, { children: e.jsx(Oe, { className: 'mx-2 h-4 w-4' }) }),
+                                  e.jsx(xe, {
+                                    className: 'max-w-md space-y-2 p-4 text-foreground',
+                                    children:
+                                      'Controls the language for the document, including the language to be used for email notifications, and the final certificate that is generated and attached to the document.',
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          e.jsx(F, {
+                            children: e.jsxs(_e, {
+                              ...i,
+                              onValueChange: (n) => {
+                                i.onChange(n), b();
+                              },
+                              children: [
+                                e.jsx(Be, { className: 'bg-background', children: e.jsx(Ue, {}) }),
+                                e.jsx(Ge, {
+                                  children: Object.entries(ts).map(([n, H]) =>
+                                    e.jsx(Re, { value: n, children: L(H.full) }, n),
+                                  ),
+                                }),
+                              ],
+                            }),
+                          }),
+                          e.jsx(P, {}),
+                        ],
+                      }),
+                  }),
+                  e.jsx(w, {
+                    control: m.control,
+                    name: 'globalAccessAuth',
+                    render: ({ field: i }) =>
+                      e.jsxs(C, {
+                        children: [
+                          e.jsxs(O, {
+                            className: 'flex flex-row items-center',
+                            children: [e.jsx(c, { id: 'YScG1E' }), e.jsx(Xt, {})],
+                          }),
+                          e.jsx(F, {
+                            children: e.jsx(Wt, {
+                              ...i,
+                              onValueChange: (n) => {
+                                i.onChange(n), b();
+                              },
+                              value: i.value,
+                              disabled: i.disabled,
+                            }),
+                          }),
+                        ],
+                      }),
+                  }),
+                  re &&
+                    e.jsx(w, {
+                      control: m.control,
+                      name: 'visibility',
+                      render: ({ field: i }) =>
+                        e.jsxs(C, {
+                          children: [
+                            e.jsxs(O, {
+                              className: 'flex flex-row items-center',
+                              children: [e.jsx(c, { id: 'WPYf4O' }), e.jsx(Yt, {})],
+                            }),
+                            e.jsx(F, {
+                              children: e.jsx($t, {
+                                canUpdateVisibility: le,
+                                currentTeamMemberRole: re,
+                                ...i,
+                                onValueChange: (n) => {
+                                  i.onChange(n), b();
+                                },
+                              }),
+                            }),
+                          ],
+                        }),
+                    }),
+                  e.jsx(w, {
+                    control: m.control,
+                    name: 'templateType',
+                    render: ({ field: i }) =>
+                      e.jsxs(C, {
+                        children: [
+                          e.jsxs(O, {
+                            className: 'flex flex-row items-center',
+                            children: [
+                              e.jsx(c, { id: 'gd+FJ+' }),
+                              e.jsx(ni, { organisationTeamCount: B.teams.length }),
+                            ],
+                          }),
+                          e.jsx(F, {
+                            children: e.jsx(ai, {
+                              ...i,
+                              onValueChange: (n) => {
+                                i.onChange(n), b();
+                              },
+                            }),
+                          }),
+                        ],
+                      }),
+                  }),
+                  e.jsx(w, {
+                    control: m.control,
+                    name: 'meta.distributionMethod',
+                    render: ({ field: i }) =>
+                      e.jsxs(C, {
+                        children: [
+                          e.jsxs(O, {
+                            className: 'flex flex-row items-center',
+                            children: [
+                              e.jsx(c, { id: 'lz56Jn' }),
+                              e.jsxs(ue, {
+                                children: [
+                                  e.jsx(pe, { children: e.jsx(Oe, { className: 'mx-2 h-4 w-4' }) }),
+                                  e.jsxs(xe, {
+                                    className: 'max-w-md space-y-2 p-4 text-foreground',
+                                    children: [
+                                      e.jsx('h2', {
+                                        children: e.jsx('strong', { children: e.jsx(c, { id: 'lz56Jn' }) }),
+                                      }),
+                                      e.jsx('p', { children: e.jsx(c, { id: 'qPXbx6' }) }),
+                                      e.jsxs('ul', {
+                                        className: 'ml-3.5 list-outside list-disc space-y-0.5 py-2',
+                                        children: [
+                                          e.jsx('li', {
+                                            children: e.jsx(c, {
+                                              id: 'HO4A28',
+                                              components: { 0: e.jsx('strong', {}) },
+                                            }),
+                                          }),
+                                          e.jsx('li', {
+                                            children: e.jsx(c, {
+                                              id: 'xNAFFe',
+                                              components: { 0: e.jsx('strong', {}) },
+                                            }),
+                                          }),
+                                        ],
+                                      }),
+                                      e.jsx(c, { id: 'zitePj', components: { 0: e.jsx('strong', {}) } }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          e.jsx(F, {
+                            children: e.jsxs(_e, {
+                              ...i,
+                              onValueChange: (n) => {
+                                i.onChange(n), b();
+                              },
+                              children: [
+                                e.jsx(Be, {
+                                  className: 'bg-background text-muted-foreground',
+                                  children: e.jsx(Ue, { 'data-testid': 'documentDistributionMethodSelectValue' }),
+                                }),
+                                e.jsx(Ge, {
+                                  position: 'popper',
+                                  children: Object.values(Jt).map(({ value: n, description: H }) =>
+                                    e.jsx(Re, { value: n, children: L(H) }, n),
+                                  ),
+                                }),
+                              ],
+                            }),
+                          }),
+                        ],
+                      }),
+                  }),
+                  e.jsx(w, {
+                    control: m.control,
+                    name: 'meta.signatureTypes',
+                    render: ({ field: i }) =>
+                      e.jsxs(C, {
+                        children: [
+                          e.jsxs(O, {
+                            className: 'flex flex-row items-center',
+                            children: [e.jsx(c, { id: 'ISVHvc' }), e.jsx(li, {})],
+                          }),
+                          e.jsx(F, {
+                            children: e.jsx(di, {
+                              options: Object.values(es).map((n) => ({ label: L(n.label), value: n.value })),
+                              selectedValues: i.value,
+                              onChange: (n) => {
+                                i.onChange(n), b();
+                              },
+                              className: 'w-full bg-background',
+                              emptySelectionPlaceholder: L({ id: 'ZsFwYA' }),
+                            }),
+                          }),
+                          e.jsx(P, {}),
+                        ],
+                      }),
+                  }),
+                  B.organisationClaim.flags.cfr21 &&
+                    e.jsx(w, {
+                      control: m.control,
+                      name: 'globalActionAuth',
+                      render: ({ field: i }) =>
+                        e.jsxs(C, {
+                          children: [
+                            e.jsxs(O, {
+                              className: 'flex flex-row items-center',
+                              children: [e.jsx(c, { id: 'ZIuo5V' }), e.jsx(Zt, {})],
+                            }),
+                            e.jsx(F, {
+                              children: e.jsx(Qt, {
+                                ...i,
+                                onValueChange: (n) => {
+                                  i.onChange(n), b();
+                                },
+                                value: i.value,
+                                disabled: i.disabled,
+                              }),
+                            }),
+                          ],
+                        }),
+                    }),
+                  K === s.DocumentDistributionMethod.EMAIL &&
+                    e.jsx(bt, {
+                      type: 'multiple',
+                      children: e.jsxs(Nt, {
+                        value: 'email-options',
+                        className: 'border-none',
+                        children: [
+                          e.jsx(yt, {
+                            className:
+                              'rounded border px-3 py-2 text-left text-foreground hover:bg-neutral-200/30 hover:no-underline',
+                            children: e.jsx(c, { id: 'XLpxoj' }),
+                          }),
+                          e.jsx(vt, {
+                            className: '-mx-1 px-1 pt-4 text-muted-foreground text-sm leading-relaxed [&>div]:pb-0',
+                            children: e.jsxs('div', {
+                              className: 'flex flex-col space-y-6',
+                              children: [
+                                B.organisationClaim.flags.emailDomains &&
+                                  e.jsx(w, {
+                                    control: m.control,
+                                    name: 'meta.emailId',
+                                    render: ({ field: i }) =>
+                                      e.jsxs(C, {
+                                        children: [
+                                          e.jsx(O, { children: e.jsx(c, { id: 'nvv/5t' }) }),
+                                          e.jsx(F, {
+                                            children: e.jsxs(_e, {
+                                              ...i,
+                                              value: i.value === null ? '-1' : i.value,
+                                              onValueChange: (n) => i.onChange(n === '-1' ? null : n),
+                                              children: [
+                                                e.jsx(Be, {
+                                                  loading: se,
+                                                  className: 'bg-background',
+                                                  children: e.jsx(Ue, {}),
+                                                }),
+                                                e.jsxs(Ge, {
+                                                  children: [
+                                                    r.map((n) => e.jsx(Re, { value: n.id, children: n.email }, n.id)),
+                                                    e.jsx(Re, { value: '-1', children: 'Omni Sign' }),
+                                                  ],
+                                                }),
+                                              ],
+                                            }),
+                                          }),
+                                          e.jsx(P, {}),
+                                        ],
+                                      }),
+                                  }),
+                                e.jsx(w, {
+                                  control: m.control,
+                                  name: 'meta.emailReplyTo',
+                                  render: ({ field: i }) =>
+                                    e.jsxs(C, {
+                                      children: [
+                                        e.jsx(O, {
+                                          children: e.jsx(c, {
+                                            id: 'Rbp6Qh',
+                                            components: { 0: e.jsx('span', { className: 'text-muted-foreground' }) },
+                                          }),
+                                        }),
+                                        e.jsx(F, { children: e.jsx(de, { ...i, maxLength: 254 }) }),
+                                        e.jsx(P, {}),
+                                      ],
+                                    }),
+                                }),
+                                e.jsx(w, {
+                                  control: m.control,
+                                  name: 'meta.subject',
+                                  render: ({ field: i }) =>
+                                    e.jsxs(C, {
+                                      children: [
+                                        e.jsx(O, {
+                                          children: e.jsx(c, {
+                                            id: 'ki77Td',
+                                            components: { 0: e.jsx('span', { className: 'text-muted-foreground' }) },
+                                          }),
+                                        }),
+                                        e.jsx(F, { children: e.jsx(de, { ...i, maxLength: 254, onBlur: b }) }),
+                                        e.jsx(P, {}),
+                                      ],
+                                    }),
+                                }),
+                                e.jsx(w, {
+                                  control: m.control,
+                                  name: 'meta.message',
+                                  render: ({ field: i }) =>
+                                    e.jsxs(C, {
+                                      children: [
+                                        e.jsxs(O, {
+                                          className: 'flex flex-row items-center',
+                                          children: [
+                                            e.jsx(c, {
+                                              id: 'ziXm9u',
+                                              components: { 0: e.jsx('span', { className: 'text-muted-foreground' }) },
+                                            }),
+                                            e.jsxs(ue, {
+                                              children: [
+                                                e.jsx(pe, { children: e.jsx(Oe, { className: 'mx-2 h-4 w-4' }) }),
+                                                e.jsx(xe, {
+                                                  className: 'p-4 text-muted-foreground',
+                                                  children: e.jsx(As, {}),
+                                                }),
+                                              ],
+                                            }),
+                                          ],
+                                        }),
+                                        e.jsx(F, {
+                                          children: e.jsx(ci, {
+                                            className: 'h-16 resize-none bg-background',
+                                            ...i,
+                                            maxLength: 5e3,
+                                            onBlur: b,
+                                          }),
+                                        }),
+                                        e.jsx(P, {}),
+                                      ],
+                                    }),
+                                }),
+                                e.jsx(oi, {
+                                  value: X,
+                                  onChange: (i) => {
+                                    m.setValue('meta.emailSettings', i, { shouldDirty: !0 }), b();
+                                  },
+                                }),
+                              ],
+                            }),
+                          }),
+                        ],
+                      }),
+                    }),
+                  e.jsx(bt, {
+                    type: 'multiple',
+                    children: e.jsxs(Nt, {
+                      value: 'advanced-options',
+                      className: 'border-none',
+                      children: [
+                        e.jsx(yt, {
+                          className:
+                            'rounded border px-3 py-2 text-left text-foreground hover:bg-neutral-200/30 hover:no-underline',
+                          children: e.jsx(c, { id: 'NFIOKv' }),
+                        }),
+                        e.jsx(vt, {
+                          className: '-mx-1 px-1 pt-4 text-muted-foreground text-sm leading-relaxed',
+                          children: e.jsxs('div', {
+                            className: 'flex flex-col space-y-6',
+                            children: [
+                              e.jsx(w, {
+                                control: m.control,
+                                name: 'externalId',
+                                render: ({ field: i }) =>
+                                  e.jsxs(C, {
+                                    children: [
+                                      e.jsxs(O, {
+                                        className: 'flex flex-row items-center',
+                                        children: [
+                                          e.jsx(c, { id: '5KfWxA' }),
+                                          ' ',
+                                          e.jsxs(ue, {
+                                            children: [
+                                              e.jsx(pe, { children: e.jsx(Oe, { className: 'mx-2 h-4 w-4' }) }),
+                                              e.jsx(xe, {
+                                                className: 'max-w-xs text-muted-foreground',
+                                                children: e.jsx(c, { id: 'bK1dPK' }),
+                                              }),
+                                            ],
+                                          }),
+                                        ],
+                                      }),
+                                      e.jsx(F, {
+                                        children: e.jsx(de, {
+                                          className: 'bg-background',
+                                          ...i,
+                                          maxLength: 255,
+                                          onBlur: b,
+                                        }),
+                                      }),
+                                      e.jsx(P, {}),
+                                    ],
+                                  }),
+                              }),
+                              e.jsx(w, {
+                                control: m.control,
+                                name: 'meta.dateFormat',
+                                render: ({ field: i }) =>
+                                  e.jsxs(C, {
+                                    children: [
+                                      e.jsx(O, { children: e.jsx(c, { id: '4BHv90' }) }),
+                                      e.jsx(F, {
+                                        children: e.jsxs(_e, {
+                                          ...i,
+                                          onValueChange: (n) => {
+                                            i.onChange(n), b();
+                                          },
+                                          children: [
+                                            e.jsx(Be, { className: 'bg-background', children: e.jsx(Ue, {}) }),
+                                            e.jsx(Ge, {
+                                              children: ei.map((n) =>
+                                                e.jsx(Re, { value: n.value, children: n.label }, n.key),
+                                              ),
+                                            }),
+                                          ],
+                                        }),
+                                      }),
+                                      e.jsx(P, {}),
+                                    ],
+                                  }),
+                              }),
+                              e.jsx(w, {
+                                control: m.control,
+                                name: 'meta.timezone',
+                                render: ({ field: i }) =>
+                                  e.jsxs(C, {
+                                    children: [
+                                      e.jsx(O, { children: e.jsx(c, { id: 'RxsRD6' }) }),
+                                      e.jsx(F, {
+                                        children: e.jsx(Zs, {
+                                          className: 'time-zone-field bg-background',
+                                          options: ti,
+                                          ...i,
+                                          onChange: (n) => {
+                                            n && i.onChange(n), b();
+                                          },
+                                        }),
+                                      }),
+                                      e.jsx(P, {}),
+                                    ],
+                                  }),
+                              }),
+                              e.jsx(w, {
+                                control: m.control,
+                                name: 'meta.redirectUrl',
+                                render: ({ field: i }) =>
+                                  e.jsxs(C, {
+                                    children: [
+                                      e.jsxs(O, {
+                                        className: 'flex flex-row items-center',
+                                        children: [
+                                          e.jsx(c, { id: 'VTB2Rz' }),
+                                          ' ',
+                                          e.jsxs(ue, {
+                                            children: [
+                                              e.jsx(pe, { children: e.jsx(Oe, { className: 'mx-2 h-4 w-4' }) }),
+                                              e.jsx(xe, {
+                                                className: 'max-w-xs text-muted-foreground',
+                                                children: e.jsx(c, { id: '7Pz5x5' }),
+                                              }),
+                                            ],
+                                          }),
+                                        ],
+                                      }),
+                                      e.jsx(F, {
+                                        children: e.jsx(de, {
+                                          className: 'bg-background',
+                                          ...i,
+                                          maxLength: 255,
+                                          onBlur: b,
+                                        }),
+                                      }),
+                                      e.jsx(P, {}),
+                                    ],
+                                  }),
+                              }),
+                            ],
+                          }),
+                        }),
+                      ],
+                    }),
+                  }),
+                ],
+              }),
+            }),
+          ],
+        }),
+        e.jsxs(tt, {
+          children: [
+            e.jsx(st, { step: oe, maxStep: Q }),
+            e.jsx(it, {
+              loading: m.formState.isSubmitting,
+              disabled: m.formState.isSubmitting,
+              canGoBack: A !== 0,
+              onGoBackClick: q,
+              onGoNextClick: m.handleSubmit(G),
+            }),
+          ],
+        }),
+      ],
+    });
+  },
+  Ti = ['settings', 'signers', 'fields'],
+  Ai = ({ initialTemplate: N, className: x, templateRootPath: _ }) => {
+    const { _: E } = ze(),
+      { toast: y } = wt(),
+      re = Lt(),
+      G = gi(),
+      [ee, L] = g.useState('settings'),
+      [B, te] = g.useState(!1),
+      m = Te.useUtils(),
+      { data: A, refetch: oe } = Te.template.getTemplateById.useQuery({ templateId: N.id }, { initialData: N, ...ns }),
+      { recipients: Q, fields: q, templateDocumentData: K } = A,
+      X = {
+        settings: { title: { id: 'Weq9zb' }, description: { id: 'hIv3aM' }, stepIndex: 1 },
+        signers: { title: { id: 'zkvWcK' }, description: { id: 'bpOeyo' }, stepIndex: 2 },
+        fields: { title: { id: 'S/w/ui' }, description: { id: 'qkB+9Q' }, stepIndex: 3 },
+      },
+      ce = X[ee],
+      { mutateAsync: se } = Te.template.updateTemplate.useMutation({
+        ...Ye,
+        onSuccess: (a) => {
+          m.template.getTemplateById.setData({ templateId: N.id }, (o) => ({ ...(o || N), ...a }));
+        },
+      }),
+      { mutateAsync: r } = Te.field.setFieldsForTemplate.useMutation({
+        ...Ye,
+        onSuccess: (a) => {
+          m.template.getTemplateById.setData({ templateId: N.id }, (o) => ({ ...(o || N), ...a }));
+        },
+      }),
+      { mutateAsync: le } = Te.recipient.setTemplateRecipients.useMutation({
+        ...Ye,
+        onSuccess: (a) => {
+          m.template.getTemplateById.setData({ templateId: N.id }, (o) => ({ ...(o || N), ...a }));
+        },
+      }),
+      J = async (a) => {
+        const { signatureTypes: o } = a.meta,
+          j = he(Dt).safeParse(a.globalAccessAuth);
+        return se({
+          templateId: A.id,
+          data: {
+            title: a.title,
+            type: a.templateType,
+            externalId: a.externalId || null,
+            visibility: a.visibility,
+            globalAccessAuth: j.success ? j.data : [],
+            globalActionAuth: a.globalActionAuth ?? [],
+          },
+          meta: {
+            ...a.meta,
+            emailReplyTo: a.meta.emailReplyTo || null,
+            typedSignatureEnabled: o.includes(He.TYPE),
+            uploadSignatureEnabled: o.includes(He.UPLOAD),
+            drawSignatureEnabled: o.includes(He.DRAW),
+            language: ss(a.meta.language) ? a.meta.language : void 0,
+          },
+        });
+      },
+      b = async (a) => {
+        try {
+          await J(a), L('signers');
+        } catch (o) {
+          console.error(o), y({ title: E({ id: 'SlfejT' }), description: E({ id: 'PBvwjZ' }), variant: 'destructive' });
+        }
+      },
+      i = async (a) => {
+        try {
+          await J(a);
+        } catch (o) {
+          console.error(o), y({ title: E({ id: 'SlfejT' }), description: E({ id: 'h2UCQj' }), variant: 'destructive' });
+        }
+      },
+      n = async (a) => {
+        const [, o] = await Promise.all([
+          se({
+            templateId: A.id,
+            meta: { signingOrder: a.signingOrder, allowDictateNextSigner: a.allowDictateNextSigner },
+          }),
+          le({ templateId: A.id, recipients: a.signers.map((j) => ({ ...j, id: j.nativeId })) }),
+        ]);
+        return o;
+      },
+      H = async (a) => {
+        try {
+          await n(a), L('fields');
+        } catch {
+          y({ title: E({ id: 'SlfejT' }), description: E({ id: 'aAZxd7' }), variant: 'destructive' });
+        }
+      },
+      M = async (a) => {
+        try {
+          return await n(a);
+        } catch (o) {
+          throw (
+            (console.error(o),
+            y({ title: E({ id: 'SlfejT' }), description: E({ id: 'fiarMN' }), variant: 'destructive' }),
+            o)
+          );
+        }
+      },
+      I = async (a) =>
+        r({
+          templateId: A.id,
+          fields: a.fields.map((o) => ({
+            ...o,
+            id: o.nativeId,
+            envelopeItemId: A.templateDocumentData.envelopeItemId,
+          })),
+        }),
+      fe = async (a) => {
+        try {
+          await I(a);
+        } catch (o) {
+          console.error(o), y({ title: E({ id: 'SlfejT' }), description: E({ id: '1Elcwq' }), variant: 'destructive' });
+        }
+      },
+      ie = async (a) => {
+        try {
+          await I(a);
+          for (let j = 0; j < localStorage.length; j++) {
+            const h = localStorage.key(j);
+            h && h.startsWith('field_') && localStorage.removeItem(h);
+          }
+          y({ title: E({ id: 'GamjcN' }), description: E({ id: 'WQkZGA' }), duration: 5e3 });
+          const o = A.folderId ? `${_}/f/${A.folderId}` : _;
+          await re(o);
+        } catch (o) {
+          console.error(o), y({ title: E({ id: 'SlfejT' }), description: E({ id: 'IXpf3N' }), variant: 'destructive' });
+        }
+      };
+    return (
+      g.useEffect(() => {
+        oe();
+      }, [ee]),
+      e.jsxs('div', {
+        className: v('grid w-full grid-cols-12 gap-8', x),
+        children: [
+          e.jsx($, {
+            className: 'relative col-span-12 rounded-xl before:rounded-xl lg:col-span-6 xl:col-span-7',
+            gradient: !0,
+            children: e.jsx(Z, {
+              className: 'p-2',
+              children: e.jsx(
+                us,
+                {
+                  data: os({
+                    envelopeId: A.envelopeId,
+                    envelopeItemId: A.envelopeItems[0]?.id,
+                    documentDataId: N.templateDocumentDataId,
+                    version: 'current',
+                    token: void 0,
+                    presignToken: void 0,
+                  }),
+                  scrollParentRef: 'window',
+                  onDocumentLoad: () => te(!0),
+                },
+                A.envelopeItems[0]?.id,
+              ),
+            }),
+          }),
+          e.jsx('div', {
+            className: 'col-span-12 lg:col-span-6 xl:col-span-5',
+            children: e.jsx(ls, {
+              className: 'lg:h-[calc(100vh-6rem)]',
+              onSubmit: (a) => a.preventDefault(),
+              children: e.jsxs(ds, {
+                currentStep: ce.stepIndex,
+                setCurrentStep: (a) => L(Ti[a - 1]),
+                children: [
+                  e.jsx(
+                    vi,
+                    {
+                      template: A,
+                      currentTeamMemberRole: G.currentTeamRole,
+                      documentFlow: X.settings,
+                      recipients: Q,
+                      fields: q,
+                      onSubmit: b,
+                      onAutoSave: i,
+                      isDocumentPdfLoaded: B,
+                    },
+                    Q.length,
+                  ),
+                  e.jsx(
+                    yi,
+                    {
+                      documentFlow: X.signers,
+                      recipients: Q,
+                      fields: q,
+                      signingOrder: A.templateMeta?.signingOrder,
+                      allowDictateNextSigner: A.templateMeta?.allowDictateNextSigner,
+                      templateDirectLink: A.directLink,
+                      onSubmit: H,
+                      onAutoSave: M,
+                      isDocumentPdfLoaded: B,
+                    },
+                    A.id,
+                  ),
+                  e.jsx(
+                    bi,
+                    { documentFlow: X.fields, recipients: Q, fields: q, onSubmit: ie, onAutoSave: fe, teamId: G?.id },
+                    A.id,
+                  ),
+                ],
+              }),
+            }),
+          }),
+        ],
+      })
+    );
+  },
+  ur = Vt(() => {
+    const { template: x, templateRootPath: _ } = fi();
+    return e.jsxs('div', {
+      className: 'mx-auto -mt-4 max-w-screen-xl px-4 md:px-8',
+      children: [
+        e.jsxs('div', {
+          className: 'flex flex-col justify-between sm:flex-row',
+          children: [
+            e.jsxs('div', {
+              children: [
+                e.jsxs(_t, {
+                  to: `${_}/${x.envelopeId}`,
+                  className: 'flex items-center text-documenso-700 hover:opacity-80',
+                  children: [e.jsx(ji, { className: 'mr-2 inline-block h-5 w-5' }), e.jsx(c, { id: '/K2CvV' })],
+                }),
+                e.jsx('h1', {
+                  className: 'mt-4 block max-w-[20rem] truncate font-semibold text-2xl md:max-w-[30rem] md:text-3xl',
+                  title: x.title,
+                  children: x.title,
+                }),
+                e.jsxs('div', {
+                  className: 'mt-2.5 flex items-center',
+                  children: [
+                    e.jsx(hi, { inheritColor: !0, className: 'text-muted-foreground', type: x.type }),
+                    x.directLink?.token &&
+                      e.jsx(Bt, { className: 'ml-4', token: x.directLink.token, enabled: x.directLink.enabled }),
+                  ],
+                }),
+              ],
+            }),
+            e.jsxs('div', {
+              className: 'mt-2 flex items-center gap-2 sm:mt-0 sm:self-end',
+              children: [
+                e.jsx(qt, { envelopeId: x.envelopeId }),
+                e.jsx(Ut, { templateId: x.id, directLink: x.directLink, recipients: x.recipients }),
+                x.useLegacyFieldInsertion &&
+                  e.jsx('div', { children: e.jsx(Kt, { type: 'template', templateId: x.id }) }),
+              ],
+            }),
+          ],
+        }),
+        e.jsx(Ai, { className: 'mt-6', initialTemplate: x, templateRootPath: _ }),
+      ],
+    });
+  });
+export { ur as default };

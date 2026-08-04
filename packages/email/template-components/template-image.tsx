@@ -8,7 +8,13 @@ export interface TemplateImageProps {
 
 export const TemplateImage = ({ assetBaseUrl, className, staticAsset }: TemplateImageProps) => {
   const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
+    let base = assetBaseUrl;
+
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
 
   return <Img className={className} src={getAssetUrl(`/static/${staticAsset}`)} alt="" />;

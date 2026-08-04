@@ -1,5 +1,5 @@
-import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import { getDocumentByAccessToken } from '@documenso/lib/server-only/document/get-document-by-access-token';
+import { resolveWebappUrl } from '@documenso/lib/utils/url';
 import { redirect, useLoaderData } from 'react-router';
 
 import { DocumentCertificateQRView } from '~/components/general/document/document-certificate-qr-view';
@@ -28,7 +28,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       property: 'og:image',
-      content: `${NEXT_PUBLIC_WEBAPP_URL()}/share/${slug}/opengraph`,
+      content: resolveWebappUrl(`/share/${slug}/opengraph`),
     },
     {
       name: 'twitter:site',
@@ -40,7 +40,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       name: 'twitter:image',
-      content: `${NEXT_PUBLIC_WEBAPP_URL()}/share/${slug}/opengraph`,
+      content: resolveWebappUrl(`/share/${slug}/opengraph`),
     },
     {
       name: 'twitter:description',

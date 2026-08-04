@@ -1,0 +1,253 @@
+import { A as P, a as S } from './alert-CE06zyBg.js';
+import { c as h } from './avatar-BS15TO7o.js';
+import { f as u } from './avatars-GsGH8fkv.js';
+import { B as g } from './badge-ChcBhPaW.js';
+import { B as V } from './building-2-BkBdQblY.js';
+import { B as y } from './button-Dm_JGgap.js';
+import { c as _, b as D, a as G, d as H, e as O, C as U } from './card-CN1paoKy.js';
+import { C as F } from './checkbox-PtMmw-z5.js';
+import { r as A, w as B, d as E, i as L, b as T } from './chunk-KS7C4IRE-FYOnnPbz.js';
+import { c as N } from './createLucideIcon-UOjYlZt5.js';
+import { E as X } from './eye-BJpoQCg7.js';
+import { G as Q, d as q } from './generic-error-layout-Ck6Ws6Ds.js';
+import { t as f } from './index-BbY_VZqi.js';
+import { M as W } from './index-BiLbLflF.js';
+import { T as e, u as R } from './index-CkOHfBoV.js';
+import { j as s } from './jsx-runtime-DrYFQjIW.js';
+import { b as M } from './organisation-authentication-portal-D-j1hdNj.js';
+import { e as j } from './recipient-formatter-WzUNI0pB.js';
+import { S as k } from './separator-BTSkB6b7.js';
+import { S as $ } from './settings-CJqSZAYR.js';
+import { T as J } from './triangle-alert-Y8Kk1Rgi.js';
+import { u as I } from './use-toast-pMYLxjk1.js';
+import './app-uAhqo_pP.js';
+import './types-GU3YNY2F.js';
+import './url-CP0Hgou8.js';
+import './data-transformer-DaTnp7WB.js';
+import './index-DJ-EwNXm.js';
+import './useQuery-Cl3ReeOA.js';
+import './loader-aSxoB_gm.js';
+import './utils-C68LRSOY.js';
+import './index-UGPUXo4T.js';
+import './index-J1tJADds.js';
+import './index-DAyHhKCk.js';
+import './index-CWo-8VFg.js';
+import './index-DzY7AtIB.js';
+import './index-MjUwLcg-.js';
+import './index-KpgwOPga.js';
+import './index-ZximTWpF.js';
+import './check--7Y29bNj.js';
+import './background-pattern-DQOf2_lH.js';
+import './proxy-dEM8-k5c.js';
+import './chevron-left-BZCl9klZ.js';
+const z = [
+    ['path', { d: 'M18 20a6 6 0 0 0-12 0', key: '1qehca' }],
+    ['circle', { cx: '12', cy: '10', r: '4', key: '1h16sb' }],
+    ['circle', { cx: '12', cy: '12', r: '10', key: '1mglay' }],
+  ],
+  K = N('circle-user-round', z);
+const Y = [
+    ['ellipse', { cx: '12', cy: '5', rx: '9', ry: '3', key: 'msslwz' }],
+    ['path', { d: 'M3 5V19A9 3 0 0 0 21 19V5', key: '1wlel7' }],
+    ['path', { d: 'M3 12A9 3 0 0 0 21 12', key: 'mv7ke4' }],
+  ],
+  Z = N('database', Y),
+  Rs = E(({ error: i }) => {
+    const o = L(i) ? i.data.type : 500,
+      n = W(o)
+        .with('invalid-token', () => ({
+          subHeading: { id: 'xJmvtQ' },
+          heading: { id: 'PqWHUy' },
+          message: { id: 'WHgk55' },
+        }))
+        .otherwise(() => q[500]);
+    return s.jsx(Q, { errorCode: 500, errorCodeMap: { 500: n }, secondaryButton: null });
+  }),
+  Ws = B(({ loaderData: i }) => {
+    const { token: o, type: n, user: r, organisation: a } = i,
+      { _: c } = R(),
+      { toast: m } = I(),
+      l = T(),
+      [x, b] = A.useState(!1),
+      { mutate: v, isPending: p } = f.enterprise.organisation.authenticationPortal.declineLinkAccount.useMutation({
+        onSuccess: async () => {
+          await l('/'), m({ title: c({ id: 'MFsmsX' }) });
+        },
+        onError: (t) => {
+          m({ title: c({ id: 'Qt5BV/' }), description: t.message });
+        },
+      }),
+      { mutate: w, isPending: d } = f.enterprise.organisation.authenticationPortal.linkAccount.useMutation({
+        onSuccess: async () => {
+          await l(M(a.url)), m({ title: c({ id: 'yUx6t1' }) });
+        },
+        onError: (t) => {
+          m({ title: c({ id: 'XH911a' }), description: t.message });
+        },
+      });
+    return s.jsx('div', {
+      children: s.jsxs(U, {
+        className: 'w-full max-w-2xl border',
+        children: [
+          s.jsxs(_, {
+            children: [
+              s.jsx(D, { children: n === 'link' ? s.jsx(e, { id: 'DHyxQ1' }) : s.jsx(e, { id: 'PUGL5J' }) }),
+              s.jsx(H, { children: n === 'link' ? s.jsx(e, { id: 'KpL+GZ' }) : s.jsx(e, { id: 'zgEWT5' }) }),
+            ],
+          }),
+          s.jsxs(G, {
+            className: 'space-y-6',
+            children: [
+              s.jsxs('div', {
+                className: 'space-y-3',
+                children: [
+                  s.jsxs('h3', {
+                    className: 'flex items-center gap-2 font-semibold text-muted-foreground',
+                    children: [s.jsx(K, { className: 'h-4 w-4' }), s.jsx(e, { id: 'olrNOE' })],
+                  }),
+                  s.jsxs('div', {
+                    className: 'flex items-center justify-between gap-3 rounded-lg bg-muted/50 p-3',
+                    children: [
+                      s.jsx(h, {
+                        avatarSrc: u(r.avatar),
+                        avatarFallback: j(r.name || r.email),
+                        primaryText: r.name,
+                        secondaryText: r.email,
+                      }),
+                      s.jsx(g, { variant: 'secondary', children: s.jsx(e, { id: 'AeXO77' }) }),
+                    ],
+                  }),
+                ],
+              }),
+              s.jsx(k, {}),
+              s.jsxs('div', {
+                className: 'space-y-3',
+                children: [
+                  s.jsxs('h3', {
+                    className: 'flex items-center gap-2 font-semibold text-muted-foreground',
+                    children: [s.jsx(V, { className: 'h-4 w-4' }), s.jsx(e, { id: 'BPyuu1' })],
+                  }),
+                  s.jsxs('div', {
+                    className: 'flex items-center justify-between gap-3 rounded-lg bg-muted/50 p-3',
+                    children: [
+                      s.jsx(h, {
+                        avatarSrc: u(a.avatar),
+                        avatarFallback: j(a.name),
+                        primaryText: a.name,
+                        secondaryText: `/o/${a.url}`,
+                      }),
+                      s.jsx(g, { variant: 'secondary', children: s.jsx(e, { id: 'LB3Kje' }) }),
+                    ],
+                  }),
+                ],
+              }),
+              s.jsx(k, {}),
+              s.jsxs('div', {
+                className: 'space-y-3',
+                children: [
+                  s.jsxs('h3', {
+                    className: 'flex items-center gap-2 font-semibold text-muted-foreground',
+                    children: [s.jsx(J, { className: 'h-4 w-4' }), s.jsx(e, { id: 'C+4GRJ' })],
+                  }),
+                  s.jsxs('div', {
+                    className: 'space-y-3 rounded-lg border p-4',
+                    children: [
+                      s.jsx('p', {
+                        className: 'font-medium text-sm',
+                        children: s.jsx(e, { id: '7lpxYw', values: { 0: a.name } }),
+                      }),
+                      s.jsxs('ul', {
+                        className: 'space-y-2 text-sm',
+                        children: [
+                          s.jsxs('li', {
+                            className: 'flex items-start gap-2',
+                            children: [
+                              s.jsx(X, { className: 'mt-0.5 h-4 w-4 flex-shrink-0' }),
+                              s.jsx('span', {
+                                children: s.jsx(e, {
+                                  id: 'tDklkI',
+                                  components: {
+                                    0: s.jsx('span', { className: 'font-semibold text-muted-foreground' }),
+                                  },
+                                }),
+                              }),
+                            ],
+                          }),
+                          s.jsxs('li', {
+                            className: 'flex items-start gap-2',
+                            children: [
+                              s.jsx($, { className: 'mt-0.5 h-4 w-4 flex-shrink-0' }),
+                              s.jsx('span', {
+                                children: s.jsx(e, {
+                                  id: 'aMCUkM',
+                                  components: {
+                                    0: s.jsx('span', { className: 'font-semibold text-muted-foreground' }),
+                                  },
+                                }),
+                              }),
+                            ],
+                          }),
+                          s.jsxs('li', {
+                            className: 'flex items-start gap-2',
+                            children: [
+                              s.jsx(Z, { className: 'mt-0.5 h-4 w-4 flex-shrink-0' }),
+                              s.jsx('span', {
+                                children: s.jsx(e, {
+                                  id: 'HDSaIC',
+                                  components: {
+                                    0: s.jsx('span', { className: 'font-semibold text-muted-foreground' }),
+                                  },
+                                }),
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      s.jsx(P, {
+                        variant: 'warning',
+                        className: 'mt-3',
+                        children: s.jsx(S, { children: s.jsx(e, { id: 'GTYVL4' }) }),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              s.jsxs('div', {
+                className: 'mb-4 flex items-center gap-x-2',
+                children: [
+                  s.jsx(F, {
+                    id: 'accept-conditions',
+                    checked: x,
+                    onCheckedChange: (t) => b(t === 'indeterminate' ? !1 : t),
+                  }),
+                  s.jsx('label', {
+                    className: 'ml-2 flex flex-row items-center text-muted-foreground text-sm',
+                    htmlFor: 'accept-conditions',
+                    children: s.jsx(e, { id: 'fQUfLU' }),
+                  }),
+                ],
+              }),
+            ],
+          }),
+          s.jsxs(O, {
+            className: 'flex justify-end gap-3',
+            children: [
+              s.jsx(y, {
+                variant: 'outline',
+                disabled: p || d,
+                onClick: () => v({ token: o }),
+                children: s.jsx(e, { id: 'jbq7j2' }),
+              }),
+              s.jsx(y, {
+                disabled: !x || p || d,
+                loading: d,
+                onClick: () => w({ token: o }),
+                children: s.jsx(e, { id: 'BfdqZW' }),
+              }),
+            ],
+          }),
+        ],
+      }),
+    });
+  });
+export { Rs as ErrorBoundary, Ws as default };

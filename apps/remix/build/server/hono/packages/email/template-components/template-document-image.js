@@ -17,25 +17,30 @@ import '@react-email/tailwind';
 import '@react-email/text';
 import { jsx, jsxs } from 'react/jsx-runtime';
 
-const TemplateDocumentImage = ({
-  assetBaseUrl,
-  className
-}) => {
-  const getAssetUrl = path => {
-    return new URL(path.replace(/^\/+/, ''), assetBaseUrl).toString();
+const TemplateDocumentImage = ({ assetBaseUrl, className }) => {
+  const getAssetUrl = (path) => {
+    let base = assetBaseUrl;
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
-  return /*#__PURE__*/jsx(Section, {
+  return /*#__PURE__*/ jsx(Section, {
     className: className,
-    children: /*#__PURE__*/jsxs(Row, {
-      className: "table-fixed",
-      children: [/*#__PURE__*/jsx(Column, {}), /*#__PURE__*/jsx(Column, {
-        children: /*#__PURE__*/jsx(Img, {
-          className: "mx-auto h-42",
-          src: getAssetUrl('/static/document.png'),
-          alt: "Omni Sign"
-        })
-      }), /*#__PURE__*/jsx(Column, {})]
-    })
+    children: /*#__PURE__*/ jsxs(Row, {
+      className: 'table-fixed',
+      children: [
+        /*#__PURE__*/ jsx(Column, {}),
+        /*#__PURE__*/ jsx(Column, {
+          children: /*#__PURE__*/ jsx(Img, {
+            className: 'mx-auto h-42',
+            src: getAssetUrl('/static/document.png'),
+            alt: 'Omni Sign',
+          }),
+        }),
+        /*#__PURE__*/ jsx(Column, {}),
+      ],
+    }),
   });
 };
 

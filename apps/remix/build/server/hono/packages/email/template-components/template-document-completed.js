@@ -16,66 +16,82 @@ import '@react-email/row';
 import { Section } from '@react-email/section';
 import '@react-email/tailwind';
 import { Text } from '@react-email/text';
+import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { TemplateDocumentImage } from './template-document-image.js';
-import { jsxs, Fragment, jsx } from 'react/jsx-runtime';
 
-const TemplateDocumentCompleted = ({
-  downloadLink,
-  documentName,
-  assetBaseUrl,
-  customBody
-}) => {
-  const getAssetUrl = path => {
-    return new URL(path, assetBaseUrl).toString();
+const TemplateDocumentCompleted = ({ downloadLink, documentName, assetBaseUrl, customBody }) => {
+  const getAssetUrl = (path) => {
+    let base = assetBaseUrl;
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
-  return /*#__PURE__*/jsxs(Fragment, {
-    children: [/*#__PURE__*/jsx(TemplateDocumentImage, {
-      className: "mt-6",
-      assetBaseUrl: assetBaseUrl
-    }), /*#__PURE__*/jsxs(Section, {
-      children: [/*#__PURE__*/jsx(Section, {
-        className: "mb-4",
-        children: /*#__PURE__*/jsx(Column, {
-          align: "center",
-          children: /*#__PURE__*/jsxs(Text, {
-            className: "font-semibold text-base text-foreground",
-            children: [/*#__PURE__*/jsx(Img, {
-              src: getAssetUrl('/static/completed.png'),
-              className: "-mt-0.5 mr-2 inline h-7 w-7 align-middle",
-              alt: ""
-            }), /*#__PURE__*/jsx(Trans, {
-              id: "qqWcBV"
-            })]
-          })
-        })
-      }), /*#__PURE__*/jsx(Text, {
-        className: "mb-0 text-center font-semibold text-foreground text-lg",
-        children: customBody || /*#__PURE__*/jsx(Trans, {
-          id: "gKjZXX",
-          values: {
-            documentName: documentName
-          }
-        })
-      }), /*#__PURE__*/jsx(Text, {
-        className: "my-1 text-center text-base text-muted-foreground",
-        children: /*#__PURE__*/jsx(Trans, {
-          id: "j6HHO/"
-        })
-      }), /*#__PURE__*/jsx(Section, {
-        className: "mt-8 mb-6 text-center",
-        children: /*#__PURE__*/jsxs(Button, {
-          className: "rounded-lg border border-border border-solid px-4 py-2 text-center font-medium text-foreground text-sm no-underline",
-          href: downloadLink,
-          children: [/*#__PURE__*/jsx(Img, {
-            src: getAssetUrl('/static/download.png'),
-            className: "mr-2 mb-0.5 inline h-5 w-5 align-middle",
-            alt: ""
-          }), /*#__PURE__*/jsx(Trans, {
-            id: "mzI/c+"
-          })]
-        })
-      })]
-    })]
+  return /*#__PURE__*/ jsxs(Fragment, {
+    children: [
+      /*#__PURE__*/ jsx(TemplateDocumentImage, {
+        className: 'mt-6',
+        assetBaseUrl: assetBaseUrl,
+      }),
+      /*#__PURE__*/ jsxs(Section, {
+        children: [
+          /*#__PURE__*/ jsx(Section, {
+            className: 'mb-4',
+            children: /*#__PURE__*/ jsx(Column, {
+              align: 'center',
+              children: /*#__PURE__*/ jsxs(Text, {
+                className: 'font-semibold text-base text-foreground',
+                children: [
+                  /*#__PURE__*/ jsx(Img, {
+                    src: getAssetUrl('/static/completed.png'),
+                    className: '-mt-0.5 mr-2 inline h-7 w-7 align-middle',
+                    alt: '',
+                  }),
+                  /*#__PURE__*/ jsx(Trans, {
+                    id: 'qqWcBV',
+                  }),
+                ],
+              }),
+            }),
+          }),
+          /*#__PURE__*/ jsx(Text, {
+            className: 'mb-0 text-center font-semibold text-foreground text-lg',
+            children:
+              customBody ||
+              /*#__PURE__*/ jsx(Trans, {
+                id: 'gKjZXX',
+                values: {
+                  documentName: documentName,
+                },
+              }),
+          }),
+          /*#__PURE__*/ jsx(Text, {
+            className: 'my-1 text-center text-base text-muted-foreground',
+            children: /*#__PURE__*/ jsx(Trans, {
+              id: 'j6HHO/',
+            }),
+          }),
+          /*#__PURE__*/ jsx(Section, {
+            className: 'mt-8 mb-6 text-center',
+            children: /*#__PURE__*/ jsxs(Button, {
+              className:
+                'rounded-lg border border-border border-solid px-4 py-2 text-center font-medium text-foreground text-sm no-underline',
+              href: downloadLink,
+              children: [
+                /*#__PURE__*/ jsx(Img, {
+                  src: getAssetUrl('/static/download.png'),
+                  className: 'mr-2 mb-0.5 inline h-5 w-5 align-middle',
+                  alt: '',
+                }),
+                /*#__PURE__*/ jsx(Trans, {
+                  id: 'mzI/c+',
+                }),
+              ],
+            }),
+          }),
+        ],
+      }),
+    ],
   });
 };
 

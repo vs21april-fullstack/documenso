@@ -1,7 +1,7 @@
 import type { DocumentDataVersion } from '@documenso/lib/types/document';
 import type { EnvelopeItem } from '@prisma/client';
 
-import { NEXT_PUBLIC_WEBAPP_URL } from '../constants/app';
+import { resolveWebappUrl } from './url';
 
 /**
  * `pending` is only supported when there is no recipient token (team/owner-side downloads
@@ -31,13 +31,19 @@ export const getEnvelopeItemPdfUrl = (options: EnvelopeItemPdfUrlOptions) => {
     const version = options.version;
 
     return token
-      ? `${NEXT_PUBLIC_WEBAPP_URL()}/api/files/token/${token}/envelopeItem/${id}/download/${version}${presignToken ? `?presignToken=${presignToken}` : ''}`
-      : `${NEXT_PUBLIC_WEBAPP_URL()}/api/files/envelope/${envelopeId}/envelopeItem/${id}/download/${version}`;
+      ? resolveWebappUrl(
+          `api/files/token/${token}/envelopeItem/${id}/download/${version}${presignToken ? `?presignToken=${presignToken}` : ''}`,
+        )
+      : resolveWebappUrl(`api/files/envelope/${envelopeId}/envelopeItem/${id}/download/${version}`);
   }
 
   return token
-    ? `${NEXT_PUBLIC_WEBAPP_URL()}/api/files/token/${token}/envelopeItem/${id}${presignToken ? `?presignToken=${presignToken}` : ''}`
-    : `${NEXT_PUBLIC_WEBAPP_URL()}/api/files/envelope/${envelopeId}/envelopeItem/${id}${presignToken ? `?token=${presignToken}` : ''}`;
+    ? resolveWebappUrl(
+        `api/files/token/${token}/envelopeItem/${id}${presignToken ? `?presignToken=${presignToken}` : ''}`,
+      )
+    : resolveWebappUrl(
+        `api/files/envelope/${envelopeId}/envelopeItem/${id}${presignToken ? `?token=${presignToken}` : ''}`,
+      );
 };
 
 export type DocumentDataUrlOptions = {
@@ -63,11 +69,11 @@ export const getDocumentDataUrl = (options: DocumentDataUrlOptions) => {
 
   // Recipient token endpoint.
   if (token) {
-    return `${NEXT_PUBLIC_WEBAPP_URL()}/api/files/token/${token}/${partialUrl}`;
+    return resolveWebappUrl(`api/files/token/${token}/${partialUrl}`);
   }
 
   // Endpoint authenticated by session or presigned token.
-  const baseUrl = `${NEXT_PUBLIC_WEBAPP_URL()}/api/files/${partialUrl}`;
+  const baseUrl = resolveWebappUrl(`api/files/${partialUrl}`);
 
   if (presignToken) {
     return `${baseUrl}?presignToken=${presignToken}`;

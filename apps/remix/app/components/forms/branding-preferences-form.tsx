@@ -1,5 +1,4 @@
 import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
-import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import {
   BRANDING_LOGO_ALLOWED_TYPES,
   BRANDING_LOGO_MAX_SIZE_BYTES,
@@ -7,6 +6,7 @@ import {
 } from '@documenso/lib/constants/branding';
 import { DEFAULT_BRAND_COLORS, DEFAULT_BRAND_RADIUS } from '@documenso/lib/constants/theme';
 import { ZCssVarsSchema } from '@documenso/lib/types/css-vars';
+import { resolveWebappUrl } from '@documenso/lib/utils/url';
 import { cn } from '@documenso/ui/lib/utils';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@documenso/ui/primitives/accordion';
 import { Button } from '@documenso/ui/primitives/button';
@@ -109,8 +109,8 @@ export function BrandingPreferencesForm({
 
     const logoUrl =
       context === 'Team'
-        ? `${NEXT_PUBLIC_WEBAPP_URL()}/api/branding/logo/team/${team?.id}`
-        : `${NEXT_PUBLIC_WEBAPP_URL()}/api/branding/logo/organisation/${organisation?.id}`;
+        ? resolveWebappUrl(`/api/branding/logo/team/${team?.id}`)
+        : resolveWebappUrl(`/api/branding/logo/organisation/${organisation?.id}`);
 
     return `${logoUrl}?v=${Date.now()}`;
   };

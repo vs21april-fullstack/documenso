@@ -15,7 +15,13 @@ export const TemplateDocumentSelfSigned = ({ documentName, assetBaseUrl }: Templ
   const signUpUrl = `${NEXT_PUBLIC_WEBAPP_URL ?? 'http://localhost:3000'}/signup`;
 
   const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
+    let base = assetBaseUrl;
+
+    if (!base.endsWith('/')) {
+      base = `${base}/`;
+    }
+
+    return new URL(path.replace(/^\/+/, ''), base).toString();
   };
 
   return (

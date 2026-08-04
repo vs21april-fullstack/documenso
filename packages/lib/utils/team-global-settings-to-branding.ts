@@ -1,8 +1,8 @@
 import type { OrganisationGlobalSettings } from '@prisma/client';
 
-import { NEXT_PUBLIC_WEBAPP_URL } from '../constants/app';
 import { ZCssVarsSchema } from '../types/css-vars';
 import { resolveEmailBrandingColors } from './email-branding-colors';
+import { resolveWebappUrl } from './url';
 
 export const teamGlobalSettingsToBranding = (
   settings: Omit<OrganisationGlobalSettings, 'id'>,
@@ -15,9 +15,7 @@ export const teamGlobalSettingsToBranding = (
   return {
     ...settings,
     brandingLogo:
-      settings.brandingEnabled && settings.brandingLogo
-        ? `${NEXT_PUBLIC_WEBAPP_URL()}/api/branding/logo/team/${teamId}`
-        : '',
+      settings.brandingEnabled && settings.brandingLogo ? resolveWebappUrl(`/api/branding/logo/team/${teamId}`) : '',
     brandingHidePoweredBy: hidePoweredBy,
     brandingColors: resolvedBrandingColors ?? undefined,
   };
@@ -35,7 +33,7 @@ export const organisationGlobalSettingsToBranding = (
     ...settings,
     brandingLogo:
       settings.brandingEnabled && settings.brandingLogo
-        ? `${NEXT_PUBLIC_WEBAPP_URL()}/api/branding/logo/organisation/${organisationId}`
+        ? resolveWebappUrl(`/api/branding/logo/organisation/${organisationId}`)
         : '',
     brandingHidePoweredBy: hidePoweredBy,
     brandingColors: resolvedBrandingColors ?? undefined,

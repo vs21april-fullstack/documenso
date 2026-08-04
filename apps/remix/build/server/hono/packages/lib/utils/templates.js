@@ -1,5 +1,5 @@
-import '../constants/app.js';
 import { mapSecondaryIdToTemplateId } from './envelope.js';
+import '../constants/app.js';
 
 /**
  * Generate a placeholder recipient using an index number.
@@ -11,10 +11,10 @@ import { mapSecondaryIdToTemplateId } from './envelope.js';
  * - Update TEMPLATE_RECIPIENT_NAME_PLACEHOLDER_REGEX if this is ever changed.
  *
  */
-const generateRecipientPlaceholder = index => {
+const generateRecipientPlaceholder = (index) => {
   return {
     name: `Recipient ${index}`,
-    email: `recipient.${index}@documenso.com`
+    email: `recipient.${index}@documenso.com`,
   };
 };
 /**
@@ -22,8 +22,8 @@ const generateRecipientPlaceholder = index => {
  *
  * @param currentRecipients The current recipients that exist for a template.
  */
-const generateAvaliableRecipientPlaceholder = currentRecipients => {
-  const recipientEmails = currentRecipients.map(recipient => recipient.email);
+const generateAvaliableRecipientPlaceholder = (currentRecipients) => {
+  const recipientEmails = currentRecipients.map((recipient) => recipient.email);
   let recipientPlaceholder = generateRecipientPlaceholder(0);
   for (let i = 1; i <= currentRecipients.length + 1; i++) {
     recipientPlaceholder = generateRecipientPlaceholder(i);
@@ -33,7 +33,7 @@ const generateAvaliableRecipientPlaceholder = currentRecipients => {
   }
   return recipientPlaceholder;
 };
-const mapEnvelopeToTemplateLite = envelope => {
+const mapEnvelopeToTemplateLite = (envelope) => {
   const legacyTemplateId = mapSecondaryIdToTemplateId(envelope.secondaryId);
   return {
     id: legacyTemplateId,
@@ -51,7 +51,7 @@ const mapEnvelopeToTemplateLite = envelope => {
     publicDescription: envelope.publicDescription,
     folderId: envelope.folderId,
     useLegacyFieldInsertion: envelope.useLegacyFieldInsertion,
-    templateDocumentDataId: ''
+    templateDocumentDataId: '',
   };
 };
 
