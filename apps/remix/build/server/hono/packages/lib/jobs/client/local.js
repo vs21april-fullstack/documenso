@@ -1,12 +1,13 @@
-import { prisma as prismaWithReplicas } from '../../../prisma/index.js';
 import { sha256 } from '@noble/hashes/sha2';
-import { Prisma, BackgroundJobStatus } from '@prisma/client';
+import { BackgroundJobStatus, Prisma } from '@prisma/client';
 import { CronExpressionParser } from 'cron-parser';
-import { NEXT_PRIVATE_INTERNAL_WEBAPP_URL } from '../../constants/app.js';
+import { prisma as prismaWithReplicas } from '../../../prisma/index.js';
+import { NEXT_PRIVATE_INTERNAL_WEBAPP_URL, NEXT_PUBLIC_WEBAPP_URL } from '../../constants/app.js';
 import { sign } from '../../server-only/crypto/sign.js';
 import { verify } from '../../server-only/crypto/verify.js';
 import { ZSimpleTriggerJobOptionsSchema } from './_internal/job.js';
 import { BaseJobProvider } from './base.js';
+import { resolveLocalJobEndpoint } from './resolve-local-job-endpoint.js';
 
 /**
  * Build a deterministic BackgroundJob ID for a cron run so that multiple
@@ -36,18 +37,18 @@ class LocalJobProvider extends BaseJobProvider {
   defineJob(definition) {
     this._jobDefinitions[definition.id] = {
       ...definition,
-      enabled: definition.enabled ?? true
+      enabled: definition.enabled ?? true,
     };
     if (definition.trigger.cron && definition.enabled !== false) {
-      const alreadyRegistered = this._cronJobs.some(job => job.definition.id === definition.id);
+      const alreadyRegistered = this._cronJobs.some((job) => job.definition.id === definition.id);
       if (!alreadyRegistered) {
         this._cronJobs.push({
           definition: {
             ...definition,
-            enabled: definition.enabled ?? true
+            enabled: definition.enabled ?? true,
           },
           cron: definition.trigger.cron,
-          lastTickAt: new Date()
+          lastTickAt: new Date(),
         });
         console.log(`[JOBS]: Registered cron job ${definition.id} (${definition.trigger.cron})`);
       }
@@ -93,23 +94,25 @@ class LocalJobProvider extends BaseJobProvider {
         // every missed slot after downtime, just the most recent one.
         const scheduledFor = dueSlots[dueSlots.length - 1];
         const deterministicId = createCronRunId(cronJob.definition.id, scheduledFor);
-        const pendingJob = await prismaWithReplicas.backgroundJob.create({
-          data: {
-            id: deterministicId,
-            jobId: cronJob.definition.id,
-            name: cronJob.definition.name,
-            version: cronJob.definition.version,
-            payload: {
-              scheduledFor: scheduledFor.toISOString()
+        const pendingJob = await prismaWithReplicas.backgroundJob
+          .create({
+            data: {
+              id: deterministicId,
+              jobId: cronJob.definition.id,
+              name: cronJob.definition.name,
+              version: cronJob.definition.version,
+              payload: {
+                scheduledFor: scheduledFor.toISOString(),
+              },
+            },
+          })
+          .catch((error) => {
+            // P2002 = unique constraint violation — another instance already enqueued this slot.
+            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+              return null;
             }
-          }
-        }).catch(error => {
-          // P2002 = unique constraint violation — another instance already enqueued this slot.
-          if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-            return null;
-          }
-          throw error;
-        });
+            throw error;
+          });
         if (!pendingJob) {
           continue;
         }
@@ -119,10 +122,10 @@ class LocalJobProvider extends BaseJobProvider {
           data: {
             name: cronJob.definition.trigger.name,
             payload: {
-              scheduledFor: scheduledFor.toISOString()
-            }
+              scheduledFor: scheduledFor.toISOString(),
+            },
           },
-          isRetry: false
+          isRetry: false,
         });
       } catch (error) {
         console.error(`[JOBS]: Cron tick failed for ${cronJob.definition.id}`, error);
@@ -135,7 +138,7 @@ class LocalJobProvider extends BaseJobProvider {
    */
   getDueCronSlots(cronJob) {
     const expr = CronExpressionParser.parse(cronJob.cron, {
-      currentDate: cronJob.lastTickAt
+      currentDate: cronJob.lastTickAt,
     });
     const now = new Date();
     const slots = [];
@@ -147,29 +150,31 @@ class LocalJobProvider extends BaseJobProvider {
     return slots;
   }
   async triggerJob(options) {
-    const eligibleJobs = Object.values(this._jobDefinitions).filter(job => job.trigger.name === options.name);
-    await Promise.all(eligibleJobs.map(async job => {
-      // Ideally we will change this to a createMany with returning later once we upgrade Prisma
-      // @see: https://github.com/prisma/prisma/releases/tag/5.14.0
-      const pendingJob = await prismaWithReplicas.backgroundJob.create({
-        data: {
-          jobId: job.id,
-          name: job.name,
-          version: job.version,
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-          payload: options.payload
-        }
-      });
-      await this.submitJobToEndpoint({
-        jobId: pendingJob.id,
-        jobDefinitionId: pendingJob.jobId,
-        data: options,
-        isRetry: false
-      });
-    }));
+    const eligibleJobs = Object.values(this._jobDefinitions).filter((job) => job.trigger.name === options.name);
+    await Promise.all(
+      eligibleJobs.map(async (job) => {
+        // Ideally we will change this to a createMany with returning later once we upgrade Prisma
+        // @see: https://github.com/prisma/prisma/releases/tag/5.14.0
+        const pendingJob = await prismaWithReplicas.backgroundJob.create({
+          data: {
+            jobId: job.id,
+            name: job.name,
+            version: job.version,
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+            payload: options.payload,
+          },
+        });
+        await this.submitJobToEndpoint({
+          jobId: pendingJob.id,
+          jobDefinitionId: pendingJob.jobId,
+          data: options,
+          isRetry: false,
+        });
+      }),
+    );
   }
   getApiHandler() {
-    return async c => {
+    return async (c) => {
       const req = c.req;
       if (req.method !== 'POST') {
         return c.text('Method not allowed', 405);
@@ -177,9 +182,12 @@ class LocalJobProvider extends BaseJobProvider {
       const jobId = req.header('x-job-id');
       const signature = req.header('x-job-signature');
       const isRetry = req.header('x-job-retry') !== undefined;
-      const options = await req.json().then(async data => ZSimpleTriggerJobOptionsSchema.parseAsync(data))
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      .then(data => data).catch(() => null);
+      const options = await req
+        .json()
+        .then(async (data) => ZSimpleTriggerJobOptionsSchema.parseAsync(data))
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        .then((data) => data)
+        .catch(() => null);
       if (!options) {
         return c.text('Bad request', 400);
       }
@@ -206,98 +214,104 @@ class LocalJobProvider extends BaseJobProvider {
         payload = result.data;
       }
       console.log(`[JOBS]: Triggering job ${options.name} with payload`, payload);
-      let backgroundJob = await prismaWithReplicas.backgroundJob.update({
-        where: {
-          id: jobId,
-          status: BackgroundJobStatus.PENDING
-        },
-        data: {
-          status: BackgroundJobStatus.PROCESSING,
-          retried: {
-            increment: isRetry ? 1 : 0
+      let backgroundJob = await prismaWithReplicas.backgroundJob
+        .update({
+          where: {
+            id: jobId,
+            status: BackgroundJobStatus.PENDING,
           },
-          lastRetriedAt: isRetry ? new Date() : undefined
-        }
-      }).catch(() => null);
+          data: {
+            status: BackgroundJobStatus.PROCESSING,
+            retried: {
+              increment: isRetry ? 1 : 0,
+            },
+            lastRetriedAt: isRetry ? new Date() : undefined,
+          },
+        })
+        .catch(() => null);
       if (!backgroundJob) {
         return c.text('Job not found', 404);
       }
       try {
         await definition.handler({
           payload,
-          io: this.createJobRunIO(jobId)
+          io: this.createJobRunIO(jobId),
         });
         backgroundJob = await prismaWithReplicas.backgroundJob.update({
           where: {
             id: jobId,
-            status: BackgroundJobStatus.PROCESSING
+            status: BackgroundJobStatus.PROCESSING,
           },
           data: {
             status: BackgroundJobStatus.COMPLETED,
-            completedAt: new Date()
-          }
+            completedAt: new Date(),
+          },
         });
       } catch (error) {
         console.log(`[JOBS]: Job ${options.name} failed`, error);
         const taskHasExceededRetries = error instanceof BackgroundTaskExceededRetriesError;
-        const jobHasExceededRetries = backgroundJob.retried >= backgroundJob.maxRetries && !(error instanceof BackgroundTaskFailedError);
+        const jobHasExceededRetries =
+          backgroundJob.retried >= backgroundJob.maxRetries && !(error instanceof BackgroundTaskFailedError);
         if (taskHasExceededRetries || jobHasExceededRetries) {
           backgroundJob = await prismaWithReplicas.backgroundJob.update({
             where: {
               id: jobId,
-              status: BackgroundJobStatus.PROCESSING
+              status: BackgroundJobStatus.PROCESSING,
             },
             data: {
               status: BackgroundJobStatus.FAILED,
-              completedAt: new Date()
-            }
+              completedAt: new Date(),
+            },
           });
           return c.text('Task exceeded retries', 500);
         }
         backgroundJob = await prismaWithReplicas.backgroundJob.update({
           where: {
             id: jobId,
-            status: BackgroundJobStatus.PROCESSING
+            status: BackgroundJobStatus.PROCESSING,
           },
           data: {
-            status: BackgroundJobStatus.PENDING
-          }
+            status: BackgroundJobStatus.PENDING,
+          },
         });
         await this.submitJobToEndpoint({
           jobId,
           jobDefinitionId: backgroundJob.jobId,
           data: options,
-          isRetry: true
+          isRetry: true,
         });
       }
       return c.text('OK', 200);
     };
   }
   async submitJobToEndpoint(options) {
-    const {
-      jobId,
+    const { jobId, jobDefinitionId, data, isRetry } = options;
+    const endpoint = resolveLocalJobEndpoint({
+      internalWebAppUrl: NEXT_PRIVATE_INTERNAL_WEBAPP_URL(),
+      publicWebAppUrl: NEXT_PUBLIC_WEBAPP_URL(),
       jobDefinitionId,
-      data,
-      isRetry
-    } = options;
-    const endpoint = `${NEXT_PRIVATE_INTERNAL_WEBAPP_URL()}/api/jobs/${jobDefinitionId}/${jobId}`;
+      jobId,
+    });
     const signature = sign(data);
     const headers = {
       'Content-Type': 'application/json',
       'X-Job-Id': jobId,
-      'X-Job-Signature': signature
+      'X-Job-Signature': signature,
     };
     if (isRetry) {
       headers['X-Job-Retry'] = '1';
     }
     console.log('Submitting job to endpoint:', endpoint);
-    await Promise.race([fetch(endpoint, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers
-    }).catch(() => null), new Promise(resolve => {
-      setTimeout(resolve, 150);
-    })]);
+    await Promise.race([
+      fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers,
+      }).catch(() => null),
+      new Promise((resolve) => {
+        setTimeout(resolve, 150);
+      }),
+    ]);
   }
   createJobRunIO(jobId) {
     return {
@@ -306,8 +320,8 @@ class LocalJobProvider extends BaseJobProvider {
         let task = await prismaWithReplicas.backgroundJobTask.findFirst({
           where: {
             id: `task-${hashedKey}--${jobId}`,
-            jobId
-          }
+            jobId,
+          },
         });
         if (!task) {
           task = await prismaWithReplicas.backgroundJobTask.create({
@@ -315,8 +329,8 @@ class LocalJobProvider extends BaseJobProvider {
               id: `task-${hashedKey}--${jobId}`,
               name: cacheKey,
               jobId,
-              status: BackgroundJobStatus.PENDING
-            }
+              status: BackgroundJobStatus.PENDING,
+            },
           });
         }
         if (task.status === BackgroundJobStatus.COMPLETED) {
@@ -331,27 +345,27 @@ class LocalJobProvider extends BaseJobProvider {
           task = await prismaWithReplicas.backgroundJobTask.update({
             where: {
               id: task.id,
-              jobId
+              jobId,
             },
             data: {
               status: BackgroundJobStatus.COMPLETED,
               result: result === null ? Prisma.JsonNull : result,
-              completedAt: new Date()
-            }
+              completedAt: new Date(),
+            },
           });
           return result;
         } catch (err) {
           task = await prismaWithReplicas.backgroundJobTask.update({
             where: {
               id: task.id,
-              jobId
+              jobId,
             },
             data: {
               status: BackgroundJobStatus.PENDING,
               retried: {
-                increment: 1
-              }
-            }
+                increment: 1,
+              },
+            },
           });
           console.log(`[JOBS:${task.id}] Task failed`, err);
           throw new BackgroundTaskFailedError('Task failed');
@@ -363,12 +377,12 @@ class LocalJobProvider extends BaseJobProvider {
         error: (...args) => console.error(`[${jobId}]`, ...args),
         info: (...args) => console.info(`[${jobId}]`, ...args),
         log: (...args) => console.log(`[${jobId}]`, ...args),
-        warn: (...args) => console.warn(`[${jobId}]`, ...args)
+        warn: (...args) => console.warn(`[${jobId}]`, ...args),
       },
       // eslint-disable-next-line @typescript-eslint/require-await
       wait: async () => {
         throw new Error('Not implemented');
-      }
+      },
     };
   }
 }
