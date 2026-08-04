@@ -1,4 +1,5 @@
-import { a$, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba } from './assets/server-build-DH2uQubB.js';
+import Stripe from 'stripe';
+import { am as stripe } from './server-build-DH2uQubB.js';
 import 'react/jsx-runtime';
 import 'node:stream';
 import 'zod';
@@ -115,20 +116,22 @@ import 'react-icons/fc';
 import 'sharp';
 import 'satori';
 import 'node:fs';
-import 'stripe';
 import 'jose';
-
-export {
-  a$ as allowedActionOrigins,
-  b0 as assets,
-  b1 as assetsBuildDirectory,
-  b2 as basename,
-  b3 as entry,
-  b4 as future,
-  b5 as isSpaMode,
-  b6 as prerender,
-  b7 as publicPath,
-  b8 as routeDiscovery,
-  b9 as routes,
-  ba as ssr,
+const run = async ({ payload }) => {
+  const { stripeSubscriptionId } = payload;
+  try {
+    await stripe.subscriptions.update(stripeSubscriptionId, {
+      cancel_at_period_end: true,
+    });
+  } catch (error) {
+    if (error instanceof Stripe.errors.StripeInvalidRequestError && error.code === 'resource_missing') {
+      console.warn(
+        `[CANCEL_ORGANISATION_SUBSCRIPTION] Stripe subscription ${stripeSubscriptionId} no longer exists; skipping.`,
+      );
+      return;
+    }
+    throw error;
+  }
 };
+
+export { run };

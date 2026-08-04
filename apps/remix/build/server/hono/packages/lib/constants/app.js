@@ -1,6 +1,6 @@
-import { env } from '../utils/env.js';
 import { AppError, AppErrorCode } from '../errors/app-error.js';
 import { SignatureLevel } from '../types/signature-level.js';
+import { env } from '../utils/env.js';
 
 const APP_DOCUMENT_UPLOAD_SIZE_LIMIT = Number(env('NEXT_PUBLIC_DOCUMENT_SIZE_UPLOAD_LIMIT')) || 50;
 const NEXT_PUBLIC_WEBAPP_URL = () => env('NEXT_PUBLIC_WEBAPP_URL') ?? 'http://localhost:3000';
@@ -15,6 +15,12 @@ const PUBLISHED_APP_URL = () => {
 const EMAIL_ASSET_BASE_URL = PUBLISHED_APP_URL;
 const NEXT_PUBLIC_SIGNING_CONTACT_INFO = () => env('NEXT_PUBLIC_SIGNING_CONTACT_INFO') ?? NEXT_PUBLIC_WEBAPP_URL();
 const NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER = () => env('NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER') === 'true';
+/**
+ * Allows self-hosted instances to complete envelopes without applying a
+ * cryptographic PDF signature. Recipient fields and completion certificates
+ * are still rendered into the output PDF.
+ */
+const NEXT_PRIVATE_DISABLE_PDF_SIGNING = () => env('NEXT_PRIVATE_DISABLE_PDF_SIGNING') === 'true';
 const NEXT_PRIVATE_INTERNAL_WEBAPP_URL = () => env('NEXT_PRIVATE_INTERNAL_WEBAPP_URL') ?? NEXT_PUBLIC_WEBAPP_URL();
 const IS_BILLING_ENABLED = () => env('NEXT_PUBLIC_FEATURE_BILLING_ENABLED') === 'true';
 const API_V2_BETA_URL = '/api/v2-beta';
@@ -70,11 +76,30 @@ const CSC_INSTANCE_SIGNATURE_LEVEL = () => {
   }
   if (value !== SignatureLevel.AES && value !== SignatureLevel.QES) {
     throw new AppError(AppErrorCode.NOT_SETUP, {
-      message: `NEXT_PRIVATE_SIGNING_CSC_SIGNATURE_LEVEL must be '${SignatureLevel.AES}' or '${SignatureLevel.QES}', got '${value}'.`
+      message: `NEXT_PRIVATE_SIGNING_CSC_SIGNATURE_LEVEL must be '${SignatureLevel.AES}' or '${SignatureLevel.QES}', got '${value}'.`,
     });
   }
   return value;
 };
 
-export { API_V2_BETA_URL, API_V2_URL, APP_DOCUMENT_UPLOAD_SIZE_LIMIT, CSC_INSTANCE_SIGNATURE_LEVEL, EMAIL_ASSET_BASE_URL, IS_AI_FEATURES_CONFIGURED, IS_BILLING_ENABLED, IS_INSTANCE_CSC_MODE, NEXT_PRIVATE_INTERNAL_WEBAPP_URL, NEXT_PRIVATE_SIGNING_TIMESTAMP_AUTHORITY, NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER, NEXT_PRIVATE_USE_PLAYWRIGHT_PDF, NEXT_PUBLIC_SIGNING_CONTACT_INFO, NEXT_PUBLIC_WEBAPP_URL, PUBLISHED_APP_URL, SUPPORT_EMAIL, USE_INTERNAL_URL_BROWSERLESS };
+export {
+  API_V2_BETA_URL,
+  API_V2_URL,
+  APP_DOCUMENT_UPLOAD_SIZE_LIMIT,
+  CSC_INSTANCE_SIGNATURE_LEVEL,
+  EMAIL_ASSET_BASE_URL,
+  IS_AI_FEATURES_CONFIGURED,
+  IS_BILLING_ENABLED,
+  IS_INSTANCE_CSC_MODE,
+  NEXT_PRIVATE_DISABLE_PDF_SIGNING,
+  NEXT_PRIVATE_INTERNAL_WEBAPP_URL,
+  NEXT_PRIVATE_SIGNING_TIMESTAMP_AUTHORITY,
+  NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER,
+  NEXT_PRIVATE_USE_PLAYWRIGHT_PDF,
+  NEXT_PUBLIC_SIGNING_CONTACT_INFO,
+  NEXT_PUBLIC_WEBAPP_URL,
+  PUBLISHED_APP_URL,
+  SUPPORT_EMAIL,
+  USE_INTERNAL_URL_BROWSERLESS,
+};
 //# sourceMappingURL=app.js.map

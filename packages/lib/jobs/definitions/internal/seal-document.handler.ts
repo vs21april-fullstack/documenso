@@ -13,7 +13,7 @@ import { DocumentStatus, EnvelopeType, RecipientRole, SigningStatus, WebhookTrig
 import { nanoid } from 'nanoid';
 import { groupBy } from 'remeda';
 
-import { NEXT_PRIVATE_USE_PLAYWRIGHT_PDF } from '../../../constants/app';
+import { NEXT_PRIVATE_DISABLE_PDF_SIGNING, NEXT_PRIVATE_USE_PLAYWRIGHT_PDF } from '../../../constants/app';
 import { AppError, AppErrorCode } from '../../../errors/app-error';
 import { getAuditLogsPdf } from '../../../server-only/htmltopdf/get-audit-logs-pdf';
 import { getCertificatePdf } from '../../../server-only/htmltopdf/get-certificate-pdf';
@@ -491,7 +491,9 @@ const decorateAndSignPdf = async ({
 
   pdfDoc = await PDF.load(await pdfDoc.save({ useXRefStream: true }));
 
-  const pdfBytes = await signPdf({ pdf: pdfDoc });
+  const pdfBytes = NEXT_PRIVATE_DISABLE_PDF_SIGNING()
+    ? await pdfDoc.save({ useXRefStream: true })
+    : await signPdf({ pdf: pdfDoc });
 
   const { name } = path.parse(envelopeItem.title);
 

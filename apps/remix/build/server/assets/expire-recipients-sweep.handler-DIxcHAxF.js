@@ -1,4 +1,5 @@
-import { a$, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba } from './assets/server-build-DH2uQubB.js';
+import { DocumentStatus, SigningStatus } from '@prisma/client';
+import { L as jobs, p as prismaWithReplicas } from './server-build-DH2uQubB.js';
 import 'react/jsx-runtime';
 import 'node:stream';
 import 'zod';
@@ -9,7 +10,6 @@ import '@react-router/node';
 import 'isbot';
 import 'react-dom/server';
 import 'react-router';
-import '@prisma/client';
 import '@prisma/extension-read-replicas';
 import 'kysely';
 import 'prisma-extension-kysely';
@@ -117,18 +117,42 @@ import 'satori';
 import 'node:fs';
 import 'stripe';
 import 'jose';
-
-export {
-  a$ as allowedActionOrigins,
-  b0 as assets,
-  b1 as assetsBuildDirectory,
-  b2 as basename,
-  b3 as entry,
-  b4 as future,
-  b5 as isSpaMode,
-  b6 as prerender,
-  b7 as publicPath,
-  b8 as routeDiscovery,
-  b9 as routes,
-  ba as ssr,
+const run = async ({ io }) => {
+  const now = /* @__PURE__ */ new Date();
+  const expiredRecipients = await prismaWithReplicas.recipient.findMany({
+    where: {
+      expiresAt: {
+        lte: now,
+      },
+      expirationNotifiedAt: null,
+      signingStatus: {
+        notIn: [SigningStatus.SIGNED, SigningStatus.REJECTED],
+      },
+      envelope: {
+        status: DocumentStatus.PENDING,
+      },
+    },
+    select: {
+      id: true,
+    },
+    take: 1e3,
+    // Limit to 1000 to avoid long-running jobs. Will be picked up in the next run if there are more.
+  });
+  if (expiredRecipients.length === 0) {
+    io.logger.info('No expired recipients found');
+    return;
+  }
+  io.logger.info(`Found ${expiredRecipients.length} expired recipients`);
+  await Promise.allSettled(
+    expiredRecipients.map(async (recipient) => {
+      await jobs.triggerJob({
+        name: 'internal.process-recipient-expired',
+        payload: {
+          recipientId: recipient.id,
+        },
+      });
+    }),
+  );
 };
+
+export { run };

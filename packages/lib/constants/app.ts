@@ -25,6 +25,13 @@ export const NEXT_PUBLIC_SIGNING_CONTACT_INFO = () =>
 export const NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER = () =>
   env('NEXT_PRIVATE_USE_LEGACY_SIGNING_SUBFILTER') === 'true';
 
+/**
+ * Allows self-hosted instances to complete envelopes without applying a
+ * cryptographic PDF signature. Recipient fields and completion certificates
+ * are still rendered into the output PDF.
+ */
+export const NEXT_PRIVATE_DISABLE_PDF_SIGNING = () => env('NEXT_PRIVATE_DISABLE_PDF_SIGNING') === 'true';
+
 export const NEXT_PRIVATE_INTERNAL_WEBAPP_URL = () =>
   env('NEXT_PRIVATE_INTERNAL_WEBAPP_URL') ?? NEXT_PUBLIC_WEBAPP_URL();
 

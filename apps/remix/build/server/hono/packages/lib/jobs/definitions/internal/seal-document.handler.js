@@ -1,20 +1,20 @@
 import path from 'node:path';
 import { PDFDocument } from '@cantoo/pdf-lib';
+import { PDF } from '@libpdf/core';
+import { DocumentStatus, EnvelopeType, RecipientRole, SigningStatus, WebhookTriggerEvents } from '@prisma/client';
+import { nanoid } from 'nanoid';
+import { groupBy } from 'remeda';
 import { finalizeTspEnvelopeCompletion } from '../../../../ee/server-only/signing/csc/finalize-tsp-completion.js';
+import { prisma as prismaWithReplicas } from '../../../../prisma/index.js';
+import { signPdf } from '../../../../signing/index.js';
+import { NEXT_PRIVATE_DISABLE_PDF_SIGNING, NEXT_PRIVATE_USE_PLAYWRIGHT_PDF } from '../../../constants/app.js';
+import { AppError, AppErrorCode } from '../../../errors/app-error.js';
+import { getAuditLogsPdf } from '../../../server-only/htmltopdf/get-audit-logs-pdf.js';
+import { getCertificatePdf } from '../../../server-only/htmltopdf/get-certificate-pdf.js';
 import { addRejectionStampToPdf } from '../../../server-only/pdf/add-rejection-stamp-to-pdf.js';
 import { generateAuditLogPdf } from '../../../server-only/pdf/generate-audit-log-pdf.js';
 import { generateCertificatePdf } from '../../../server-only/pdf/generate-certificate-pdf.js';
 import { getLastPageDimensions } from '../../../server-only/pdf/get-page-size.js';
-import { prisma as prismaWithReplicas } from '../../../../prisma/index.js';
-import { signPdf } from '../../../../signing/index.js';
-import { PDF } from '@libpdf/core';
-import { EnvelopeType, SigningStatus, RecipientRole, DocumentStatus, WebhookTriggerEvents } from '@prisma/client';
-import { nanoid } from 'nanoid';
-import { groupBy } from 'remeda';
-import { NEXT_PRIVATE_USE_PLAYWRIGHT_PDF } from '../../../constants/app.js';
-import { AppError, AppErrorCode } from '../../../errors/app-error.js';
-import { getAuditLogsPdf } from '../../../server-only/htmltopdf/get-audit-logs-pdf.js';
-import { getCertificatePdf } from '../../../server-only/htmltopdf/get-certificate-pdf.js';
 import { insertFieldInPDFV1 } from '../../../server-only/pdf/insert-field-in-pdf-v1.js';
 import { insertFieldInPDFV2 } from '../../../server-only/pdf/insert-field-in-pdf-v2.js';
 import { legacy_insertFieldInPDF } from '../../../server-only/pdf/legacy-insert-field-in-pdf.js';
@@ -22,7 +22,7 @@ import { getTeamSettings } from '../../../server-only/team/get-team-settings.js'
 import { triggerWebhook } from '../../../server-only/webhooks/trigger/trigger-webhook.js';
 import { DOCUMENT_AUDIT_LOG_TYPE } from '../../../types/document-audit-logs.js';
 import { isTspEnvelope } from '../../../types/signature-level.js';
-import { ZWebhookDocumentSchema, mapEnvelopeToWebhookDocumentPayload } from '../../../types/webhook-payload.js';
+import { mapEnvelopeToWebhookDocumentPayload, ZWebhookDocumentSchema } from '../../../types/webhook-payload.js';
 import { prefixedId } from '../../../universal/id.js';
 import { getFileServerSide } from '../../../universal/upload/get-file.server.js';
 import { putPdfFileServerSide } from '../../../universal/upload/put-file.server.js';
@@ -31,85 +31,77 @@ import { isDocumentCompleted } from '../../../utils/document.js';
 import { createDocumentAuditLogData } from '../../../utils/document-audit-logs.js';
 import { mapDocumentIdToSecondaryId } from '../../../utils/envelope.js';
 
-const run = async ({
-  payload,
-  io
-}) => {
-  const {
-    documentId,
-    sendEmail = true,
-    isResealing = false,
-    requestMetadata
-  } = payload;
-  const {
-    envelopeId,
-    envelopeStatus,
-    isRejected
-  } = await io.runTask('seal-document', async () => {
+const run = async ({ payload, io }) => {
+  const { documentId, sendEmail = true, isResealing = false, requestMetadata } = payload;
+  const { envelopeId, envelopeStatus, isRejected } = await io.runTask('seal-document', async () => {
     const envelope = await prismaWithReplicas.envelope.findFirstOrThrow({
       where: {
         type: EnvelopeType.DOCUMENT,
-        secondaryId: mapDocumentIdToSecondaryId(documentId)
+        secondaryId: mapDocumentIdToSecondaryId(documentId),
       },
       include: {
         user: {
           select: {
             name: true,
-            email: true
-          }
+            email: true,
+          },
         },
         documentMeta: true,
         recipients: true,
         fields: {
           include: {
-            signature: true
-          }
+            signature: true,
+          },
         },
         envelopeItems: {
           include: {
             documentData: true,
             field: {
               include: {
-                signature: true
-              }
-            }
-          }
-        }
-      }
+                signature: true,
+              },
+            },
+          },
+        },
+      },
     });
     if (envelope.envelopeItems.length === 0) {
       throw new Error('At least one envelope item required');
     }
     const settings = await getTeamSettings({
       userId: envelope.userId,
-      teamId: envelope.teamId
+      teamId: envelope.teamId,
     });
     // Ensure all CC recipients are marked as signed
     await prismaWithReplicas.recipient.updateMany({
       where: {
         envelopeId: envelope.id,
-        role: RecipientRole.CC
+        role: RecipientRole.CC,
       },
       data: {
-        signingStatus: SigningStatus.SIGNED
-      }
+        signingStatus: SigningStatus.SIGNED,
+      },
     });
-    const isComplete = envelope.recipients.some(recipient => recipient.signingStatus === SigningStatus.REJECTED) || envelope.recipients.every(recipient => recipient.signingStatus === SigningStatus.SIGNED || recipient.role === RecipientRole.CC);
+    const isComplete =
+      envelope.recipients.some((recipient) => recipient.signingStatus === SigningStatus.REJECTED) ||
+      envelope.recipients.every(
+        (recipient) => recipient.signingStatus === SigningStatus.SIGNED || recipient.role === RecipientRole.CC,
+      );
     if (!isComplete) {
       throw new AppError(AppErrorCode.UNKNOWN_ERROR, {
-        message: 'Document is not complete'
+        message: 'Document is not complete',
       });
     }
-    let {
-      envelopeItems
-    } = envelope;
+    let { envelopeItems } = envelope;
     const fields = envelope.fields;
     if (envelopeItems.length < 1) {
       throw new Error(`Document ${envelope.id} has no envelope items`);
     }
-    const recipientsWithoutCCers = envelope.recipients.filter(recipient => recipient.role !== RecipientRole.CC);
+    const recipientsWithoutCCers = envelope.recipients.filter((recipient) => recipient.role !== RecipientRole.CC);
     // Determine if the document has been rejected by checking if any recipient has rejected it
-    const rejectedRecipient = recipientsWithoutCCers.find(recipient => recipient.signingStatus === SigningStatus.REJECTED);
+    const rejectedRecipient = recipientsWithoutCCers.find(
+      (recipient) => recipient.signingStatus === SigningStatus.REJECTED,
+    );
     const isRejected = Boolean(rejectedRecipient);
     // Get the rejection reason from the rejected recipient
     const rejectionReason = rejectedRecipient?.rejectionReason ?? '';
@@ -120,22 +112,22 @@ const run = async ({
     if (isResealing) {
       // If we're resealing we want to use the initial data for the document
       // so we aren't placing fields on top of eachother.
-      envelopeItems = envelopeItems.map(envelopeItem => ({
+      envelopeItems = envelopeItems.map((envelopeItem) => ({
         ...envelopeItem,
         documentData: {
           ...envelopeItem.documentData,
-          data: envelopeItem.documentData.initialData
-        }
+          data: envelopeItem.documentData.initialData,
+        },
       }));
     }
     if (!envelope.qrToken) {
       await prismaWithReplicas.envelope.update({
         where: {
-          id: envelope.id
+          id: envelope.id,
         },
         data: {
-          qrToken: prefixedId('qr')
-        }
+          qrToken: prefixedId('qr'),
+        },
       });
     }
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -146,51 +138,54 @@ const run = async ({
       user: null,
       data: {
         transactionId: nanoid(),
-        ...(isRejected ? {
-          isRejected: true,
-          rejectionReason: rejectionReason
-        } : {})
-      }
+        ...(isRejected
+          ? {
+              isRejected: true,
+              rejectionReason: rejectionReason,
+            }
+          : {}),
+      },
     });
     const finalEnvelopeStatus = isRejected ? DocumentStatus.REJECTED : DocumentStatus.COMPLETED;
     if (isTspEnvelope(envelope)) {
       if (isResealing) {
         throw new AppError(AppErrorCode.NOT_SETUP, {
-          message: 'Re-sealing TSP envelopes is not supported — recipient signatures cannot be regenerated externally.'
+          message: 'Re-sealing TSP envelopes is not supported — recipient signatures cannot be regenerated externally.',
         });
       }
       if (isRejected) {
         throw new AppError(AppErrorCode.NOT_SETUP, {
-          message: 'TSP envelope rejection is not supported in V1 — rejection stamps would invalidate PAdES signatures.'
+          message:
+            'TSP envelope rejection is not supported in V1 — rejection stamps would invalidate PAdES signatures.',
         });
       }
       await finalizeTspEnvelopeCompletion({
         envelope,
-        envelopeCompletedAuditLog});
+        envelopeCompletedAuditLog,
+      });
       return {
         envelopeId: envelope.id,
         envelopeStatus: envelope.status,
-        isRejected
+        isRejected,
       };
     }
     // Pre-fetch all PDF data so we can read dimensions and pass it
     // to decorateAndSignPdf without fetching again.
-    const prefetchedItems = await Promise.all(envelopeItems.map(async envelopeItem => {
-      const pdfData = await getFileServerSide(envelopeItem.documentData);
-      return {
-        envelopeItem,
-        pdfData
-      };
-    }));
+    const prefetchedItems = await Promise.all(
+      envelopeItems.map(async (envelopeItem) => {
+        const pdfData = await getFileServerSide(envelopeItem.documentData);
+        return {
+          envelopeItem,
+          pdfData,
+        };
+      }),
+    );
     const usePlaywrightPdf = NEXT_PRIVATE_USE_PLAYWRIGHT_PDF();
     const needsCertificate = settings.includeSigningCertificate;
     const needsAuditLog = settings.includeAuditLog;
     const newDocumentData = [];
-    for (const {
-      envelopeItem,
-      pdfData
-    } of prefetchedItems) {
-      const envelopeItemFields = envelope.envelopeItems.find(item => item.id === envelopeItem.id)?.field;
+    for (const { envelopeItem, pdfData } of prefetchedItems) {
+      const envelopeItemFields = envelope.envelopeItems.find((item) => item.id === envelopeItem.id)?.field;
       if (!envelopeItemFields) {
         throw new Error(`Envelope item fields not found for envelope item ${envelopeItem.id}`);
       }
@@ -198,43 +193,50 @@ const run = async ({
       let auditLogDoc = null;
       if (needsCertificate || needsAuditLog) {
         const pdfDoc = await PDF.load(pdfData);
-        const {
-          width: pageWidth,
-          height: pageHeight
-        } = getLastPageDimensions(pdfDoc);
+        const { width: pageWidth, height: pageHeight } = getLastPageDimensions(pdfDoc);
         const additionalAuditLogs = [
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-        {
-          ...envelopeCompletedAuditLog,
-          id: '',
-          createdAt: new Date()
-        }];
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+          {
+            ...envelopeCompletedAuditLog,
+            id: '',
+            createdAt: new Date(),
+          },
+        ];
         const certificatePayload = {
           envelope: {
             ...envelope,
-            status: finalEnvelopeStatus
+            status: finalEnvelopeStatus,
           },
           recipients: envelope.recipients,
           fields,
           language: envelope.documentMeta.language,
           envelopeOwner: {
             email: envelope.user.email,
-            name: envelope.user.name || ''
+            name: envelope.user.name || '',
           },
-          envelopeItems: envelopeItems.map(item => item.title),
+          envelopeItems: envelopeItems.map((item) => item.title),
           pageWidth,
           pageHeight,
-          additionalAuditLogs
+          additionalAuditLogs,
         };
-        const makeCertificatePdf = async () => usePlaywrightPdf ? getCertificatePdf({
-          documentId,
-          language: envelope.documentMeta.language
-        }).then(async buffer => PDF.load(buffer)) : generateCertificatePdf(certificatePayload);
-        const makeAuditLogPdf = async () => usePlaywrightPdf ? getAuditLogsPdf({
-          documentId,
-          language: envelope.documentMeta.language
-        }).then(async buffer => PDF.load(buffer)) : generateAuditLogPdf(certificatePayload);
-        [certificateDoc, auditLogDoc] = await Promise.all([needsCertificate ? makeCertificatePdf() : null, needsAuditLog ? makeAuditLogPdf() : null]);
+        const makeCertificatePdf = async () =>
+          usePlaywrightPdf
+            ? getCertificatePdf({
+                documentId,
+                language: envelope.documentMeta.language,
+              }).then(async (buffer) => PDF.load(buffer))
+            : generateCertificatePdf(certificatePayload);
+        const makeAuditLogPdf = async () =>
+          usePlaywrightPdf
+            ? getAuditLogsPdf({
+                documentId,
+                language: envelope.documentMeta.language,
+              }).then(async (buffer) => PDF.load(buffer))
+            : generateAuditLogPdf(certificatePayload);
+        [certificateDoc, auditLogDoc] = await Promise.all([
+          needsCertificate ? makeCertificatePdf() : null,
+          needsAuditLog ? makeAuditLogPdf() : null,
+        ]);
       }
       const result = await decorateAndSignPdf({
         envelope,
@@ -244,58 +246,55 @@ const run = async ({
         rejectionReason,
         pdfData,
         certificateDoc,
-        auditLogDoc
+        auditLogDoc,
       });
       newDocumentData.push(result);
     }
-    await prismaWithReplicas.$transaction(async tx => {
-      for (const {
-        oldDocumentDataId,
-        newDocumentDataId
-      } of newDocumentData) {
+    await prismaWithReplicas.$transaction(async (tx) => {
+      for (const { oldDocumentDataId, newDocumentDataId } of newDocumentData) {
         await tx.envelopeItem.update({
           where: {
             envelopeId: envelope.id,
-            documentDataId: oldDocumentDataId
+            documentDataId: oldDocumentDataId,
           },
           data: {
-            documentDataId: newDocumentDataId
-          }
+            documentDataId: newDocumentDataId,
+          },
         });
       }
       await tx.envelope.update({
         where: {
-          id: envelope.id
+          id: envelope.id,
         },
         data: {
           status: finalEnvelopeStatus,
-          completedAt: new Date()
-        }
+          completedAt: new Date(),
+        },
       });
       await tx.documentAuditLog.create({
-        data: envelopeCompletedAuditLog
+        data: envelopeCompletedAuditLog,
       });
     });
     return {
       envelopeId: envelope.id,
       envelopeStatus: envelope.status,
-      isRejected
+      isRejected,
     };
   });
   const updatedEnvelope = await prismaWithReplicas.envelope.findFirstOrThrow({
     where: {
-      id: envelopeId
+      id: envelopeId,
     },
     include: {
       documentMeta: true,
-      recipients: true
-    }
+      recipients: true,
+    },
   });
   await triggerWebhook({
     event: isRejected ? WebhookTriggerEvents.DOCUMENT_REJECTED : WebhookTriggerEvents.DOCUMENT_COMPLETED,
     data: ZWebhookDocumentSchema.parse(mapEnvelopeToWebhookDocumentPayload(updatedEnvelope)),
     userId: updatedEnvelope.userId,
-    teamId: updatedEnvelope.teamId ?? undefined
+    teamId: updatedEnvelope.teamId ?? undefined,
   });
   let shouldSendCompletedEmail = sendEmail && !isResealing && !isRejected;
   if (isResealing && !isDocumentCompleted(envelopeStatus)) {
@@ -307,9 +306,9 @@ const run = async ({
       await completedEmailHandler.run({
         payload: {
           envelopeId,
-          requestMetadata
+          requestMetadata,
         },
-        io
+        io,
       });
     });
   }
@@ -325,7 +324,7 @@ const decorateAndSignPdf = async ({
   rejectionReason,
   pdfData,
   certificateDoc,
-  auditLogDoc
+  auditLogDoc,
 }) => {
   let pdfDoc = await PDF.load(pdfData);
   // Normalize and flatten layers that could cause issues with the signature
@@ -337,20 +336,34 @@ const decorateAndSignPdf = async ({
     await addRejectionStampToPdf(pdfDoc);
   }
   if (certificateDoc) {
-    await pdfDoc.copyPagesFrom(certificateDoc, Array.from({
-      length: certificateDoc.getPageCount()
-    }, (_, index) => index));
+    await pdfDoc.copyPagesFrom(
+      certificateDoc,
+      Array.from(
+        {
+          length: certificateDoc.getPageCount(),
+        },
+        (_, index) => index,
+      ),
+    );
   }
   if (auditLogDoc) {
-    await pdfDoc.copyPagesFrom(auditLogDoc, Array.from({
-      length: auditLogDoc.getPageCount()
-    }, (_, index) => index));
+    await pdfDoc.copyPagesFrom(
+      auditLogDoc,
+      Array.from(
+        {
+          length: auditLogDoc.getPageCount(),
+        },
+        (_, index) => index,
+      ),
+    );
   }
   // Handle V1 and legacy insertions.
   if (envelope.internalVersion === 1) {
-    const legacy_pdfLibDoc = await PDFDocument.load(await pdfDoc.save({
-      useXRefStream: true
-    }));
+    const legacy_pdfLibDoc = await PDFDocument.load(
+      await pdfDoc.save({
+        useXRefStream: true,
+      }),
+    );
     for (const field of envelopeItemFields) {
       if (field.inserted) {
         if (envelope.useLegacyFieldInsertion) {
@@ -367,7 +380,7 @@ const decorateAndSignPdf = async ({
   }
   // Handle V2 envelope insertions.
   if (envelope.internalVersion === 2) {
-    const fieldsGroupedByPage = groupBy(envelopeItemFields, field => field.page);
+    const fieldsGroupedByPage = groupBy(envelopeItemFields, (field) => field.page);
     for (const [pageNumber, fields] of Object.entries(fieldsGroupedByPage)) {
       const page = pdfDoc.getPage(Number(pageNumber) - 1);
       if (!page) {
@@ -378,7 +391,7 @@ const decorateAndSignPdf = async ({
       const overlayBytes = await insertFieldInPDFV2({
         pageWidth,
         pageHeight,
-        fields
+        fields,
       });
       const overlayPdf = await PDF.load(overlayBytes);
       const embeddedPage = await pdfDoc.embedPage(overlayPdf, 0);
@@ -404,35 +417,40 @@ const decorateAndSignPdf = async ({
         x: translateX,
         y: translateY,
         rotate: {
-          angle: page.rotation
-        }
+          angle: page.rotation,
+        },
       });
     }
   }
   // Re-flatten the form to handle our checkbox and radio fields that
   // create native arcoFields
   pdfDoc.flattenAll();
-  pdfDoc = await PDF.load(await pdfDoc.save({
-    useXRefStream: true
-  }));
-  const pdfBytes = await signPdf({
-    pdf: pdfDoc
-  });
-  const {
-    name
-  } = path.parse(envelopeItem.title);
+  pdfDoc = await PDF.load(
+    await pdfDoc.save({
+      useXRefStream: true,
+    }),
+  );
+  const pdfBytes = NEXT_PRIVATE_DISABLE_PDF_SIGNING()
+    ? await pdfDoc.save({
+        useXRefStream: true,
+      })
+    : await signPdf({
+        pdf: pdfDoc,
+      });
+  const { name } = path.parse(envelopeItem.title);
   // Add suffix based on document status
   const suffix = isRejected ? '_rejected.pdf' : '_signed.pdf';
-  const {
-    documentData: newDocumentData
-  } = await putPdfFileServerSide({
-    name: `${name}${suffix}`,
-    type: 'application/pdf',
-    arrayBuffer: async () => Promise.resolve(pdfBytes)
-  }, envelopeItem.documentData.initialData);
+  const { documentData: newDocumentData } = await putPdfFileServerSide(
+    {
+      name: `${name}${suffix}`,
+      type: 'application/pdf',
+      arrayBuffer: async () => Promise.resolve(pdfBytes),
+    },
+    envelopeItem.documentData.initialData,
+  );
   return {
     oldDocumentDataId: envelopeItem.documentData.id,
-    newDocumentDataId: newDocumentData.id
+    newDocumentDataId: newDocumentData.id,
   };
 };
 
