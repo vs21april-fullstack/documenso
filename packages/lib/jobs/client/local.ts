@@ -4,7 +4,7 @@ import { BackgroundJobStatus, Prisma } from '@prisma/client';
 import { CronExpressionParser } from 'cron-parser';
 import type { Context as HonoContext } from 'hono';
 
-import { NEXT_PRIVATE_INTERNAL_WEBAPP_URL } from '../../constants/app';
+import { NEXT_PRIVATE_INTERNAL_WEBAPP_URL, NEXT_PUBLIC_WEBAPP_URL } from '../../constants/app';
 import { sign } from '../../server-only/crypto/sign';
 import { verify } from '../../server-only/crypto/verify';
 import {
@@ -15,6 +15,7 @@ import {
 } from './_internal/job';
 import type { Json } from './_internal/json';
 import { BaseJobProvider } from './base';
+import { resolveLocalJobEndpoint } from './resolve-local-job-endpoint';
 
 /**
  * Build a deterministic BackgroundJob ID for a cron run so that multiple
@@ -362,7 +363,12 @@ export class LocalJobProvider extends BaseJobProvider {
   }) {
     const { jobId, jobDefinitionId, data, isRetry } = options;
 
-    const endpoint = `${NEXT_PRIVATE_INTERNAL_WEBAPP_URL()}/api/jobs/${jobDefinitionId}/${jobId}`;
+    const endpoint = resolveLocalJobEndpoint({
+      internalWebAppUrl: NEXT_PRIVATE_INTERNAL_WEBAPP_URL(),
+      publicWebAppUrl: NEXT_PUBLIC_WEBAPP_URL(),
+      jobDefinitionId,
+      jobId,
+    });
     const signature = sign(data);
 
     const headers: Record<string, string> = {
